@@ -2,58 +2,122 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Rising Phoenix</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phoenix Business Builder</title>
 
   <style>
-    body {
+    :root{
+      --bg: #000;
+      --gold1:#fff2b3;
+      --gold2:#f5d76e;
+      --gold3:#d4af37;
+      --gold4:#b88916;
+      --gold5:#fff7cf;
+    }
+
+    html, body {
+      height: 100%;
       margin: 0;
-      background: #000;
+      background: var(--bg);
+      font-family: Arial, Helvetica, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* Center + raise slightly so text/button aren't too low */
+    .wrap{
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      height: 100vh;
-      font-family: Arial, Helvetica, sans-serif;
+      justify-content: center;
+      gap: 18px;
+      padding: 28px 18px;
+      transform: translateY(-22px); /* key: lifts the whole stack */
       text-align: center;
     }
 
-    img {
-      max-width: 420px;
-      width: 80%;
+    /* Logo */
+    .logo{
+      width: min(440px, 82vw);
       height: auto;
-      margin-bottom: 24px;
+      display: block;
+      filter: drop-shadow(0 14px 34px rgba(212,175,55,0.22));
+      user-select: none;
+      -webkit-user-drag: none;
     }
 
-    h1 {
-      color: #d4af37; /* gold */
-      font-size: 28px;
-      font-weight: 700;
-      margin: 0 0 24px 0;
+    /* Metallic text effect */
+    .metal-text{
+      margin: 6px 0 2px;
+      font-weight: 800;
       letter-spacing: 1px;
+      font-size: clamp(22px, 3.6vw, 30px);
+      background: linear-gradient(180deg,
+        var(--gold5) 0%,
+        var(--gold2) 22%,
+        var(--gold3) 48%,
+        var(--gold1) 70%,
+        var(--gold4) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 10px 22px rgba(212,175,55,0.12);
     }
 
-    .btn {
-      padding: 14px 36px;
+    /* Metallic button */
+    .btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 38px;
       border-radius: 999px;
-      background: linear-gradient(135deg, #d4af37, #f5d76e);
-      color: #000;
-      font-size: 16px;
-      font-weight: 700;
       text-decoration: none;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      font-weight: 800;
+      letter-spacing: .5px;
+      font-size: 16px;
+      color: #0b0b0b;
+      background: linear-gradient(135deg,
+        var(--gold5) 0%,
+        var(--gold2) 22%,
+        var(--gold3) 52%,
+        var(--gold1) 72%,
+        var(--gold4) 100%);
+      border: 1px solid rgba(255, 231, 168, 0.35);
+      box-shadow:
+        0 10px 26px rgba(212,175,55,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.22);
+      transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
     }
 
-    .btn:hover {
+    .btn:hover{
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+      box-shadow:
+        0 14px 34px rgba(212,175,55,0.26),
+        inset 0 1px 0 rgba(255,255,255,0.24);
+      filter: brightness(1.03);
+    }
+
+    .btn:active{
+      transform: translateY(0px);
+      filter: brightness(0.98);
+    }
+
+    /* Small polish: keep everything crisp on mobile */
+    @media (max-width: 420px){
+      .wrap{ transform: translateY(-16px); }
+      .btn{ padding: 14px 34px; }
     }
   </style>
 </head>
 
 <body>
-  <img src="logo.png" alt="Rising Phoenix Logo" />
-  <h1>Phoenix Business Builder</h1>
-  <a href="#" class="btn">Get Started</a>
+  <main class="wrap">
+    <img class="logo" src="logo.png" alt="Rising Phoenix Logo" />
+    <div class="metal-text">Phoenix Business Builder</div>
+
+    <!-- Wire this link later -->
+    <a class="btn" href="#" aria-label="Get Started">Get Started</a>
+  </main>
 </body>
 </html>
