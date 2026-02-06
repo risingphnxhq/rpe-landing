@@ -17,7 +17,7 @@
       background: radial-gradient(circle at top, #141414, #000000);
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       font-family: Arial, Helvetica, sans-serif;
       color: #f5e6c8;
     }
@@ -28,23 +28,24 @@
       align-items: center;
       text-align: center;
 
-      /* 🔑 THIS IS THE FIX */
-      padding-top: 70px;
+      /* 🔴 LARGE, EXPLICIT PUSH DOWN */
+      margin-top: 220px;
 
-      gap: 10px;
+      gap: 14px;
     }
 
     .logo {
-      width: 320px;
+      width: 340px;
       max-width: 85vw;
       height: auto;
       display: block;
     }
 
     h1 {
-      font-size: clamp(2rem, 5vw, 3rem);
+      font-size: clamp(2.2rem, 5vw, 3rem);
       font-weight: 700;
       letter-spacing: 0.5px;
+
       background: linear-gradient(
         180deg,
         #fff6d6 0%,
@@ -54,13 +55,13 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
 
-      /* pulls text UP closer to logo */
-      margin-top: -8px;
+      /* pulls text closer to logo */
+      margin-top: -6px;
     }
 
     .btn {
-      margin-top: 6px;
-      padding: 14px 38px;
+      margin-top: 8px;
+      padding: 14px 40px;
       font-size: 1rem;
       border-radius: 999px;
       background: linear-gradient(
@@ -71,12 +72,6 @@
       color: #000;
       text-decoration: none;
       font-weight: 600;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
     }
   </style>
 </head>
@@ -84,9 +79,7 @@
 <body>
   <div class="wrap">
     <img src="logo.png" alt="Phoenix Logo" class="logo" />
-
     <h1>Phoenix Business Builder</h1>
-
     <a href="#" class="btn">Get Started</a>
   </div>
 </body>
