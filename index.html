@@ -1,143 +1,288 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Phoenix Business Builder</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Phoenix Business Builder</title>
 
-<style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    background: #0b0b0b;
-    overflow: hidden;
-    font-family: Arial, Helvetica, sans-serif;
-  }
+  <style>
+    :root{
+      --bg1:#07080a;
+      --bg2:#0b0d12;
 
-  /* STAGE */
-  #stage {
-    position: relative;
-    width: 100%;
-    height: 100%;
-  }
+      --gold1:#fff3c4;
+      --gold2:#f7d889;
+      --gold3:#d2a843;
+      --gold4:#fff0b0;
 
-  /* DRAGGABLE ITEMS */
-  .draggable {
-    position: absolute;
-    cursor: grab;
-    user-select: none;
-    -webkit-user-drag: none;
-  }
+      --card-w:min(92vw, 520px);
+    }
 
-  .draggable:active {
-    cursor: grabbing;
-  }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(1200px 700px at 55% 45%, rgba(255,255,255,.06), transparent 60%),
+        radial-gradient(900px 600px at 40% 40%, rgba(255,215,120,.05), transparent 55%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      color:#fff;
+      overflow:hidden;
+    }
 
-  /* LOGO */
-  #logo {
-    width: 260px;
-    top: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+    /* Stage = draggable area */
+    .stage{
+      position:relative;
+      width:100vw;
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      user-select:none;
+      touch-action:none; /* IMPORTANT for clean dragging on mobile */
+    }
 
-  /* TEXT */
-  #title {
-    font-size: 48px;
-    font-weight: 700;
-    background: linear-gradient(180deg, #f7e7b2, #cfa24a);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    top: 380px;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    white-space: nowrap;
-  }
+    /* Card wrapper for clean centered start */
+    .card{
+      width:var(--card-w);
+      max-width:520px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+      /* This is the “default look” position */
+      transform: translateY(-10px);
+    }
 
-  /* BUTTON */
-  #cta {
-    padding: 16px 48px;
-    font-size: 18px;
-    border-radius: 999px;
-    border: none;
-    background: #f3e6c7;
-    color: #111;
-    font-weight: 600;
-    top: 460px;
-    left: 50%;
-    transform: translateX(-50%);
-    cursor: pointer;
-  }
-</style>
+    /* Draggable pieces */
+    .draggable{
+      position:relative;
+      cursor:grab;
+      touch-action:none; /* IMPORTANT */
+    }
+    .draggable:active{cursor:grabbing}
+
+    /* Logo */
+    .logo{
+      width:min(360px, 80vw);
+      height:auto;
+      display:block;
+      filter: drop-shadow(0 14px 34px rgba(212,175,55,.22));
+      -webkit-user-drag:none;
+      user-select:none;
+    }
+
+    /* Metallic headline */
+    .metal-text{
+      margin:0;
+      font-weight:900;
+      letter-spacing:.5px;
+      line-height:1.05;
+      text-align:center;
+
+      font-size:clamp(28px, 4vw, 44px);
+
+      background: linear-gradient(
+        180deg,
+        var(--gold1) 0%,
+        var(--gold2) 22%,
+        var(--gold3) 55%,
+        var(--gold2) 78%,
+        var(--gold4) 100%
+      );
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      text-shadow: 0 10px 22px rgba(212,175,55,.14);
+    }
+
+    /* Oval button */
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:14px 40px;
+      border-radius:999px;
+      text-decoration:none;
+      font-weight:800;
+      letter-spacing:.4px;
+      font-size:16px;
+      color:#0b0b0b;
+      background: linear-gradient(135deg,
+        var(--gold4) 0%,
+        var(--gold2) 35%,
+        var(--gold3) 70%,
+        var(--gold4) 100%
+      );
+      border:1px solid rgba(255,231,168,.35);
+      box-shadow:
+        0 10px 26px rgba(212,175,55,.18),
+        inset 0 1px 0 rgba(255,255,255,.22);
+      transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+    }
+    .btn:hover{
+      transform: translateY(-2px);
+      box-shadow:
+        0 14px 34px rgba(212,175,55,.26),
+        inset 0 1px 0 rgba(255,255,255,.24);
+      filter: brightness(1.03);
+    }
+    .btn:active{
+      transform: translateY(0px);
+      filter: brightness(.98);
+    }
+
+    /* When something is being dragged, keep it above */
+    .dragging{
+      z-index:9999;
+    }
+
+    /* Optional tiny helper text (can delete) */
+    .hint{
+      position:fixed;
+      bottom:10px;
+      left:50%;
+      transform:translateX(-50%);
+      font-size:12px;
+      opacity:.55;
+      pointer-events:none;
+      text-align:center;
+      white-space:nowrap;
+    }
+  </style>
 </head>
 
 <body>
-  <div id="stage">
+  <div class="stage" id="stage">
+    <div class="card" id="card">
+      <!-- KEEP NAME logo.png -->
+      <img src="logo.png" alt="Phoenix Logo" class="logo draggable" id="dragLogo" />
 
-    <!-- LOGO -->
-    <img
-      id="logo"
-      class="draggable"
-      src="logo.png"
-      alt="Phoenix Logo"
-      draggable="false"
-    />
+      <h1 class="metal-text draggable" id="dragText">Phoenix Business Builder</h1>
 
-    <!-- TEXT -->
-    <div id="title" class="draggable">
-      Phoenix Business Builder
+      <a class="btn draggable" id="dragBtn" href="#start">Get Started</a>
     </div>
-
-    <!-- BUTTON -->
-    <button id="cta" class="draggable">
-      Get Started
-    </button>
-
   </div>
 
-<script>
-  let active = null;
-  let offsetX = 0;
-  let offsetY = 0;
+  <div class="hint">Drag logo/text/button to position. Press ESC to force release.</div>
 
-  const items = document.querySelectorAll('.draggable');
+  <script>
+    // ===== DRAG ENGINE (HARD RELEASE FIXED) =====
+    let active = null;
+    let startX = 0, startY = 0;
+    let originLeft = 0, originTop = 0;
 
-  items.forEach(el => {
-    el.addEventListener('pointerdown', onPointerDown);
-    el.addEventListener('dragstart', e => e.preventDefault());
-  });
+    const stage = document.getElementById('stage');
 
-  function onPointerDown(e) {
-    e.preventDefault();
-    active = e.currentTarget;
-    active.setPointerCapture(e.pointerId);
+    function px(n){ return Math.round(n) + 'px'; }
 
-    const rect = active.getBoundingClientRect();
-    offsetX = e.clientX - rect.left;
-    offsetY = e.clientY - rect.top;
+    function ensureAbsolute(el){
+      // Convert from normal flow to absolute at its current screen position
+      const rect = el.getBoundingClientRect();
+      const stageRect = stage.getBoundingClientRect();
 
-    active.style.zIndex = 999;
-  }
+      el.style.position = 'absolute';
+      el.style.left = px(rect.left - stageRect.left);
+      el.style.top  = px(rect.top  - stageRect.top);
 
-  document.addEventListener('pointermove', (e) => {
-    if (!active) return;
+      // Remove it from the normal document flow after absolute positioning
+      // (so it stays where you dropped it)
+    }
 
-    active.style.left = `${e.clientX - offsetX}px`;
-    active.style.top = `${e.clientY - offsetY}px`;
-    active.style.transform = `translate(0,0)`;
-  });
+    function releaseDrag(){
+      if(!active) return;
 
-  document.addEventListener('pointerup', () => {
-    if (active) {
-      active.releasePointerCapture?.();
-      active.style.zIndex = 1;
+      try { active.releasePointerCapture && active.releasePointerCapture(active.__pid); } catch(e){}
+      active.classList.remove('dragging');
+      active.__pid = null;
       active = null;
     }
-  });
-</script>
 
+    function onDown(e){
+      const el = e.target.closest('.draggable');
+      if(!el) return;
+
+      // If it hasn't been made absolute yet, do it now
+      if(getComputedStyle(el).position !== 'absolute'){
+        // First, we must move everything into a shared absolute coordinate system.
+        // We'll absolute-position the whole card's children once (clean).
+        const children = Array.from(document.getElementById('card').children);
+        children.forEach(child => ensureAbsolute(child));
+
+        // Then kill the card layout so it doesn't "snap back"
+        const card = document.getElementById('card');
+        card.style.position = 'absolute';
+        card.style.left = '0';
+        card.style.top = '0';
+        card.style.width = '100%';
+        card.style.height = '100%';
+        card.style.transform = 'none';
+      }
+
+      active = el;
+      active.classList.add('dragging');
+
+      const r = active.getBoundingClientRect();
+      const sr = stage.getBoundingClientRect();
+
+      // pointer start
+      startX = e.clientX;
+      startY = e.clientY;
+
+      originLeft = r.left - sr.left;
+      originTop  = r.top  - sr.top;
+
+      // capture pointer (mobile + desktop)
+      active.__pid = e.pointerId;
+      try { active.setPointerCapture(e.pointerId); } catch(err){}
+
+      e.preventDefault();
+    }
+
+    function onMove(e){
+      if(!active) return;
+
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+
+      active.style.left = px(originLeft + dx);
+      active.style.top  = px(originTop + dy);
+
+      e.preventDefault();
+    }
+
+    function onUp(){
+      releaseDrag();
+    }
+
+    // Stage listeners
+    stage.addEventListener('pointerdown', onDown);
+    stage.addEventListener('pointermove', onMove);
+    stage.addEventListener('pointerup', onUp);
+    stage.addEventListener('pointercancel', onUp);
+
+    // If pointer capture is lost, release
+    stage.addEventListener('lostpointercapture', () => releaseDrag());
+
+    // Click/tap outside to release
+    document.addEventListener('pointerdown', (e) => {
+      if(active && !e.target.closest('.draggable')){
+        releaseDrag();
+      }
+    }, true);
+
+    // ESC = force release
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape') releaseDrag();
+    });
+
+    // If the browser loses focus or tab changes, release
+    window.addEventListener('blur', releaseDrag);
+    document.addEventListener('visibilitychange', () => {
+      if(document.hidden) releaseDrag();
+    });
+  </script>
 </body>
 </html>
