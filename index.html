@@ -1,289 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Phoenix Business Builder</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Phoenix Business Builder</title>
 
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      background: #0b0b0b;
-      overflow: hidden;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: none; /* helps touch dragging */
-    }
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: #0b0b0b;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+  }
 
-    /* Stage */
-    .stage {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-    }
+  /* STAGE */
+  #stage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
 
-    /* Draggable items base */
-    .draggable {
-      position: absolute;
-      cursor: grab;
-      touch-action: none;
-    }
-    .draggable:active { cursor: grabbing; }
+  /* DRAGGABLE ITEMS */
+  .draggable {
+    position: absolute;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
 
-    /* Logo */
-    #logo {
-      width: 320px;
-      height: auto;
-      filter: drop-shadow(0 10px 30px rgba(212,175,55,0.22));
-    }
+  .draggable:active {
+    cursor: grabbing;
+  }
 
-    /* Metallic text */
-    #title {
-      font-size: 3rem;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      background: linear-gradient(180deg,
-        #fff2cf 0%,
-        #d9b55a 22%,
-        #b8860b 52%,
-        #f7e7b0 72%,
-        #c89b2f 100%
-      );
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 10px 22px rgba(212,175,55,0.12);
-      white-space: nowrap;
-    }
+  /* LOGO */
+  #logo {
+    width: 260px;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 
-    /* Button */
-    #btn {
-      padding: 14px 42px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,231,168,0.35);
-      background: #f2e6c9;
-      color: #111;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      font-size: 1rem;
-      box-shadow: 0 10px 26px rgba(212,175,55,0.18);
-    }
+  /* TEXT */
+  #title {
+    font-size: 48px;
+    font-weight: 700;
+    background: linear-gradient(180deg, #f7e7b2, #cfa24a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    top: 380px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    white-space: nowrap;
+  }
 
-    /* HUD / controls */
-    .hud {
-      position: fixed;
-      left: 14px;
-      bottom: 14px;
-      z-index: 9999;
-      background: rgba(20,20,20,0.7);
-      border: 1px solid rgba(255,255,255,0.10);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      padding: 10px 12px;
-      border-radius: 12px;
-      color: #eee;
-      font-size: 12px;
-      line-height: 1.25;
-      max-width: 360px;
-    }
-
-    .hud strong { color: #fff; }
-    .hud .row { margin-top: 6px; display: flex; gap: 8px; flex-wrap: wrap; }
-    .hud button {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
-      color: #fff;
-      padding: 8px 10px;
-      border-radius: 10px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .hud button:active { transform: translateY(1px); }
-    .hud .tiny {
-      opacity: 0.85;
-      margin-top: 6px;
-    }
-
-    /* Optional: show selection outline */
-    .selected {
-      outline: 2px dashed rgba(255,231,168,0.7);
-      outline-offset: 6px;
-    }
-  </style>
+  /* BUTTON */
+  #cta {
+    padding: 16px 48px;
+    font-size: 18px;
+    border-radius: 999px;
+    border: none;
+    background: #f3e6c7;
+    color: #111;
+    font-weight: 600;
+    top: 460px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+  }
+</style>
 </head>
 
 <body>
-  <div class="stage" id="stage">
+  <div id="stage">
 
-    <!-- DRAGGABLE LOGO -->
-    <img id="logo" class="draggable" src="logo.png" alt="Phoenix Logo" />
+    <!-- LOGO -->
+    <img
+      id="logo"
+      class="draggable"
+      src="logo.png"
+      alt="Phoenix Logo"
+      draggable="false"
+    />
 
-    <!-- DRAGGABLE TITLE -->
-    <div id="title" class="draggable">Phoenix Business Builder</div>
-
-    <!-- DRAGGABLE BUTTON -->
-    <button id="btn" class="draggable">Get Started</button>
-
-  </div>
-
-  <div class="hud" id="hud">
-    <div><strong>Drag & Drop Layout Mode</strong></div>
-    <div class="tiny">Drag logo, text, and button. Positions auto-save.</div>
-
-    <div id="coords" class="tiny" style="margin-top:8px;"></div>
-
-    <div class="row">
-      <button id="copyCss">Copy CSS Positions</button>
-      <button id="reset">Reset Positions</button>
+    <!-- TEXT -->
+    <div id="title" class="draggable">
+      Phoenix Business Builder
     </div>
 
-    <div class="tiny" style="margin-top:8px;">
-      Tip: After placing, click <strong>Copy CSS Positions</strong> and paste into your stylesheet.
-    </div>
+    <!-- BUTTON -->
+    <button id="cta" class="draggable">
+      Get Started
+    </button>
+
   </div>
 
 <script>
-(function () {
-  const stage = document.getElementById('stage');
-  const hudCoords = document.getElementById('coords');
-
-  const items = [
-    document.getElementById('logo'),
-    document.getElementById('title'),
-    document.getElementById('btn')
-  ];
-
-  // Default positions (you can change these)
-  const defaults = {
-    logo:  { left: 760, top: 150 },
-    title: { left: 120, top: 260 },
-    btn:   { left: 120, top: 360 }
-  };
-
-  // Load saved or default positions
-  function loadPositions() {
-    items.forEach(el => {
-      const id = el.id;
-      const saved = localStorage.getItem('pos_' + id);
-      const pos = saved ? JSON.parse(saved) : defaults[id];
-      el.style.left = pos.left + 'px';
-      el.style.top  = pos.top  + 'px';
-    });
-    updateHud();
-  }
-
-  function savePosition(el) {
-    const left = parseInt(el.style.left || '0', 10);
-    const top  = parseInt(el.style.top  || '0', 10);
-    localStorage.setItem('pos_' + el.id, JSON.stringify({ left, top }));
-  }
-
-  function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
-
-  function updateHud(selectedEl) {
-    const lines = items.map(el => {
-      const left = parseInt(el.style.left || '0', 10);
-      const top  = parseInt(el.style.top  || '0', 10);
-      return `${el.id}: left ${left}px; top ${top}px;`;
-    });
-    hudCoords.textContent = lines.join('  |  ');
-
-    items.forEach(el => el.classList.remove('selected'));
-    if (selectedEl) selectedEl.classList.add('selected');
-  }
-
-  // Pointer-based dragging (works for mouse + touch)
   let active = null;
   let offsetX = 0;
   let offsetY = 0;
 
-  function onPointerDown(e) {
-    const el = e.currentTarget;
-    active = el;
+  const items = document.querySelectorAll('.draggable');
 
-    // Bring selected to top
-    active.style.zIndex = 1000;
+  items.forEach(el => {
+    el.addEventListener('pointerdown', onPointerDown);
+    el.addEventListener('dragstart', e => e.preventDefault());
+  });
+
+  function onPointerDown(e) {
+    e.preventDefault();
+    active = e.currentTarget;
+    active.setPointerCapture(e.pointerId);
 
     const rect = active.getBoundingClientRect();
     offsetX = e.clientX - rect.left;
     offsetY = e.clientY - rect.top;
 
-    active.setPointerCapture(e.pointerId);
-    updateHud(active);
+    active.style.zIndex = 999;
   }
 
-  function onPointerMove(e) {
+  document.addEventListener('pointermove', (e) => {
     if (!active) return;
 
-    const stageRect = stage.getBoundingClientRect();
-    const elRect = active.getBoundingClientRect();
-
-    let newLeft = (e.clientX - stageRect.left) - offsetX;
-    let newTop  = (e.clientY - stageRect.top)  - offsetY;
-
-    // Keep inside stage bounds
-    const maxLeft = stageRect.width  - elRect.width;
-    const maxTop  = stageRect.height - elRect.height;
-
-    newLeft = clamp(newLeft, 0, maxLeft);
-    newTop  = clamp(newTop, 0, maxTop);
-
-    active.style.left = Math.round(newLeft) + 'px';
-    active.style.top  = Math.round(newTop) + 'px';
-
-    updateHud(active);
-  }
-
-  function onPointerUp(e) {
-    if (!active) return;
-    savePosition(active);
-    active.releasePointerCapture(e.pointerId);
-
-    // drop z-index back a bit (but keep above background)
-    active.style.zIndex = 10;
-
-    active = null;
-    updateHud();
-  }
-
-  items.forEach(el => {
-    el.style.zIndex = 10;
-    el.addEventListener('pointerdown', onPointerDown);
-    el.addEventListener('pointermove', onPointerMove);
-    el.addEventListener('pointerup', onPointerUp);
-    el.addEventListener('pointercancel', onPointerUp);
+    active.style.left = `${e.clientX - offsetX}px`;
+    active.style.top = `${e.clientY - offsetY}px`;
+    active.style.transform = `translate(0,0)`;
   });
 
-  // Copy CSS positions
-  document.getElementById('copyCss').addEventListener('click', async () => {
-    const css = items.map(el => {
-      const left = parseInt(el.style.left || '0', 10);
-      const top  = parseInt(el.style.top  || '0', 10);
-      return `#${el.id} { left: ${left}px; top: ${top}px; }`;
-    }).join('\n');
-
-    try {
-      await navigator.clipboard.writeText(css);
-      alert("Copied CSS positions to clipboard.");
-    } catch {
-      // Fallback prompt
-      prompt("Copy this CSS:", css);
+  document.addEventListener('pointerup', () => {
+    if (active) {
+      active.releasePointerCapture?.();
+      active.style.zIndex = 1;
+      active = null;
     }
   });
-
-  // Reset positions
-  document.getElementById('reset').addEventListener('click', () => {
-    items.forEach(el => localStorage.removeItem('pos_' + el.id));
-    loadPositions();
-    alert("Positions reset.");
-  });
-
-  loadPositions();
-})();
 </script>
+
 </body>
 </html>
