@@ -1,131 +1,93 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Phoenix Business Builder</title>
 
   <style>
-    :root{
-      --bg:#000000;
-      --gold1:#fff3c8;
-      --gold2:#e7c86a;
-      --gold3:#c9962a;
-      --gold4:#fff7de;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    *{ box-sizing:border-box; }
-    html, body{ height:100%; }
-
-    body{
-      margin:0;
-      background:var(--bg);
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #141414, #000000);
+      display: flex;
+      justify-content: center;
+      align-items: center;
       font-family: Arial, Helvetica, sans-serif;
-      /* Center the stack in the page */
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
+      color: #f5e6c8;
     }
 
-    /* STACK: logo -> title -> button */
-    .wrap{
-      width: min(900px, 100%);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      text-align:center;
-      gap: 8px;              /* Controls spacing between items */
+    .wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+
+      /* 🔑 THIS IS THE FIX */
+      padding-top: 70px;
+
+      gap: 10px;
     }
 
-    img.logo{
-      width: min(520px, 85vw);
-      height:auto;
-      display:block;
-      margin:0;              /* Kill default spacing */
-      padding:0;
-      filter: drop-shadow(0 18px 42px rgba(212,175,55,0.22));
-      user-select:none;
-      -webkit-user-drag:none;
+    .logo {
+      width: 320px;
+      max-width: 85vw;
+      height: auto;
+      display: block;
     }
 
-    h1.title{
-      margin:0;              /* IMPORTANT: removes big gap under logo */
-      padding:0;
-      font-weight: 900;
+    h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
       letter-spacing: 0.5px;
-      line-height: 1.05;
-      font-size: clamp(28px, 4.2vw, 58px);
-
-      background: linear-gradient(180deg,
-        var(--gold4) 0%,
-        var(--gold1) 22%,
-        var(--gold2) 48%,
-        var(--gold1) 72%,
-        var(--gold3) 100%);
-
+      background: linear-gradient(
+        180deg,
+        #fff6d6 0%,
+        #e7c77a 45%,
+        #b8903e 100%
+      );
       -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 10px 22px rgba(212,175,55,0.12);
+      -webkit-text-fill-color: transparent;
+
+      /* pulls text UP closer to logo */
+      margin-top: -8px;
     }
 
-    a.btn{
-      margin-top: 2px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding: 14px 42px;
+    .btn {
+      margin-top: 6px;
+      padding: 14px 38px;
+      font-size: 1rem;
       border-radius: 999px;
-      text-decoration:none;
-
-      font-weight: 900;
-      letter-spacing: 0.6px;
-      font-size: 16px;
-      color: #0b0b0b;
-
-      background: linear-gradient(135deg,
-        var(--gold4) 0%,
-        var(--gold1) 22%,
-        var(--gold2) 52%,
-        var(--gold1) 78%,
-        var(--gold3) 100%);
-
-      border: 1px solid rgba(255,231,168,0.35);
-      box-shadow:
-        0 10px 26px rgba(212,175,55,0.18),
-        inset 0 1px 0 rgba(255,255,255,0.22);
-
-      transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
+      background: linear-gradient(
+        180deg,
+        #fff2c2,
+        #e2b866
+      );
+      color: #000;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
 
-    a.btn:hover{
+    .btn:hover {
       transform: translateY(-2px);
-      filter: brightness(1.03);
-      box-shadow:
-        0 14px 34px rgba(212,175,55,0.26),
-        inset 0 1px 0 rgba(255,255,255,0.24);
-    }
-
-    a.btn:active{
-      transform: translateY(0);
-      filter: brightness(0.98);
-    }
-
-    @media (max-width:480px){
-      .wrap{ gap: 6px; }
-      a.btn{ padding:14px 34px; }
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
     }
   </style>
 </head>
 
 <body>
-  <main class="wrap">
-    <!-- DO NOT change this name -->
-    <img class="logo" src="logo.png" alt="Phoenix Logo">
-    <h1 class="title">Phoenix Business Builder</h1>
-    <a class="btn" href="#">Get Started</a>
-  </main>
+  <div class="wrap">
+    <img src="logo.png" alt="Phoenix Logo" class="logo" />
+
+    <h1>Phoenix Business Builder</h1>
+
+    <a href="#" class="btn">Get Started</a>
+  </div>
 </body>
 </html>
