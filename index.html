@@ -1,335 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Phoenix Business Builder</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Phoenix Business Builder</title>
 
-  <style>
-    :root{
-      --bg1:#050608;
-      --bg2:#0b0f16;
-      --gold1:#f5e7c6;
-      --gold2:#d6b36a;
-      --gold3:#8a6b2f;
-      --btn:#efe7d6;
-      --btnText:#2b2b2b;
-    }
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #0b0b0b;
+  overflow: hidden;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
 
-    *{ box-sizing:border-box; }
-    html, body { height: 100%; }
-    body{
-      margin:0;
-      background: radial-gradient(1200px 800px at 70% 40%, #111a26 0%, var(--bg2) 35%, var(--bg1) 100%);
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      overflow:hidden;
-      user-select:none;
-      -webkit-user-select:none;
-      touch-action:none;
-    }
+/* ===== STAGE ===== */
+#stage {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
 
-    /* Stage */
-    .stage{
-      position:relative;
-      width:100vw;
-      height:100vh;
-      overflow:hidden;
-    }
+/* ===== DRAGGABLE ITEMS ===== */
+.draggable {
+  position: absolute;
+  cursor: grab;
+  user-select: none;
+}
 
-    /* Small top bar */
-    .toolbar{
-      position:fixed;
-      top:12px;
-      left:12px;
-      display:flex;
-      gap:10px;
-      z-index:9999;
-      padding:10px 12px;
-      border-radius:12px;
-      background: rgba(0,0,0,.35);
-      backdrop-filter: blur(6px);
-      border: 1px solid rgba(255,255,255,.08);
-    }
-    .toolbar button{
-      appearance:none;
-      border:none;
-      border-radius:10px;
-      padding:10px 12px;
-      font-weight:700;
-      cursor:pointer;
-      background: rgba(255,255,255,.10);
-      color:#fff;
-    }
-    .toolbar button:hover{ background: rgba(255,255,255,.16); }
-    .toolbar .hint{
-      display:flex;
-      align-items:center;
-      font-size:12px;
-      color: rgba(255,255,255,.75);
-      padding-left:6px;
-    }
+.draggable:active {
+  cursor: grabbing;
+}
 
-    /* Draggables */
-    .draggable{
-      position:absolute;
-      cursor: grab;
-      z-index:10;
-      touch-action:none;
-    }
-    .draggable:active{ cursor: grabbing; }
+/* ===== LOGO ===== */
+#logo {
+  top: 50%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  height: min(65vh, 520px);   /* FITS SCREEN */
+  width: auto;
+  max-width: 65vw;
+  object-fit: contain;
+}
 
-    /* Optional visual “edit mode” outline */
-    body.edit-mode .draggable{
-      outline: 1px dashed rgba(255,255,255,.22);
-      outline-offset: 6px;
-      border-radius: 10px;
-    }
+/* ===== TITLE ===== */
+#title {
+  top: 50%;
+  left: 28%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(32px, 4vw, 54px);
+  font-weight: 700;
+  color: #e6d3a3;
+  line-height: 1.15;
+  white-space: nowrap;
+}
 
-    /* Logo */
-    #logo{
-      width: 280px;
-      max-width: 44vw;
-      height:auto;
-      filter: drop-shadow(0 10px 18px rgba(0,0,0,.45));
-    }
+/* TM styling */
+#title sup {
+  font-size: 0.45em;
+  vertical-align: super;
+  margin-left: 4px;
+}
 
-    /* Metallic text */
-    .metal{
-      font-weight: 900;
-      letter-spacing: .5px;
-      line-height: 1.02;
-      white-space: nowrap; /* prevents wrapping when TM is added */
-      font-size: clamp(38px, 6vw, 62px);
+/* ===== BUTTON ===== */
+#cta {
+  top: 62%;
+  left: 28%;
+  transform: translate(-50%, -50%);
+  padding: 14px 40px;
+  border-radius: 999px;
+  background: #f4f1ea;
+  color: #000;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+}
 
-      background: linear-gradient(180deg,
-        #fff3d8 0%,
-        #f1ddad 22%,
-        #e1c27a 45%,
-        #c79e55 65%,
-        #f7edd3 84%,
-        #a17a36 100%
-      );
-      -webkit-background-clip:text;
-      background-clip:text;
-      color: transparent;
+/* ===== EDIT MODE UI ===== */
+#controls {
+  position: fixed;
+  top: 12px;
+  right: 16px;
+  font-size: 13px;
+  color: #aaa;
+  display: flex;
+  gap: 14px;
+  z-index: 999;
+}
 
-      text-shadow:
-        0 1px 0 rgba(0,0,0,.25),
-        0 10px 25px rgba(0,0,0,.35);
-    }
-
-    .tm{
-      font-size: .42em;
-      vertical-align: super;
-      margin-left: 6px;
-      opacity: .85;
-    }
-
-    /* Button */
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding: 14px 44px;
-      border-radius: 999px;
-      background: var(--btn);
-      color: var(--btnText);
-      font-weight: 800;
-      letter-spacing:.2px;
-      border: 1px solid rgba(255,255,255,.35);
-      box-shadow:
-        0 10px 30px rgba(0,0,0,.35),
-        inset 0 1px 0 rgba(255,255,255,.75);
-      text-decoration:none;
-      font-size: 16px;
-    }
-    .btn:hover{ filter: brightness(1.03); }
-    .btn:active{ transform: translateY(1px); }
-
-    /* If you want a “clean view” (no outlines), turn edit-mode off */
-  </style>
+#controls button {
+  background: #1e1e1e;
+  color: #ccc;
+  border: 1px solid #333;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+</style>
 </head>
 
-<body class="edit-mode">
-  <div class="toolbar">
-    <button id="toggleEdit">Edit Mode: ON</button>
-    <button id="resetPos">Reset Positions</button>
-    <div class="hint">Drag logo / text / button anywhere. They save automatically.</div>
+<body>
+
+<div id="stage">
+
+  <img id="logo" class="draggable" src="logo.png" alt="Phoenix Logo" />
+
+  <div id="title" class="draggable">
+    Phoenix Business Builder<sup>™</sup>
   </div>
 
-  <div class="stage" id="stage">
-    <!-- LOGO (do NOT rename file) -->
-    <img
-      id="logoEl"
-      class="draggable"
-      src="logo.png"
-      alt="Phoenix Logo"
-    />
+  <button id="cta" class="draggable">
+    Get Started
+  </button>
 
-    <!-- TEXT -->
-    <div id="titleEl" class="draggable metal">
-      Phoenix Business Builder<span class="tm">™</span>
-    </div>
+</div>
 
-    <!-- BUTTON -->
-    <a id="btnEl" class="draggable btn" href="#get-started">
-      Get Started
-    </a>
-  </div>
+<div id="controls">
+  <span>Edit Mode: ON</span>
+  <button onclick="resetPositions()">Reset Positions</button>
+</div>
 
-  <script>
-    // ===== Manual Drag + Drop (Mouse + Touch + Pen) =====
-    // Saves positions to localStorage so your placement "sticks".
+<script>
+const draggables = document.querySelectorAll('.draggable');
 
-    const KEY = "PHX_LAYOUT_V1";
+draggables.forEach(el => {
+  const id = el.id;
 
-    const els = {
-      logo: document.getElementById("logoEl"),
-      title: document.getElementById("titleEl"),
-      btn: document.getElementById("btnEl"),
-    };
+  // Restore saved position
+  const saved = localStorage.getItem(id);
+  if (saved) {
+    const { x, y } = JSON.parse(saved);
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    el.style.transform = 'none';
+  }
 
-    const stage = document.getElementById("stage");
-    const toggleEdit = document.getElementById("toggleEdit");
-    const resetPos = document.getElementById("resetPos");
+  let offsetX, offsetY, dragging = false;
 
-    let editMode = true;
+  el.addEventListener('mousedown', e => {
+    dragging = true;
+    offsetX = e.clientX - el.offsetLeft;
+    offsetY = e.clientY - el.offsetTop;
+    el.style.transform = 'none';
+  });
 
-    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+  document.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    el.style.left = (e.clientX - offsetX) + 'px';
+    el.style.top = (e.clientY - offsetY) + 'px';
+  });
 
-    function getStageRect(){ return stage.getBoundingClientRect(); }
+  document.addEventListener('mouseup', () => {
+    if (!dragging) return;
+    dragging = false;
+    localStorage.setItem(id, JSON.stringify({
+      x: el.offsetLeft,
+      y: el.offsetTop
+    }));
+  });
+});
 
-    function applyPos(el, x, y){
-      const r = getStageRect();
-      const w = el.offsetWidth;
-      const h = el.offsetHeight;
+function resetPositions() {
+  localStorage.clear();
+  location.reload();
+}
+</script>
 
-      // keep fully inside stage
-      const nx = clamp(x, 0, r.width - w);
-      const ny = clamp(y, 0, r.height - h);
-
-      el.style.left = nx + "px";
-      el.style.top  = ny + "px";
-    }
-
-    function saveAll(){
-      const data = {};
-      for (const [k, el] of Object.entries(els)){
-        data[k] = {
-          left: parseFloat(el.style.left || 0),
-          top:  parseFloat(el.style.top  || 0),
-        };
-      }
-      localStorage.setItem(KEY, JSON.stringify(data));
-    }
-
-    function loadAll(){
-      const raw = localStorage.getItem(KEY);
-      if (!raw) return false;
-      try{
-        const data = JSON.parse(raw);
-        for (const [k, pos] of Object.entries(data)){
-          if (!els[k]) continue;
-          applyPos(els[k], pos.left ?? 0, pos.top ?? 0);
-        }
-        return true;
-      }catch(e){
-        return false;
-      }
-    }
-
-    function setDefaultLayout(){
-      const r = getStageRect();
-
-      // Default positions (feel free to drag and override)
-      // Logo centered-ish
-      applyPos(els.logo,  r.width * 0.58, r.height * 0.34);
-
-      // Text left-ish, vertically aligned near logo center
-      applyPos(els.title, r.width * 0.16, r.height * 0.30);
-
-      // Button under the text
-      applyPos(els.btn,   r.width * 0.18, r.height * 0.44);
-
-      saveAll();
-    }
-
-    // Drag logic
-    function makeDraggable(el){
-      let dragging = false;
-      let startX = 0, startY = 0;
-      let baseLeft = 0, baseTop = 0;
-
-      el.addEventListener("pointerdown", (e) => {
-        if (!editMode) return;
-        dragging = true;
-
-        el.setPointerCapture(e.pointerId);
-
-        startX = e.clientX;
-        startY = e.clientY;
-
-        baseLeft = parseFloat(el.style.left || 0);
-        baseTop  = parseFloat(el.style.top  || 0);
-
-        el.style.zIndex = 999; // bring forward while dragging
-      });
-
-      el.addEventListener("pointermove", (e) => {
-        if (!dragging || !editMode) return;
-
-        const dx = e.clientX - startX;
-        const dy = e.clientY - startY;
-
-        applyPos(el, baseLeft + dx, baseTop + dy);
-      });
-
-      function endDrag(){
-        if (!dragging) return;
-        dragging = false;
-        el.style.zIndex = 10;
-        saveAll();
-      }
-
-      // This is the "release" you asked for:
-      el.addEventListener("pointerup", endDrag);
-      el.addEventListener("pointercancel", endDrag);
-      el.addEventListener("lostpointercapture", endDrag);
-    }
-
-    makeDraggable(els.logo);
-    makeDraggable(els.title);
-    makeDraggable(els.btn);
-
-    // Toolbar
-    toggleEdit.addEventListener("click", () => {
-      editMode = !editMode;
-      document.body.classList.toggle("edit-mode", editMode);
-      toggleEdit.textContent = "Edit Mode: " + (editMode ? "ON" : "OFF");
-    });
-
-    resetPos.addEventListener("click", () => {
-      localStorage.removeItem(KEY);
-      setDefaultLayout();
-    });
-
-    // Init
-    // If no saved layout exists, set defaults.
-    // If saved exists, load it.
-    const loaded = loadAll();
-    if (!loaded){
-      // Wait a tick so image size is known
-      window.addEventListener("load", () => setDefaultLayout(), { once:true });
-    } else {
-      // Re-clamp positions after load (image size affects bounds)
-      window.addEventListener("load", () => loadAll(), { once:true });
-    }
-
-    // Re-clamp on resize so nothing drifts off-screen
-    window.addEventListener("resize", () => {
-      loadAll();
-      saveAll();
-    });
-  </script>
 </body>
 </html>
