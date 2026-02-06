@@ -15,9 +15,9 @@
       --gold3:#cfa74a;
       --gold4:#9c7b2f;
 
-      /* 🔧 ONLY TWO THINGS YOU SHOULD EVER TUNE */
-      --stack-push-down: 60px;  /* pushes the WHOLE stack down */
-      --stack-tightness: 14px;  /* space between logo → title → button */
+      /* ✅ CONTROL */
+      --stack-push-down: 10px;   /* pull stack UP (smaller number = higher) */
+      --stack-tightness: 12px;   /* tighter gap */
     }
 
     *{ box-sizing:border-box; margin:0; padding:0; }
@@ -27,12 +27,12 @@
       background: radial-gradient(circle at top, #1a1a1a, var(--bg2));
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       display:flex;
-      justify-content:flex-start;
+      justify-content:center;
       align-items:center;
       color:#fff;
+      overflow:hidden;
     }
 
-    /* Whole page stack */
     .stack{
       width:100%;
       max-width: 980px;
@@ -54,18 +54,20 @@
       -webkit-user-drag:none;
     }
 
-    /* Title wrapper so ™ can sit behind everything */
+    /* Title + TM background */
     .title-wrap{
       position: relative;
       display:inline-block;
       text-align:center;
-      line-height: 1.05;
+      line-height: 1.02;
     }
 
     .title{
       font-weight: 900;
-      letter-spacing: 0.02em;
-      font-size: clamp(2.4rem, 5.2vw, 4rem);
+      letter-spacing: 0.01em;
+
+      /* ✅ smaller so it never wraps on laptop */
+      font-size: clamp(2.05rem, 3.7vw, 3.05rem);
 
       background: linear-gradient(180deg, var(--gold1), var(--gold2), var(--gold3), var(--gold4));
       -webkit-background-clip: text;
@@ -73,16 +75,20 @@
       color: transparent;
 
       text-shadow: 0 10px 22px rgba(212,175,55,.12);
-      white-space: nowrap; /* keep it from breaking into weird lines */
+
+      /* ✅ HARD NO-WRAP */
+      white-space: nowrap;
+      display:inline-block;
     }
 
-    /* ™ BEHIND TITLE (cannot detach) */
+    /* ✅ TM BEHIND title (no layout impact) */
     .title-wrap::after{
       content: "™";
       position:absolute;
-      inset:auto auto -26px 50%;
-      transform: translateX(140px); /* pushes ™ to the right of center */
-      font-size: 84px;
+      top: 50%;
+      left: 50%;
+      transform: translate(210px, 10px); /* right + slightly down */
+      font-size: 86px;
       font-weight: 900;
 
       background: linear-gradient(180deg, var(--gold1), var(--gold3), var(--gold4));
@@ -90,10 +96,12 @@
       background-clip:text;
       color: transparent;
 
-      opacity: 0.18;
+      opacity: 0.14;
       pointer-events:none;
       user-select:none;
-      white-space: nowrap;
+
+      /* ✅ prevents any weird selection/box behavior */
+      line-height: 1;
     }
 
     /* Button */
@@ -117,17 +125,23 @@
     .btn:hover{ filter: brightness(1.05); transform: translateY(-1px); }
     .btn:active{ transform: translateY(0px); filter: brightness(.98); }
 
-    /* Mobile tuning */
+    /* Mobile */
     @media (max-width: 600px){
       :root{
-        --stack-push-down: 40px;
-        --stack-tightness: 12px;
+        --stack-push-down: 0px;
+        --stack-tightness: 10px;
       }
+
+      .title{
+        /* still avoid wrapping as much as possible */
+        font-size: clamp(1.8rem, 6vw, 2.25rem);
+      }
+
       .title-wrap::after{
-        transform: translateX(110px);
-        font-size: 72px;
+        transform: translate(155px, 8px);
+        font-size: 70px;
+        opacity: 0.12;
       }
-      .title{ white-space: normal; } /* allow wrap only on small screens */
     }
   </style>
 </head>
