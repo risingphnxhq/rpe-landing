@@ -1,170 +1,376 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Phoenix Business Builder</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phoenix Business Builder™</title>
 
-<style>
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background: #0b0b0b;
-  overflow: hidden;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-}
+  <style>
+    :root{
+      /* ✅ change ONLY these if needed */
+      --bg: #0b0f14;
+      --gold: #d4af37;
+      --text-fill: #1b1b1b;          /* dark fill so gold outline pops */
+      --btn-bg: #f2f2f2;
+      --btn-text: #222;
 
-/* ===== STAGE ===== */
-#stage {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-}
+      /* default positions (used when you hit Reset) */
+      --logo-top: 50%;
+      --logo-left: 50%;
 
-/* ===== DRAGGABLE ITEMS ===== */
-.draggable {
-  position: absolute;
-  cursor: grab;
-  user-select: none;
-}
+      --title-top: 50%;
+      --title-left: 77%;
 
-.draggable:active {
-  cursor: grabbing;
-}
+      --btn-top: 50%;
+      --btn-left: 25%;
+    }
 
-/* ===== LOGO ===== */
-#logo {
-  top: 50%;
-  left: 60%;
-  transform: translate(-50%, -50%);
-  height: min(65vh, 520px);   /* FITS SCREEN */
-  width: auto;
-  max-width: 65vw;
-  object-fit: contain;
-}
+    *{ box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
 
-/* ===== TITLE ===== */
-#title {
-  top: 50%;
-  left: 28%;
-  transform: translate(-50%, -50%);
-  font-size: clamp(32px, 4vw, 54px);
-  font-weight: 700;
-  color: #e6d3a3;
-  line-height: 1.15;
-  white-space: nowrap;
-}
+    body{
+      background: radial-gradient(1200px 700px at 50% 45%, #121a22 0%, var(--bg) 60%, #06080b 100%);
+      overflow: hidden;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
 
-/* TM styling */
-#title sup {
-  font-size: 0.45em;
-  vertical-align: super;
-  margin-left: 4px;
-}
+    /* stage */
+    .stage{
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
 
-/* ===== BUTTON ===== */
-#cta {
-  top: 62%;
-  left: 28%;
-  transform: translate(-50%, -50%);
-  padding: 14px 40px;
-  border-radius: 999px;
-  background: #f4f1ea;
-  color: #000;
-  font-size: 1rem;
-  border: none;
-  cursor: pointer;
-}
+    /* top editor bar */
+    .bar{
+      position: fixed;
+      top: 10px;
+      right: 12px;
+      z-index: 9999;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-size: 14px;
+      color: #d7d7d7;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 10px 12px;
+      backdrop-filter: blur(8px);
+    }
 
-/* ===== EDIT MODE UI ===== */
-#controls {
-  position: fixed;
-  top: 12px;
-  right: 16px;
-  font-size: 13px;
-  color: #aaa;
-  display: flex;
-  gap: 14px;
-  z-index: 999;
-}
+    .bar .pill{
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.10);
+      cursor: pointer;
+      user-select: none;
+    }
 
-#controls button {
-  background: #1e1e1e;
-  color: #ccc;
-  border: 1px solid #333;
-  padding: 6px 10px;
-  cursor: pointer;
-}
-</style>
+    .bar .pill:hover{ background: rgba(255,255,255,0.12); }
+
+    .bar .status{
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    /* draggable items */
+    .item{
+      position: absolute;
+      transform: translate(-50%, -50%);
+      cursor: default;
+      pointer-events: auto;
+    }
+
+    /* show outlines when edit mode is ON */
+    .edit-on .item{
+      outline: 2px dashed rgba(255,255,255,0.35);
+      outline-offset: 6px;
+      cursor: grab;
+    }
+
+    .edit-on .item:active{ cursor: grabbing; }
+
+    /* LOGO */
+    #logo{
+      top: var(--logo-top);
+      left: var(--logo-left);
+      width: min(28vw, 260px);     /* ✅ logo fits on screen */
+      max-width: 320px;
+      min-width: 160px;
+      height: auto;
+      filter: drop-shadow(0 10px 28px rgba(0,0,0,0.55));
+      user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none; /* logo moved by its wrapper */
+    }
+
+    #logoWrap{
+      top: var(--logo-top);
+      left: var(--logo-left);
+    }
+
+    /* TITLE */
+    #title{
+      top: var(--title-top);
+      left: var(--title-left);
+
+      font-size: clamp(34px, 4.2vw, 58px);
+      font-weight: 900;
+      line-height: 1.06;
+      letter-spacing: 0.02em;
+
+      /* ✅ ensures it never breaks into a 2nd line */
+      white-space: nowrap;
+
+      /* ✅ dark fill so gold outline is visible */
+      color: var(--text-fill);
+
+      /* ✅ real outline */
+      -webkit-text-stroke: 1.6px var(--gold);
+
+      /* ✅ fallback outline (all directions) */
+      text-shadow:
+        -1px -1px 0 var(--gold),
+         1px -1px 0 var(--gold),
+        -1px  1px 0 var(--gold),
+         1px  1px 0 var(--gold);
+
+      /* little depth */
+      filter: drop-shadow(0 8px 18px rgba(0,0,0,0.55));
+    }
+
+    #title sup{
+      font-size: 0.42em;
+      vertical-align: super;
+      margin-left: 4px;
+
+      color: var(--text-fill);
+      -webkit-text-stroke: 1.2px var(--gold);
+
+      text-shadow:
+        -0.8px -0.8px 0 var(--gold),
+         0.8px -0.8px 0 var(--gold),
+        -0.8px  0.8px 0 var(--gold),
+         0.8px  0.8px 0 var(--gold);
+    }
+
+    /* BUTTON */
+    #btnWrap{
+      top: var(--btn-top);
+      left: var(--btn-left);
+    }
+
+    #btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 16px 46px;
+      border-radius: 999px;
+      border: 0;
+      background: var(--btn-bg);
+      color: var(--btn-text);
+
+      font-size: 18px;
+      font-weight: 700;
+
+      box-shadow: 0 14px 28px rgba(0,0,0,0.45);
+      cursor: pointer;
+    }
+
+    #btn:active{ transform: translateY(1px); }
+
+    /* Mobile tweaks */
+    @media (max-width: 680px){
+      #logo{ width: min(42vw, 220px); }
+      #btn{ padding: 14px 38px; font-size: 16px; }
+    }
+
+    /* helper text */
+    .hint{
+      position: fixed;
+      top: 66px;
+      right: 12px;
+      z-index: 9999;
+      font-size: 12px;
+      color: rgba(255,255,255,0.72);
+      background: rgba(0,0,0,0.28);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 10px;
+      padding: 8px 10px;
+      display: none;
+      max-width: 280px;
+    }
+
+    .edit-on .hint{ display: block; }
+  </style>
 </head>
 
 <body>
+  <div class="stage" id="stage">
+    <!-- Editor Bar -->
+    <div class="bar" id="bar">
+      <div class="status" id="modeText">Edit Mode: OFF</div>
+      <div class="pill" id="toggleEdit">Toggle Edit</div>
+      <div class="pill" id="reset">Reset Positions</div>
+    </div>
 
-<div id="stage">
+    <div class="hint">
+      Drag logo / title / button anywhere.<br/>
+      Positions save automatically in this browser.
+    </div>
 
-  <img id="logo" class="draggable" src="logo.png" alt="Phoenix Logo" />
+    <!-- LOGO (wrapper is draggable) -->
+    <div class="item" id="logoWrap" data-key="logo">
+      <!-- ✅ put your correct file path here -->
+      <img id="logo" src="phoenix_logo.png" alt="Phoenix Logo" />
+    </div>
 
-  <div id="title" class="draggable">
-    Phoenix Business Builder<sup>™</sup>
+    <!-- TITLE -->
+    <div class="item" id="title" data-key="title">
+      Phoenix Business Builder<sup>™</sup>
+    </div>
+
+    <!-- BUTTON -->
+    <div class="item" id="btnWrap" data-key="btn">
+      <button id="btn" onclick="location.href='#get-started'">Get Started</button>
+    </div>
   </div>
 
-  <button id="cta" class="draggable">
-    Get Started
-  </button>
+  <script>
+    // ====== EDIT MODE + DRAG/DROP (SAVES POSITIONS) ======
+    const stage = document.getElementById('stage');
+    const body = document.body;
 
-</div>
+    const toggleBtn = document.getElementById('toggleEdit');
+    const resetBtn  = document.getElementById('reset');
+    const modeText  = document.getElementById('modeText');
 
-<div id="controls">
-  <span>Edit Mode: ON</span>
-  <button onclick="resetPositions()">Reset Positions</button>
-</div>
+    const items = [
+      document.getElementById('logoWrap'),
+      document.getElementById('title'),
+      document.getElementById('btnWrap')
+    ];
 
-<script>
-const draggables = document.querySelectorAll('.draggable');
+    // localStorage keys
+    const KEY_MODE = 'pbb_edit_mode';
+    const KEY_POS  = 'pbb_positions';
 
-draggables.forEach(el => {
-  const id = el.id;
+    let editMode = (localStorage.getItem(KEY_MODE) === 'true');
 
-  // Restore saved position
-  const saved = localStorage.getItem(id);
-  if (saved) {
-    const { x, y } = JSON.parse(saved);
-    el.style.left = x + 'px';
-    el.style.top = y + 'px';
-    el.style.transform = 'none';
-  }
+    function setEditMode(on){
+      editMode = !!on;
+      localStorage.setItem(KEY_MODE, String(editMode));
+      body.classList.toggle('edit-on', editMode);
+      modeText.textContent = 'Edit Mode: ' + (editMode ? 'ON' : 'OFF');
+    }
 
-  let offsetX, offsetY, dragging = false;
+    // Load saved positions
+    function loadPositions(){
+      const raw = localStorage.getItem(KEY_POS);
+      if(!raw) return;
+      try{
+        const pos = JSON.parse(raw);
+        applyPos(pos.logo, 'logoWrap');
+        applyPos(pos.title, 'title');
+        applyPos(pos.btn, 'btnWrap');
+      }catch(e){}
+    }
 
-  el.addEventListener('mousedown', e => {
-    dragging = true;
-    offsetX = e.clientX - el.offsetLeft;
-    offsetY = e.clientY - el.offsetTop;
-    el.style.transform = 'none';
-  });
+    function savePositions(){
+      const pos = {
+        logo: readPos('logoWrap'),
+        title: readPos('title'),
+        btn: readPos('btnWrap')
+      };
+      localStorage.setItem(KEY_POS, JSON.stringify(pos));
+    }
 
-  document.addEventListener('mousemove', e => {
-    if (!dragging) return;
-    el.style.left = (e.clientX - offsetX) + 'px';
-    el.style.top = (e.clientY - offsetY) + 'px';
-  });
+    function readPos(id){
+      const el = document.getElementById(id);
+      return { top: el.style.top || '', left: el.style.left || '' };
+    }
 
-  document.addEventListener('mouseup', () => {
-    if (!dragging) return;
-    dragging = false;
-    localStorage.setItem(id, JSON.stringify({
-      x: el.offsetLeft,
-      y: el.offsetTop
-    }));
-  });
-});
+    function applyPos(p, id){
+      if(!p) return;
+      const el = document.getElementById(id);
+      if(p.top)  el.style.top  = p.top;
+      if(p.left) el.style.left = p.left;
+    }
 
-function resetPositions() {
-  localStorage.clear();
-  location.reload();
-}
-</script>
+    // Default reset positions (matches :root variables)
+    function resetPositions(){
+      localStorage.removeItem(KEY_POS);
+      // clear inline styles so CSS vars take over
+      items.forEach(el => { el.style.top = ''; el.style.left = ''; });
+    }
 
+    toggleBtn.addEventListener('click', () => setEditMode(!editMode));
+    resetBtn.addEventListener('click', () => { resetPositions(); });
+
+    // Drag handling
+    let active = null;
+    let offsetX = 0, offsetY = 0;
+
+    function pointerDown(e, el){
+      if(!editMode) return;
+      active = el;
+      const rect = el.getBoundingClientRect();
+      offsetX = e.clientX - rect.left;
+      offsetY = e.clientY - rect.top;
+      el.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    }
+
+    function pointerMove(e){
+      if(!editMode || !active) return;
+      const st = stage.getBoundingClientRect();
+
+      // new top/left in px relative to stage
+      let x = e.clientX - st.left - offsetX;
+      let y = e.clientY - st.top  - offsetY;
+
+      // clamp inside stage
+      x = Math.max(0, Math.min(x, st.width  - active.offsetWidth));
+      y = Math.max(0, Math.min(y, st.height - active.offsetHeight));
+
+      // store as percent so it scales with screen size
+      const leftPct = ((x + active.offsetWidth/2) / st.width)  * 100;
+      const topPct  = ((y + active.offsetHeight/2)/ st.height) * 100;
+
+      active.style.left = leftPct.toFixed(2) + '%';
+      active.style.top  = topPct.toFixed(2) + '%';
+    }
+
+    function pointerUp(e){
+      if(!editMode || !active) return;
+      try{ active.releasePointerCapture(e.pointerId); }catch(_){}
+      active = null;
+      savePositions();
+    }
+
+    // attach pointer listeners
+    items.forEach(el => {
+      el.addEventListener('pointerdown', (e)=>pointerDown(e, el));
+      el.addEventListener('pointerup', pointerUp);
+      el.addEventListener('pointercancel', pointerUp);
+    });
+
+    window.addEventListener('pointermove', pointerMove);
+    window.addEventListener('pointerup', pointerUp);
+
+    // Init
+    setEditMode(editMode);
+    loadPositions();
+
+    // ====== QUICK FIX: If logo image is too large, it auto-fits anyway via CSS.
+    // Just make sure filename matches EXACTLY: phoenix_logo.png
+  </script>
 </body>
 </html>
+```0
