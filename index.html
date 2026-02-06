@@ -7,154 +7,329 @@
 
   <style>
     :root{
-      --bg1:#0b0b0b;
-      --bg2:#000000;
-
-      --gold1:#f7e7a8;
-      --gold2:#e6c97a;
-      --gold3:#cfa74a;
-      --gold4:#9c7b2f;
-
-      /* ✅ CONTROL */
-      --stack-push-down: 10px;   /* pull stack UP (smaller number = higher) */
-      --stack-tightness: 12px;   /* tighter gap */
+      --bg1:#050608;
+      --bg2:#0b0f16;
+      --gold1:#f5e7c6;
+      --gold2:#d6b36a;
+      --gold3:#8a6b2f;
+      --btn:#efe7d6;
+      --btnText:#2b2b2b;
     }
 
-    *{ box-sizing:border-box; margin:0; padding:0; }
-
+    *{ box-sizing:border-box; }
+    html, body { height: 100%; }
     body{
-      min-height:100vh;
-      background: radial-gradient(circle at top, #1a1a1a, var(--bg2));
+      margin:0;
+      background: radial-gradient(1200px 800px at 70% 40%, #111a26 0%, var(--bg2) 35%, var(--bg1) 100%);
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      color:#fff;
+      overflow:hidden;
+      user-select:none;
+      -webkit-user-select:none;
+      touch-action:none;
+    }
+
+    /* Stage */
+    .stage{
+      position:relative;
+      width:100vw;
+      height:100vh;
       overflow:hidden;
     }
 
-    .stack{
-      width:100%;
-      max-width: 980px;
-      padding: 0 18px;
+    /* Small top bar */
+    .toolbar{
+      position:fixed;
+      top:12px;
+      left:12px;
       display:flex;
-      flex-direction:column;
+      gap:10px;
+      z-index:9999;
+      padding:10px 12px;
+      border-radius:12px;
+      background: rgba(0,0,0,.35);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .toolbar button{
+      appearance:none;
+      border:none;
+      border-radius:10px;
+      padding:10px 12px;
+      font-weight:700;
+      cursor:pointer;
+      background: rgba(255,255,255,.10);
+      color:#fff;
+    }
+    .toolbar button:hover{ background: rgba(255,255,255,.16); }
+    .toolbar .hint{
+      display:flex;
       align-items:center;
-      gap: var(--stack-tightness);
-      transform: translateY(var(--stack-push-down));
+      font-size:12px;
+      color: rgba(255,255,255,.75);
+      padding-left:6px;
+    }
+
+    /* Draggables */
+    .draggable{
+      position:absolute;
+      cursor: grab;
+      z-index:10;
+      touch-action:none;
+    }
+    .draggable:active{ cursor: grabbing; }
+
+    /* Optional visual “edit mode” outline */
+    body.edit-mode .draggable{
+      outline: 1px dashed rgba(255,255,255,.22);
+      outline-offset: 6px;
+      border-radius: 10px;
     }
 
     /* Logo */
-    .logo{
-      width: min(340px, 70vw);
+    #logo{
+      width: 280px;
+      max-width: 44vw;
       height:auto;
-      display:block;
-      filter: drop-shadow(0 16px 40px rgba(212,175,55,.22));
-      user-select:none;
-      -webkit-user-drag:none;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.45));
     }
 
-    /* Title + TM background */
-    .title-wrap{
-      position: relative;
-      display:inline-block;
-      text-align:center;
+    /* Metallic text */
+    .metal{
+      font-weight: 900;
+      letter-spacing: .5px;
       line-height: 1.02;
-    }
+      white-space: nowrap; /* prevents wrapping when TM is added */
+      font-size: clamp(38px, 6vw, 62px);
 
-    .title{
-      font-weight: 900;
-      letter-spacing: 0.01em;
-
-      /* ✅ smaller so it never wraps on laptop */
-      font-size: clamp(2.05rem, 3.7vw, 3.05rem);
-
-      background: linear-gradient(180deg, var(--gold1), var(--gold2), var(--gold3), var(--gold4));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-
-      text-shadow: 0 10px 22px rgba(212,175,55,.12);
-
-      /* ✅ HARD NO-WRAP */
-      white-space: nowrap;
-      display:inline-block;
-    }
-
-    /* ✅ TM BEHIND title (no layout impact) */
-    .title-wrap::after{
-      content: "™";
-      position:absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(210px, 10px); /* right + slightly down */
-      font-size: 86px;
-      font-weight: 900;
-
-      background: linear-gradient(180deg, var(--gold1), var(--gold3), var(--gold4));
+      background: linear-gradient(180deg,
+        #fff3d8 0%,
+        #f1ddad 22%,
+        #e1c27a 45%,
+        #c79e55 65%,
+        #f7edd3 84%,
+        #a17a36 100%
+      );
       -webkit-background-clip:text;
       background-clip:text;
       color: transparent;
 
-      opacity: 0.14;
-      pointer-events:none;
-      user-select:none;
+      text-shadow:
+        0 1px 0 rgba(0,0,0,.25),
+        0 10px 25px rgba(0,0,0,.35);
+    }
 
-      /* ✅ prevents any weird selection/box behavior */
-      line-height: 1;
+    .tm{
+      font-size: .42em;
+      vertical-align: super;
+      margin-left: 6px;
+      opacity: .85;
     }
 
     /* Button */
     .btn{
-      margin-top: 6px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
       padding: 14px 44px;
-      border: 0;
       border-radius: 999px;
-      cursor:pointer;
-
-      font-size: 1rem;
-      font-weight: 700;
-
-      background: linear-gradient(180deg, var(--gold1), var(--gold2), var(--gold3));
-      color:#141414;
-
-      box-shadow: 0 10px 26px rgba(212,175,55,.14);
-      transition: transform .12s ease, filter .12s ease;
+      background: var(--btn);
+      color: var(--btnText);
+      font-weight: 800;
+      letter-spacing:.2px;
+      border: 1px solid rgba(255,255,255,.35);
+      box-shadow:
+        0 10px 30px rgba(0,0,0,.35),
+        inset 0 1px 0 rgba(255,255,255,.75);
+      text-decoration:none;
+      font-size: 16px;
     }
+    .btn:hover{ filter: brightness(1.03); }
+    .btn:active{ transform: translateY(1px); }
 
-    .btn:hover{ filter: brightness(1.05); transform: translateY(-1px); }
-    .btn:active{ transform: translateY(0px); filter: brightness(.98); }
-
-    /* Mobile */
-    @media (max-width: 600px){
-      :root{
-        --stack-push-down: 0px;
-        --stack-tightness: 10px;
-      }
-
-      .title{
-        /* still avoid wrapping as much as possible */
-        font-size: clamp(1.8rem, 6vw, 2.25rem);
-      }
-
-      .title-wrap::after{
-        transform: translate(155px, 8px);
-        font-size: 70px;
-        opacity: 0.12;
-      }
-    }
+    /* If you want a “clean view” (no outlines), turn edit-mode off */
   </style>
 </head>
 
-<body>
-  <main class="stack">
-    <img class="logo" src="logo.png" alt="Phoenix Logo" />
+<body class="edit-mode">
+  <div class="toolbar">
+    <button id="toggleEdit">Edit Mode: ON</button>
+    <button id="resetPos">Reset Positions</button>
+    <div class="hint">Drag logo / text / button anywhere. They save automatically.</div>
+  </div>
 
-    <div class="title-wrap">
-      <div class="title">Phoenix Business Builder</div>
+  <div class="stage" id="stage">
+    <!-- LOGO (do NOT rename file) -->
+    <img
+      id="logoEl"
+      class="draggable"
+      src="logo.png"
+      alt="Phoenix Logo"
+    />
+
+    <!-- TEXT -->
+    <div id="titleEl" class="draggable metal">
+      Phoenix Business Builder<span class="tm">™</span>
     </div>
 
-    <button class="btn">Get Started</button>
-  </main>
+    <!-- BUTTON -->
+    <a id="btnEl" class="draggable btn" href="#get-started">
+      Get Started
+    </a>
+  </div>
+
+  <script>
+    // ===== Manual Drag + Drop (Mouse + Touch + Pen) =====
+    // Saves positions to localStorage so your placement "sticks".
+
+    const KEY = "PHX_LAYOUT_V1";
+
+    const els = {
+      logo: document.getElementById("logoEl"),
+      title: document.getElementById("titleEl"),
+      btn: document.getElementById("btnEl"),
+    };
+
+    const stage = document.getElementById("stage");
+    const toggleEdit = document.getElementById("toggleEdit");
+    const resetPos = document.getElementById("resetPos");
+
+    let editMode = true;
+
+    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+
+    function getStageRect(){ return stage.getBoundingClientRect(); }
+
+    function applyPos(el, x, y){
+      const r = getStageRect();
+      const w = el.offsetWidth;
+      const h = el.offsetHeight;
+
+      // keep fully inside stage
+      const nx = clamp(x, 0, r.width - w);
+      const ny = clamp(y, 0, r.height - h);
+
+      el.style.left = nx + "px";
+      el.style.top  = ny + "px";
+    }
+
+    function saveAll(){
+      const data = {};
+      for (const [k, el] of Object.entries(els)){
+        data[k] = {
+          left: parseFloat(el.style.left || 0),
+          top:  parseFloat(el.style.top  || 0),
+        };
+      }
+      localStorage.setItem(KEY, JSON.stringify(data));
+    }
+
+    function loadAll(){
+      const raw = localStorage.getItem(KEY);
+      if (!raw) return false;
+      try{
+        const data = JSON.parse(raw);
+        for (const [k, pos] of Object.entries(data)){
+          if (!els[k]) continue;
+          applyPos(els[k], pos.left ?? 0, pos.top ?? 0);
+        }
+        return true;
+      }catch(e){
+        return false;
+      }
+    }
+
+    function setDefaultLayout(){
+      const r = getStageRect();
+
+      // Default positions (feel free to drag and override)
+      // Logo centered-ish
+      applyPos(els.logo,  r.width * 0.58, r.height * 0.34);
+
+      // Text left-ish, vertically aligned near logo center
+      applyPos(els.title, r.width * 0.16, r.height * 0.30);
+
+      // Button under the text
+      applyPos(els.btn,   r.width * 0.18, r.height * 0.44);
+
+      saveAll();
+    }
+
+    // Drag logic
+    function makeDraggable(el){
+      let dragging = false;
+      let startX = 0, startY = 0;
+      let baseLeft = 0, baseTop = 0;
+
+      el.addEventListener("pointerdown", (e) => {
+        if (!editMode) return;
+        dragging = true;
+
+        el.setPointerCapture(e.pointerId);
+
+        startX = e.clientX;
+        startY = e.clientY;
+
+        baseLeft = parseFloat(el.style.left || 0);
+        baseTop  = parseFloat(el.style.top  || 0);
+
+        el.style.zIndex = 999; // bring forward while dragging
+      });
+
+      el.addEventListener("pointermove", (e) => {
+        if (!dragging || !editMode) return;
+
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+
+        applyPos(el, baseLeft + dx, baseTop + dy);
+      });
+
+      function endDrag(){
+        if (!dragging) return;
+        dragging = false;
+        el.style.zIndex = 10;
+        saveAll();
+      }
+
+      // This is the "release" you asked for:
+      el.addEventListener("pointerup", endDrag);
+      el.addEventListener("pointercancel", endDrag);
+      el.addEventListener("lostpointercapture", endDrag);
+    }
+
+    makeDraggable(els.logo);
+    makeDraggable(els.title);
+    makeDraggable(els.btn);
+
+    // Toolbar
+    toggleEdit.addEventListener("click", () => {
+      editMode = !editMode;
+      document.body.classList.toggle("edit-mode", editMode);
+      toggleEdit.textContent = "Edit Mode: " + (editMode ? "ON" : "OFF");
+    });
+
+    resetPos.addEventListener("click", () => {
+      localStorage.removeItem(KEY);
+      setDefaultLayout();
+    });
+
+    // Init
+    // If no saved layout exists, set defaults.
+    // If saved exists, load it.
+    const loaded = loadAll();
+    if (!loaded){
+      // Wait a tick so image size is known
+      window.addEventListener("load", () => setDefaultLayout(), { once:true });
+    } else {
+      // Re-clamp positions after load (image size affects bounds)
+      window.addEventListener("load", () => loadAll(), { once:true });
+    }
+
+    // Re-clamp on resize so nothing drifts off-screen
+    window.addEventListener("resize", () => {
+      loadAll();
+      saveAll();
+    });
+  </script>
 </body>
 </html>
