@@ -1,76 +1,142 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Phoenix Business Builder</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Phoenix Business Builder</title>
 
-<style>
-    html, body {
-        height: 100%;
-        margin: 0;
-        background: #000;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        color: #fff;
+  <style>
+    :root{
+      --bg:#050505;
+      --gold1:#f6e7a3;
+      --gold2:#e5c86a;
+      --gold3:#caa24a;
+      --gold4:#fff2b8;
+      --text:#f2f2f2;
     }
 
-    body {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      background: radial-gradient(1200px 900px at 50% 35%, #111 0%, var(--bg) 55%, #000 100%);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 24px;
     }
 
-    .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 16px; /* THIS CONTROLS SPACING */
+    /* SINGLE STACK — logo -> title -> button */
+    .wrap{
+      width:min(920px, 92vw);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+
+      /* THIS controls the spacing between logo / text / button */
+      gap: 14px;
     }
 
-    .logo {
-        max-width: 360px;
-        width: 70vw;
-        height: auto;
-        display: block;
+    .logo{
+      width: min(520px, 78vw);
+      height:auto;
+      display:block;
+      user-select:none;
+      -webkit-user-drag:none;
+
+      /* keep it crisp + premium */
+      filter: drop-shadow(0 16px 40px rgba(0,0,0,.55))
+              drop-shadow(0 10px 26px rgba(212,175,55,.12));
     }
 
-    h1 {
-        margin: 0;
-        font-size: clamp(28px, 4vw, 42px);
-        font-weight: 700;
-        letter-spacing: 0.5px;
+    /* Metallic title */
+    .title{
+      margin: 0;                 /* IMPORTANT: prevents the big gap */
+      font-weight: 900;
+      letter-spacing: .5px;
+      line-height: 1.05;
+      font-size: clamp(28px, 4.2vw, 56px);
+
+      background: linear-gradient(
+        180deg,
+        var(--gold4) 0%,
+        var(--gold1) 18%,
+        var(--gold2) 40%,
+        var(--gold3) 62%,
+        var(--gold1) 82%,
+        var(--gold4) 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+
+      text-shadow:
+        0 2px 0 rgba(0,0,0,.35),
+        0 14px 36px rgba(212,175,55,.14);
     }
 
-    .cta {
-        margin-top: 8px;
-        padding: 14px 36px;
-        font-size: 16px;
-        font-weight: 600;
-        border-radius: 999px;
-        border: none;
-        cursor: pointer;
-        background: linear-gradient(135deg, #f5d27a, #cfa44a);
-        color: #000;
+    .btn{
+      margin-top: 2px;           /* tiny breathing room under title */
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 14px 40px;
+      border-radius: 999px;
+      text-decoration:none;
+      font-weight: 900;
+      letter-spacing: .4px;
+      font-size: 16px;
+      color:#0b0b0b;
+
+      background: linear-gradient(
+        135deg,
+        var(--gold4) 0%,
+        var(--gold1) 20%,
+        var(--gold2) 55%,
+        var(--gold3) 78%,
+        var(--gold4) 100%
+      );
+
+      border: 1px solid rgba(255,231,168,.35);
+      box-shadow:
+        0 10px 26px rgba(212,175,55,.18),
+        inset 0 1px 0 rgba(255,255,255,.22);
+
+      transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+    }
+    .btn:hover{
+      transform: translateY(-2px);
+      box-shadow:
+        0 14px 34px rgba(212,175,55,.26),
+        inset 0 1px 0 rgba(255,255,255,.24);
+      filter: brightness(1.03);
+    }
+    .btn:active{
+      transform: translateY(0);
+      filter: brightness(.98);
     }
 
-    .cta:hover {
-        filter: brightness(1.05);
+    /* Mobile tightening */
+    @media (max-width: 520px){
+      .wrap{ gap: 12px; }
+      .btn{ padding: 14px 34px; }
     }
-</style>
+  </style>
 </head>
 
 <body>
-    <div class="container">
-        <img
-            src="phoenix-logo.png"
-            alt="Phoenix Logo"
-            class="logo"
-        />
+  <main class="wrap">
+    <!-- DO NOT rename: keep logo.png -->
+    <img class="logo" src="logo.png" alt="Phoenix Logo" />
 
-        <h1>Phoenix Business Builder</h1>
+    <h1 class="title">Phoenix Business Builder</h1>
 
-        <button class="cta">Get Started</button>
-    </div>
+    <a class="btn" href="#get-started">Get Started</a>
+  </main>
 </body>
 </html>
+```0
