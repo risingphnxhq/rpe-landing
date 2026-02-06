@@ -1,106 +1,121 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Phoenix Business Builder</title>
 
   <style>
-    :root {
-      /* ONLY CHANGE THIS VALUE TO MOVE EVERYTHING */
-      --stack-offset: 160px;
+    :root{
+      /* ONLY ADJUST THESE TWO */
+      --stack-top: 140px;  /* pushes entire stack down */
+      --gap: 12px;         /* space between logo, text, button */
 
       --logo-size: 420px;
       --title-size: 48px;
-      --gap: 14px;
+
+      --gold1:#fff1c6;
+      --gold2:#f0d98a;
+      --gold3:#d1a84b;
+      --gold4:#fff7dd;
     }
 
-    * {
-      box-sizing: border-box;
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      background:#000;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     }
 
-    html, body {
-      height: 100%;
-      margin: 0;
+    .page{
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      padding: var(--stack-top) 16px 64px; /* bottom padding prevents clipping */
     }
 
-    body {
-      background: #000;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    }
-
-    .page {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding-top: var(--stack-offset);
-      padding-bottom: 80px; /* prevents button clipping */
-    }
-
-    .stack {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
+    .stack{
+      width:100%;
+      max-width: 980px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
       gap: var(--gap);
-      width: 100%;
     }
 
-    img {
-      width: min(var(--logo-size), 90vw);
-      height: auto;
-      display: block;
+    .logo{
+      width: min(var(--logo-size), 92vw);
+      height:auto;
+      display:block;
+      filter: drop-shadow(0 18px 46px rgba(214,175,55,.22));
+      user-select:none;
+      -webkit-user-drag:none;
     }
 
-    h1 {
-      margin: 0;
+    .title{
+      margin:0;
+      font-weight:800;
+      letter-spacing:1px;
       font-size: var(--title-size);
-      font-weight: 800;
-      letter-spacing: 1px;
-
+      line-height:1.05;
       background: linear-gradient(
         180deg,
-        #fff6d8 0%,
-        #e7c77a 45%,
-        #b8903e 100%
+        var(--gold1) 0%,
+        var(--gold2) 22%,
+        var(--gold3) 52%,
+        var(--gold2) 72%,
+        var(--gold4) 100%
       );
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      text-shadow: 0 10px 24px rgba(214,175,55,.12);
     }
 
-    .btn {
-      margin-top: 6px;
-      padding: 14px 40px;
-      font-size: 1rem;
-      font-weight: 700;
-      border-radius: 999px;
-      color: #000;
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 14px 42px;
+      border-radius:999px;
+      font-weight:800;
+      letter-spacing:.5px;
+      text-decoration:none;
+      color:#0b0b0b;
       background: linear-gradient(
         135deg,
-        #fff2c2,
-        #e2b866
+        var(--gold1) 0%,
+        var(--gold2) 25%,
+        var(--gold3) 60%,
+        var(--gold4) 100%
       );
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
+      border:1px solid rgba(255,231,168,.35);
+      box-shadow:
+        0 12px 28px rgba(214,175,55,.18),
+        inset 0 1px 0 rgba(255,255,255,.25);
+      transition: transform .15s ease, filter .15s ease, box-shadow .15s ease;
+    }
+    .btn:hover{
+      transform: translateY(-2px);
+      filter: brightness(1.02);
+      box-shadow:
+        0 16px 34px rgba(214,175,55,.24),
+        inset 0 1px 0 rgba(255,255,255,.30);
+    }
+    .btn:active{
+      transform: translateY(0);
+      filter: brightness(.98);
     }
 
-    @media (max-width: 768px) {
-      :root {
-        --stack-offset: 120px;
-        --logo-size: 340px;
-        --title-size: 38px;
-      }
+    @media (max-width: 900px){
+      :root{ --stack-top: 110px; --logo-size: 360px; --title-size: 40px; }
     }
-
-    @media (max-width: 480px) {
-      :root {
-        --stack-offset: 90px;
-        --logo-size: 300px;
-        --title-size: 32px;
-      }
+    @media (max-width: 520px){
+      :root{ --stack-top: 80px; --logo-size: 300px; --title-size: 32px; }
+      .btn{ padding: 14px 34px; }
     }
   </style>
 </head>
@@ -108,8 +123,8 @@
 <body>
   <main class="page">
     <section class="stack">
-      <img src="logo.png" alt="Phoenix Logo">
-      <h1>Phoenix Business Builder</h1>
+      <img class="logo" src="logo.png" alt="Phoenix Logo" />
+      <h1 class="title">Phoenix Business Builder</h1>
       <a class="btn" href="#">Get Started</a>
     </section>
   </main>
