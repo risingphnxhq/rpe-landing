@@ -2,141 +2,125 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Phoenix Business Builder</title>
 
   <style>
     :root{
-      --bg:#050505;
-      --gold1:#f6e7a3;
-      --gold2:#e5c86a;
-      --gold3:#caa24a;
-      --gold4:#fff2b8;
-      --text:#f2f2f2;
+      --bg:#000;
+      --gold1:#ffefb0;
+      --gold2:#d8b24b;
+      --gold3:#a87a1d;
+      --gold4:#fff3c8;
     }
 
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
+    *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
-      background: radial-gradient(1200px 900px at 50% 35%, #111 0%, var(--bg) 55%, #000 100%);
-      color: var(--text);
+      background:var(--bg);
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       display:flex;
       align-items:center;
       justify-content:center;
-      padding: 24px;
+      padding:24px;
     }
 
-    /* SINGLE STACK — logo -> title -> button */
+    /* Main stack */
     .wrap{
-      width:min(920px, 92vw);
+      width:min(920px, 100%);
       display:flex;
       flex-direction:column;
       align-items:center;
       justify-content:center;
       text-align:center;
-
-      /* THIS controls the spacing between logo / text / button */
-      gap: 14px;
+      gap:10px;               /* THIS controls spacing between logo, text, button */
     }
 
+    /* Logo */
     .logo{
-      width: min(520px, 78vw);
+      width:min(520px, 85vw);
       height:auto;
       display:block;
+      margin:0;               /* NO extra gap */
+      filter: drop-shadow(0 18px 42px rgba(212,175,55,0.22));
       user-select:none;
       -webkit-user-drag:none;
-
-      /* keep it crisp + premium */
-      filter: drop-shadow(0 16px 40px rgba(0,0,0,.55))
-              drop-shadow(0 10px 26px rgba(212,175,55,.12));
     }
 
     /* Metallic title */
     .title{
-      margin: 0;                 /* IMPORTANT: prevents the big gap */
-      font-weight: 900;
-      letter-spacing: .5px;
-      line-height: 1.05;
-      font-size: clamp(28px, 4.2vw, 56px);
-
-      background: linear-gradient(
-        180deg,
+      margin:0;               /* NO extra gap */
+      font-weight:900;
+      letter-spacing:0.5px;
+      line-height:1.05;
+      font-size:clamp(28px, 4.2vw, 58px);
+      background: linear-gradient(180deg,
         var(--gold4) 0%,
-        var(--gold1) 18%,
-        var(--gold2) 40%,
-        var(--gold3) 62%,
-        var(--gold1) 82%,
-        var(--gold4) 100%
-      );
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-
-      text-shadow:
-        0 2px 0 rgba(0,0,0,.35),
-        0 14px 36px rgba(212,175,55,.14);
+        var(--gold1) 22%,
+        var(--gold2) 48%,
+        var(--gold1) 72%,
+        var(--gold3) 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      text-shadow:0 10px 22px rgba(212,175,55,0.12);
     }
 
+    /* Button */
     .btn{
-      margin-top: 2px;           /* tiny breathing room under title */
+      margin-top:4px;         /* small intentional separation from title */
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      padding: 14px 40px;
-      border-radius: 999px;
+      padding:14px 42px;
+      border-radius:999px;
       text-decoration:none;
-      font-weight: 900;
-      letter-spacing: .4px;
-      font-size: 16px;
+      font-weight:900;
+      letter-spacing:0.6px;
+      font-size:16px;
       color:#0b0b0b;
-
-      background: linear-gradient(
-        135deg,
+      background: linear-gradient(135deg,
         var(--gold4) 0%,
-        var(--gold1) 20%,
-        var(--gold2) 55%,
-        var(--gold3) 78%,
-        var(--gold4) 100%
-      );
-
-      border: 1px solid rgba(255,231,168,.35);
+        var(--gold1) 22%,
+        var(--gold2) 52%,
+        var(--gold1) 78%,
+        var(--gold3) 100%);
+      border:1px solid rgba(255,231,168,0.35);
       box-shadow:
-        0 10px 26px rgba(212,175,55,.18),
-        inset 0 1px 0 rgba(255,255,255,.22);
-
-      transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+        0 10px 26px rgba(212,175,55,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.22);
+      transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
     }
+
     .btn:hover{
       transform: translateY(-2px);
-      box-shadow:
-        0 14px 34px rgba(212,175,55,.26),
-        inset 0 1px 0 rgba(255,255,255,.24);
       filter: brightness(1.03);
+      box-shadow:
+        0 14px 34px rgba(212,175,55,0.26),
+        inset 0 1px 0 rgba(255,255,255,0.24);
     }
     .btn:active{
       transform: translateY(0);
-      filter: brightness(.98);
+      filter: brightness(0.98);
     }
 
-    /* Mobile tightening */
-    @media (max-width: 520px){
-      .wrap{ gap: 12px; }
-      .btn{ padding: 14px 34px; }
+    /* Mobile: keep tight */
+    @media (max-width: 480px){
+      .wrap{gap:8px}
+      .btn{padding:14px 34px}
     }
   </style>
 </head>
 
 <body>
   <main class="wrap">
-    <!-- DO NOT rename: keep logo.png -->
+    <!-- IMPORTANT: logo name is EXACTLY logo.png -->
     <img class="logo" src="logo.png" alt="Phoenix Logo" />
 
     <h1 class="title">Phoenix Business Builder</h1>
 
-    <a class="btn" href="#get-started">Get Started</a>
+    <a class="btn" href="#" aria-label="Get Started">Get Started</a>
   </main>
 </body>
 </html>
-```0
