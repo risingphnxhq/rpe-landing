@@ -1,102 +1,166 @@
-      el.style.left = px(rect.left - stageRect.left);
-      el.style.top  = px(rect.top  - stageRect.top);
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phoenix Business Builder</title>
 
-      // Remove it from the normal document flow after absolute positioning
-      // (so it stays where you dropped it)
+  <style>
+    :root {
+      --bg: #0b0b0b;
+      --gold1: #f7e7a8;
+      --gold2: #e6c97a;
+      --gold3: #cfa74a;
+      --gold4: #9c7b2f;
     }
 
-    function releaseDrag(){
-      if(!active) return;
-
-      try { active.releasePointerCapture && active.releasePointerCapture(active.__pid); } catch(e){}
-      active.classList.remove('dragging');
-      active.__pid = null;
-      active = null;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    function onDown(e){
-      const el = e.target.closest('.draggable');
-      if(!el) return;
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #1a1a1a, #000);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #fff;
+    }
 
-      // If it hasn't been made absolute yet, do it now
-      if(getComputedStyle(el).position !== 'absolute'){
-        // First, we must move everything into a shared absolute coordinate system.
-        // We'll absolute-position the whole card's children once (clean).
-        const children = Array.from(document.getElementById('card').children);
-        children.forEach(child => ensureAbsolute(child));
+    /* ===== PAGE WRAPPER ===== */
+    .page {
+      position: relative;
+      min-height: 100vh;
+    }
 
-        // Then kill the card layout so it doesn't "snap back"
-        const card = document.getElementById('card');
-        card.style.position = 'absolute';
-        card.style.left = '0';
-        card.style.top = '0';
-        card.style.width = '100%';
-        card.style.height = '100%';
-        card.style.transform = 'none';
+    /* ===== LOGO ===== */
+    .logo-wrap {
+      position: absolute;
+      top: 140px; /* 🔧 MOVE LOGO UP/DOWN HERE */
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .logo-wrap img {
+      width: 260px;
+      max-width: 70vw;
+      display: block;
+    }
+
+    /* ===== TEXT + BUTTON GROUP ===== */
+    .content {
+      position: absolute;
+      top: 440px; /* 🔧 MOVE TEXT + BUTTON UP/DOWN HERE */
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+    }
+
+    /* ===== TITLE WRAPPER ===== */
+    .title-wrap {
+      position: relative;
+      display: inline-block;
+    }
+
+    .title {
+      font-size: clamp(2.4rem, 5vw, 3.4rem);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+
+      background: linear-gradient(
+        180deg,
+        var(--gold1),
+        var(--gold2),
+        var(--gold3),
+        var(--gold4)
+      );
+
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* ===== TRADEMARK (BEHIND TEXT) ===== */
+    .tm-mark {
+      position: absolute;
+      top: -28px;
+      right: -42px;
+
+      font-size: 72px;
+      font-weight: 900;
+
+      background: linear-gradient(
+        180deg,
+        var(--gold1),
+        var(--gold3),
+        var(--gold4)
+      );
+
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+
+      opacity: 0.18;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* ===== BUTTON ===== */
+    .btn {
+      margin-top: 26px; /* 🔧 SPACE BELOW TITLE */
+      padding: 14px 42px;
+      font-size: 1rem;
+      font-weight: 600;
+
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+
+      background: linear-gradient(
+        180deg,
+        var(--gold1),
+        var(--gold2),
+        var(--gold3)
+      );
+
+      color: #111;
+    }
+
+    .btn:hover {
+      filter: brightness(1.05);
+    }
+
+    /* ===== MOBILE TUNING ===== */
+    @media (max-width: 600px) {
+      .logo-wrap {
+        top: 100px;
       }
 
-      active = el;
-      active.classList.add('dragging');
-
-      const r = active.getBoundingClientRect();
-      const sr = stage.getBoundingClientRect();
-
-      // pointer start
-      startX = e.clientX;
-      startY = e.clientY;
-
-      originLeft = r.left - sr.left;
-      originTop  = r.top  - sr.top;
-
-      // capture pointer (mobile + desktop)
-      active.__pid = e.pointerId;
-      try { active.setPointerCapture(e.pointerId); } catch(err){}
-
-      e.preventDefault();
-    }
-
-    function onMove(e){
-      if(!active) return;
-
-      const dx = e.clientX - startX;
-      const dy = e.clientY - startY;
-
-      active.style.left = px(originLeft + dx);
-      active.style.top  = px(originTop + dy);
-
-      e.preventDefault();
-    }
-
-    function onUp(){
-      releaseDrag();
-    }
-
-    // Stage listeners
-    stage.addEventListener('pointerdown', onDown);
-    stage.addEventListener('pointermove', onMove);
-    stage.addEventListener('pointerup', onUp);
-    stage.addEventListener('pointercancel', onUp);
-
-    // If pointer capture is lost, release
-    stage.addEventListener('lostpointercapture', () => releaseDrag());
-
-    // Click/tap outside to release
-    document.addEventListener('pointerdown', (e) => {
-      if(active && !e.target.closest('.draggable')){
-        releaseDrag();
+      .content {
+        top: 360px;
       }
-    }, true);
+    }
+  </style>
+</head>
 
-    // ESC = force release
-    document.addEventListener('keydown', (e) => {
-      if(e.key === 'Escape') releaseDrag();
-    });
+<body>
+  <div class="page">
 
-    // If the browser loses focus or tab changes, release
-    window.addEventListener('blur', releaseDrag);
-    document.addEventListener('visibilitychange', () => {
-      if(document.hidden) releaseDrag();
-    });
-  </script>
+    <!-- LOGO -->
+    <div class="logo-wrap">
+      <img src="logo.png" alt="Phoenix Logo" />
+    </div>
+
+    <!-- TEXT + BUTTON -->
+    <div class="content">
+      <div class="title-wrap">
+        <span class="tm-mark">™</span>
+        <div class="title">Phoenix Business Builder</div>
+      </div>
+
+      <button class="btn">Get Started</button>
+    </div>
+
+  </div>
 </body>
-</html>
+</html>    
