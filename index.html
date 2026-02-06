@@ -1,104 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phoenix Business Builder</title>
+
+  <style>
+    :root{
+      --bg1:#0b0b0b;
+      --bg2:#000000;
+
+      --gold1:#f7e7a8;
+      --gold2:#e6c97a;
+      --gold3:#cfa74a;
+      --gold4:#9c7b2f;
+
+      /* 🔧 ONLY TWO THINGS YOU SHOULD EVER TUNE */
+      --stack-push-down: 60px;  /* pushes the WHOLE stack down */
+      --stack-tightness: 14px;  /* space between logo → title → button */
     }
 
-    .title {
-      font-size: clamp(2.4rem, 5vw, 3.4rem);
-      font-weight: 800;
+    *{ box-sizing:border-box; margin:0; padding:0; }
+
+    body{
+      min-height:100vh;
+      background: radial-gradient(circle at top, #1a1a1a, var(--bg2));
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      display:flex;
+      justify-content:flex-start;
+      align-items:center;
+      color:#fff;
+    }
+
+    /* Whole page stack */
+    .stack{
+      width:100%;
+      max-width: 980px;
+      padding: 0 18px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap: var(--stack-tightness);
+      transform: translateY(var(--stack-push-down));
+    }
+
+    /* Logo */
+    .logo{
+      width: min(340px, 70vw);
+      height:auto;
+      display:block;
+      filter: drop-shadow(0 16px 40px rgba(212,175,55,.22));
+      user-select:none;
+      -webkit-user-drag:none;
+    }
+
+    /* Title wrapper so ™ can sit behind everything */
+    .title-wrap{
+      position: relative;
+      display:inline-block;
+      text-align:center;
+      line-height: 1.05;
+    }
+
+    .title{
+      font-weight: 900;
       letter-spacing: 0.02em;
+      font-size: clamp(2.4rem, 5.2vw, 4rem);
 
-      background: linear-gradient(
-        180deg,
-        var(--gold1),
-        var(--gold2),
-        var(--gold3),
-        var(--gold4)
-      );
-
+      background: linear-gradient(180deg, var(--gold1), var(--gold2), var(--gold3), var(--gold4));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+
+      text-shadow: 0 10px 22px rgba(212,175,55,.12);
+      white-space: nowrap; /* keep it from breaking into weird lines */
     }
 
-    /* ===== TRADEMARK (BEHIND TEXT) ===== */
-    .tm-mark {
-      position: absolute;
-      top: -28px;
-      right: -42px;
-
-      font-size: 72px;
+    /* ™ BEHIND TITLE (cannot detach) */
+    .title-wrap::after{
+      content: "™";
+      position:absolute;
+      inset:auto auto -26px 50%;
+      transform: translateX(140px); /* pushes ™ to the right of center */
+      font-size: 84px;
       font-weight: 900;
 
-      background: linear-gradient(
-        180deg,
-        var(--gold1),
-        var(--gold3),
-        var(--gold4)
-      );
-
-      -webkit-background-clip: text;
-      background-clip: text;
+      background: linear-gradient(180deg, var(--gold1), var(--gold3), var(--gold4));
+      -webkit-background-clip:text;
+      background-clip:text;
       color: transparent;
 
       opacity: 0.18;
-      pointer-events: none;
-      user-select: none;
+      pointer-events:none;
+      user-select:none;
+      white-space: nowrap;
     }
 
-    /* ===== BUTTON ===== */
-    .btn {
-      margin-top: 26px; /* 🔧 SPACE BELOW TITLE */
-      padding: 14px 42px;
-      font-size: 1rem;
-      font-weight: 600;
-
+    /* Button */
+    .btn{
+      margin-top: 6px;
+      padding: 14px 44px;
+      border: 0;
       border-radius: 999px;
-      border: none;
-      cursor: pointer;
+      cursor:pointer;
 
-      background: linear-gradient(
-        180deg,
-        var(--gold1),
-        var(--gold2),
-        var(--gold3)
-      );
+      font-size: 1rem;
+      font-weight: 700;
 
-      color: #111;
+      background: linear-gradient(180deg, var(--gold1), var(--gold2), var(--gold3));
+      color:#141414;
+
+      box-shadow: 0 10px 26px rgba(212,175,55,.14);
+      transition: transform .12s ease, filter .12s ease;
     }
 
-    .btn:hover {
-      filter: brightness(1.05);
-    }
+    .btn:hover{ filter: brightness(1.05); transform: translateY(-1px); }
+    .btn:active{ transform: translateY(0px); filter: brightness(.98); }
 
-    /* ===== MOBILE TUNING ===== */
-    @media (max-width: 600px) {
-      .logo-wrap {
-        top: 100px;
+    /* Mobile tuning */
+    @media (max-width: 600px){
+      :root{
+        --stack-push-down: 40px;
+        --stack-tightness: 12px;
       }
-
-      .content {
-        top: 360px;
+      .title-wrap::after{
+        transform: translateX(110px);
+        font-size: 72px;
       }
+      .title{ white-space: normal; } /* allow wrap only on small screens */
     }
   </style>
 </head>
 
 <body>
-  <div class="page">
+  <main class="stack">
+    <img class="logo" src="logo.png" alt="Phoenix Logo" />
 
-    <!-- LOGO -->
-    <div class="logo-wrap">
-      <img src="logo.png" alt="Phoenix Logo" />
+    <div class="title-wrap">
+      <div class="title">Phoenix Business Builder</div>
     </div>
 
-    <!-- TEXT + BUTTON -->
-    <div class="content">
-      <div class="title-wrap">
-        <span class="tm-mark">™</span>
-        <div class="title">Phoenix Business Builder</div>
-      </div>
-
-      <button class="btn">Get Started</button>
-    </div>
-
-  </div>
+    <button class="btn">Get Started</button>
+  </main>
 </body>
-</html>    
+</html>
