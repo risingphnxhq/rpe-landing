@@ -1,376 +1,215 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Phoenix Business Builder™</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Phoenix Business Builder</title>
 
   <style>
     :root{
-      /* ✅ change ONLY these if needed */
-      --bg: #0b0f14;
-      --gold: #d4af37;
-      --text-fill: #1b1b1b;          /* dark fill so gold outline pops */
-      --btn-bg: #f2f2f2;
-      --btn-text: #222;
-
-      /* default positions (used when you hit Reset) */
-      --logo-top: 50%;
-      --logo-left: 50%;
-
-      --title-top: 50%;
-      --title-left: 77%;
-
-      --btn-top: 50%;
-      --btn-left: 25%;
+      --bg0:#050607;
+      --bg1:#0b0e12;
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.08);
+      --text:#f3f5f7;
+      --muted: rgba(243,245,247,.75);
+      --muted2: rgba(243,245,247,.55);
+      --gold:#d1b35a;
+      --gold2:#8f7a2e;
+      --stroke: rgba(255,255,255,.12);
+      --shadow: 0 24px 70px rgba(0,0,0,.55);
+      --radius: 22px;
     }
 
-    *{ box-sizing: border-box; }
-    html, body { height: 100%; margin: 0; }
-
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; margin:0; }
     body{
-      background: radial-gradient(1200px 700px at 50% 45%, #121a22 0%, var(--bg) 60%, #06080b 100%);
-      overflow: hidden;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: manipulation;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(1200px 700px at 50% 45%, rgba(255,255,255,.06) 0%, rgba(255,255,255,0) 55%),
+        radial-gradient(900px 560px at 50% 65%, rgba(209,179,90,.08) 0%, rgba(209,179,90,0) 52%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      color: var(--text);
+      overflow-x:hidden;
     }
 
-    /* stage */
-    .stage{
-      position: relative;
-      width: 100vw;
-      height: 100vh;
+    .wrap{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 28px 18px;
+      position:relative;
     }
 
-    /* top editor bar */
-    .bar{
-      position: fixed;
-      top: 10px;
-      right: 12px;
-      z-index: 9999;
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      font-size: 14px;
-      color: #d7d7d7;
-      background: rgba(0,0,0,0.35);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 12px;
-      padding: 10px 12px;
-      backdrop-filter: blur(8px);
+    .card{
+      width:min(980px, 100%);
+      border-radius: var(--radius);
+      border: 1px solid var(--stroke);
+      background: linear-gradient(180deg, var(--panel), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+      padding: clamp(22px, 4vw, 44px);
+      position:relative;
+      overflow:hidden;
     }
 
-    .bar .pill{
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.10);
-      cursor: pointer;
-      user-select: none;
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(600px 220px at 50% 0%, rgba(209,179,90,.16) 0%, rgba(209,179,90,0) 70%),
+        radial-gradient(700px 260px at 50% 120%, rgba(255,255,255,.08) 0%, rgba(255,255,255,0) 65%);
+      pointer-events:none;
     }
 
-    .bar .pill:hover{ background: rgba(255,255,255,0.12); }
-
-    .bar .status{
-      font-weight: 700;
-      letter-spacing: 0.02em;
+    .inner{
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+      gap: 14px;
     }
 
-    /* draggable items */
-    .item{
-      position: absolute;
-      transform: translate(-50%, -50%);
-      cursor: default;
-      pointer-events: auto;
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom: 4px;
     }
 
-    /* show outlines when edit mode is ON */
-    .edit-on .item{
-      outline: 2px dashed rgba(255,255,255,0.35);
-      outline-offset: 6px;
-      cursor: grab;
+    .brand img{
+      width: 22px;
+      height: 22px;
+      object-fit:contain;
+      display:block;
+      filter: drop-shadow(0 6px 14px rgba(0,0,0,.55));
     }
 
-    .edit-on .item:active{ cursor: grabbing; }
-
-    /* LOGO */
-    #logo{
-      top: var(--logo-top);
-      left: var(--logo-left);
-      width: min(28vw, 260px);     /* ✅ logo fits on screen */
-      max-width: 320px;
-      min-width: 160px;
-      height: auto;
-      filter: drop-shadow(0 10px 28px rgba(0,0,0,0.55));
-      user-select: none;
-      -webkit-user-drag: none;
-      pointer-events: none; /* logo moved by its wrapper */
+    .brand .name{
+      font-size: 13px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 650;
+      line-height: 1;
     }
 
-    #logoWrap{
-      top: var(--logo-top);
-      left: var(--logo-left);
-    }
-
-    /* TITLE */
-    #title{
-      top: var(--title-top);
-      left: var(--title-left);
-
-      font-size: clamp(34px, 4.2vw, 58px);
-      font-weight: 900;
-      line-height: 1.06;
-      letter-spacing: 0.02em;
-
-      /* ✅ ensures it never breaks into a 2nd line */
-      white-space: nowrap;
-
-      /* ✅ dark fill so gold outline is visible */
-      color: var(--text-fill);
-
-      /* ✅ real outline */
-      -webkit-text-stroke: 1.6px var(--gold);
-
-      /* ✅ fallback outline (all directions) */
-      text-shadow:
-        -1px -1px 0 var(--gold),
-         1px -1px 0 var(--gold),
-        -1px  1px 0 var(--gold),
-         1px  1px 0 var(--gold);
-
-      /* little depth */
-      filter: drop-shadow(0 8px 18px rgba(0,0,0,0.55));
-    }
-
-    #title sup{
-      font-size: 0.42em;
-      vertical-align: super;
-      margin-left: 4px;
-
-      color: var(--text-fill);
-      -webkit-text-stroke: 1.2px var(--gold);
-
-      text-shadow:
-        -0.8px -0.8px 0 var(--gold),
-         0.8px -0.8px 0 var(--gold),
-        -0.8px  0.8px 0 var(--gold),
-         0.8px  0.8px 0 var(--gold);
-    }
-
-    /* BUTTON */
-    #btnWrap{
-      top: var(--btn-top);
-      left: var(--btn-left);
-    }
-
-    #btn{
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-
-      padding: 16px 46px;
-      border-radius: 999px;
-      border: 0;
-      background: var(--btn-bg);
-      color: var(--btn-text);
-
-      font-size: 18px;
-      font-weight: 700;
-
-      box-shadow: 0 14px 28px rgba(0,0,0,0.45);
-      cursor: pointer;
-    }
-
-    #btn:active{ transform: translateY(1px); }
-
-    /* Mobile tweaks */
-    @media (max-width: 680px){
-      #logo{ width: min(42vw, 220px); }
-      #btn{ padding: 14px 38px; font-size: 16px; }
-    }
-
-    /* helper text */
-    .hint{
-      position: fixed;
-      top: 66px;
-      right: 12px;
-      z-index: 9999;
+    .tagline{
       font-size: 12px;
-      color: rgba(255,255,255,0.72);
-      background: rgba(0,0,0,0.28);
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 10px;
-      padding: 8px 10px;
-      display: none;
-      max-width: 280px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted2);
+      margin-top: 2px;
     }
 
-    .edit-on .hint{ display: block; }
+    h1{
+      margin: 0;
+      font-size: clamp(34px, 5vw, 56px);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      text-shadow: 0 16px 40px rgba(0,0,0,.55);
+    }
+
+    .sub{
+      margin: 0;
+      font-size: clamp(14px, 2vw, 18px);
+      color: var(--muted);
+      max-width: 56ch;
+    }
+
+    .cta{
+      margin-top: 10px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+
+    .btn{
+      appearance:none;
+      border: 1px solid rgba(209,179,90,.55);
+      background: rgba(0,0,0,.25);
+      color: var(--text);
+      padding: 12px 22px;
+      border-radius: 999px;
+      font-weight: 750;
+      letter-spacing:.02em;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width: 160px;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease, box-shadow .12s ease;
+      box-shadow: 0 14px 28px rgba(0,0,0,.35);
+    }
+
+    .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(209,179,90,.10);
+      border-color: rgba(209,179,90,.75);
+      box-shadow: 0 18px 34px rgba(0,0,0,.42);
+    }
+
+    .btn:active{
+      transform: translateY(0px);
+    }
+
+    .footer-left{
+      position:absolute;
+      left: 18px;
+      bottom: 14px;
+      font-size: 11px;
+      letter-spacing:.12em;
+      text-transform: uppercase;
+      color: rgba(243,245,247,.45);
+    }
+
+    .footer-right{
+      position:absolute;
+      right: 18px;
+      bottom: 14px;
+      font-size: 12px;
+      color: rgba(243,245,247,.55);
+      font-weight: 650;
+    }
+
+    /* mobile breathing room */
+    @media (max-width: 520px){
+      .footer-left, .footer-right{ position:static; margin-top: 14px; }
+      .card{ padding-bottom: 26px; }
+      .inner{ gap: 12px; }
+    }
   </style>
 </head>
 
 <body>
-  <div class="stage" id="stage">
-    <!-- Editor Bar -->
-    <div class="bar" id="bar">
-      <div class="status" id="modeText">Edit Mode: OFF</div>
-      <div class="pill" id="toggleEdit">Toggle Edit</div>
-      <div class="pill" id="reset">Reset Positions</div>
-    </div>
+  <main class="wrap">
+    <section class="card" aria-label="Phoenix Business Builder landing">
+      <div class="inner">
 
-    <div class="hint">
-      Drag logo / title / button anywhere.<br/>
-      Positions save automatically in this browser.
-    </div>
+        <div class="brand" aria-label="Brand">
+          <img src="LOGO_URL_HERE" alt="Phoenix Crest" />
+          <div class="name">Phoenix Crest</div>
+        </div>
 
-    <!-- LOGO (wrapper is draggable) -->
-    <div class="item" id="logoWrap" data-key="logo">
-      <!-- ✅ put your correct file path here -->
-      <img id="logo" src="phoenix_logo.png" alt="Phoenix Logo" />
-    </div>
+        <div class="tagline">Start with clarity. Scale with discipline.</div>
 
-    <!-- TITLE -->
-    <div class="item" id="title" data-key="title">
-      Phoenix Business Builder<sup>™</sup>
-    </div>
+        <h1>Phoenix Business Builder</h1>
 
-    <!-- BUTTON -->
-    <div class="item" id="btnWrap" data-key="btn">
-      <button id="btn" onclick="location.href='#get-started'">Get Started</button>
-    </div>
-  </div>
+        <p class="sub">Build real businesses — fast, clean, and correctly.</p>
 
-  <script>
-    // ====== EDIT MODE + DRAG/DROP (SAVES POSITIONS) ======
-    const stage = document.getElementById('stage');
-    const body = document.body;
+        <div class="cta">
+          <a class="btn" href="GET_STARTED_URL_HERE">Get Started</a>
+        </div>
 
-    const toggleBtn = document.getElementById('toggleEdit');
-    const resetBtn  = document.getElementById('reset');
-    const modeText  = document.getElementById('modeText');
+      </div>
 
-    const items = [
-      document.getElementById('logoWrap'),
-      document.getElementById('title'),
-      document.getElementById('btnWrap')
-    ];
-
-    // localStorage keys
-    const KEY_MODE = 'pbb_edit_mode';
-    const KEY_POS  = 'pbb_positions';
-
-    let editMode = (localStorage.getItem(KEY_MODE) === 'true');
-
-    function setEditMode(on){
-      editMode = !!on;
-      localStorage.setItem(KEY_MODE, String(editMode));
-      body.classList.toggle('edit-on', editMode);
-      modeText.textContent = 'Edit Mode: ' + (editMode ? 'ON' : 'OFF');
-    }
-
-    // Load saved positions
-    function loadPositions(){
-      const raw = localStorage.getItem(KEY_POS);
-      if(!raw) return;
-      try{
-        const pos = JSON.parse(raw);
-        applyPos(pos.logo, 'logoWrap');
-        applyPos(pos.title, 'title');
-        applyPos(pos.btn, 'btnWrap');
-      }catch(e){}
-    }
-
-    function savePositions(){
-      const pos = {
-        logo: readPos('logoWrap'),
-        title: readPos('title'),
-        btn: readPos('btnWrap')
-      };
-      localStorage.setItem(KEY_POS, JSON.stringify(pos));
-    }
-
-    function readPos(id){
-      const el = document.getElementById(id);
-      return { top: el.style.top || '', left: el.style.left || '' };
-    }
-
-    function applyPos(p, id){
-      if(!p) return;
-      const el = document.getElementById(id);
-      if(p.top)  el.style.top  = p.top;
-      if(p.left) el.style.left = p.left;
-    }
-
-    // Default reset positions (matches :root variables)
-    function resetPositions(){
-      localStorage.removeItem(KEY_POS);
-      // clear inline styles so CSS vars take over
-      items.forEach(el => { el.style.top = ''; el.style.left = ''; });
-    }
-
-    toggleBtn.addEventListener('click', () => setEditMode(!editMode));
-    resetBtn.addEventListener('click', () => { resetPositions(); });
-
-    // Drag handling
-    let active = null;
-    let offsetX = 0, offsetY = 0;
-
-    function pointerDown(e, el){
-      if(!editMode) return;
-      active = el;
-      const rect = el.getBoundingClientRect();
-      offsetX = e.clientX - rect.left;
-      offsetY = e.clientY - rect.top;
-      el.setPointerCapture(e.pointerId);
-      e.preventDefault();
-    }
-
-    function pointerMove(e){
-      if(!editMode || !active) return;
-      const st = stage.getBoundingClientRect();
-
-      // new top/left in px relative to stage
-      let x = e.clientX - st.left - offsetX;
-      let y = e.clientY - st.top  - offsetY;
-
-      // clamp inside stage
-      x = Math.max(0, Math.min(x, st.width  - active.offsetWidth));
-      y = Math.max(0, Math.min(y, st.height - active.offsetHeight));
-
-      // store as percent so it scales with screen size
-      const leftPct = ((x + active.offsetWidth/2) / st.width)  * 100;
-      const topPct  = ((y + active.offsetHeight/2)/ st.height) * 100;
-
-      active.style.left = leftPct.toFixed(2) + '%';
-      active.style.top  = topPct.toFixed(2) + '%';
-    }
-
-    function pointerUp(e){
-      if(!editMode || !active) return;
-      try{ active.releasePointerCapture(e.pointerId); }catch(_){}
-      active = null;
-      savePositions();
-    }
-
-    // attach pointer listeners
-    items.forEach(el => {
-      el.addEventListener('pointerdown', (e)=>pointerDown(e, el));
-      el.addEventListener('pointerup', pointerUp);
-      el.addEventListener('pointercancel', pointerUp);
-    });
-
-    window.addEventListener('pointermove', pointerMove);
-    window.addEventListener('pointerup', pointerUp);
-
-    // Init
-    setEditMode(editMode);
-    loadPositions();
-
-    // ====== QUICK FIX: If logo image is too large, it auto-fits anyway via CSS.
-    // Just make sure filename matches EXACTLY: phoenix_logo.png
-  </script>
+      <div class="footer-left">Production</div>
+      <div class="footer-right">v1.0.0</div>
+    </section>
+  </main>
 </body>
 </html>
-```0
