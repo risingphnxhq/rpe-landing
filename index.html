@@ -10,189 +10,273 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-
 :root{
---bg:#0a0a0a;
---text:#f3f4f6;
---muted:#b7bec8;
---gold:#c9a227;
+  --bg:#0a0a0a;
+  --text:#f3f4f6;
+  --muted:#b7bec8;
+  --gold:#c9a227;
 }
 
-*{box-sizing:border-box;margin:0;padding:0;}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
 html,body{
-width:100%;
-height:100%;
-background:var(--bg);
-color:var(--text);
-overflow:hidden;
-font-family:"Source Sans 3",Arial,sans-serif;
+  width:100%;
+  height:100%;
+  background:var(--bg);
+  color:var(--text);
+  overflow:hidden;
 }
 
-/* PAGE */
+body{
+  font-family:"Source Sans 3", Arial, sans-serif;
+}
 
 .page{
-position:relative;
-width:100%;
-height:100vh;
+  position:relative;
+  width:100%;
+  height:100vh;
+  min-height:100vh;
+  background:var(--bg);
 }
 
-/* 🔥 FULL SIZE SEAL TEST */
-
+/* HERO / SEAL */
 .seal{
-position:absolute;
-top:12px;
-left:18px;
-
-/* FULL SCALE TEST */
-width:160px;
-
-height:auto;
-opacity:.97;
+  position:absolute;
+  top:14px;
+  left:18px;
+  width:160px;
+  height:auto;
+  opacity:.97;
 }
 
-/* HERO */
-
+/* MAIN HERO STACK */
 .hero{
-width:min(1200px,92vw);
-margin:0 auto;
-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-
-/* DO NOT CHANGE — PERFECT CENTER */
-transform:translateY(-3vh);
-padding-top:40px;
+  width:min(1200px, 92vw);
+  margin:0 auto;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  transform:translateY(-3vh);
+  padding-top:40px;
 }
 
-/* HEADLINE */
-
+/* HEADLINE — SMALLER */
 .headline{
-font-family:"Cinzel",serif;
-font-size:clamp(32px,4.4vw,68px);
-line-height:1.08;
-letter-spacing:.06em;
-text-transform:uppercase;
-font-weight:600;
-max-width:1100px;
-
-/* BELOW SEAL PLANE */
-margin-top:78px;
-margin-bottom:34px;
+  font-family:"Cinzel", serif;
+  font-size:clamp(28px, 3.9vw, 58px);
+  line-height:1.08;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  font-weight:600;
+  max-width:980px;
+  margin-top:92px;
+  margin-bottom:30px;
 }
-
-/* SUBLINE */
 
 .subline{
-font-size:clamp(18px,1.55vw,24px);
-line-height:1.45;
-color:var(--muted);
-max-width:760px;
-margin-bottom:36px;
+  font-family:"Source Sans 3", Arial, sans-serif;
+  font-size:clamp(18px, 1.55vw, 24px);
+  line-height:1.45;
+  color:var(--muted);
+  max-width:760px;
+  margin-bottom:36px;
+  font-weight:400;
 }
-
-/* PRICE */
 
 .price{
-font-family:"Cinzel",serif;
-font-size:clamp(22px,2vw,34px);
-letter-spacing:.08em;
-text-transform:uppercase;
-color:var(--gold);
-margin-bottom:40px;
+  font-family:"Cinzel", serif;
+  font-size:clamp(22px, 2vw, 34px);
+  line-height:1.1;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:40px;
+  font-weight:600;
 }
 
-/* CTA */
-
 .cta{
-display:inline-flex;
-align-items:center;
-justify-content:center;
-min-width:250px;
-padding:17px 34px;
-border:1px solid var(--gold);
-color:var(--text);
-text-decoration:none;
-text-transform:uppercase;
-font-family:"Cinzel",serif;
-font-size:18px;
-letter-spacing:.1em;
-background:transparent;
-transition:.18s ease;
-margin-bottom:22px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:250px;
+  padding:17px 34px;
+  border:1px solid var(--gold);
+  color:var(--text);
+  text-decoration:none;
+  text-transform:uppercase;
+  font-family:"Cinzel", serif;
+  font-size:18px;
+  letter-spacing:.1em;
+  background:transparent;
+  transition:background-color .18s ease, color .18s ease, border-color .18s ease;
+  margin-bottom:22px;
 }
 
 .cta:hover{
-background:var(--gold);
-color:#111;
+  background:var(--gold);
+  color:#111;
+  border-color:var(--gold);
 }
-
-/* TRUST */
 
 .trust{
-font-size:13px;
-letter-spacing:.08em;
-text-transform:uppercase;
-color:#8f9398;
-max-width:760px;
-margin-bottom:18px;
+  font-size:13px;
+  line-height:1.45;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#8f9398;
+  max-width:760px;
+  margin-bottom:18px;
 }
 
-/* FOOTER */
+.trust strong{
+  color:#c7ccd2;
+  font-weight:600;
+}
 
 .footer{
-position:absolute;
-bottom:22px;
-width:100%;
-text-align:center;
-font-size:12px;
-letter-spacing:.08em;
-color:#6d7176;
+  position:absolute;
+  bottom:22px;
+  left:0;
+  width:100%;
+  text-align:center;
+  font-size:12px;
+  letter-spacing:.08em;
+  color:#6d7176;
 }
 
 .footer a{
-color:#8a9096;
-text-decoration:none;
-margin:0 10px;
+  color:#8a9096;
+  text-decoration:none;
+  margin:0 10px;
 }
 
-.footer a:hover{color:#c9ccd1;}
+.footer a:hover{
+  color:#c9ccd1;
+}
 
+/* TABLET / SMALL LAPTOP */
+@media (max-width: 900px){
+  html, body{
+    overflow:auto;
+  }
+
+  .page{
+    min-height:100vh;
+    height:auto;
+  }
+
+  .seal{
+    top:18px;
+    left:18px;
+    width:115px;
+  }
+
+  .hero{
+    min-height:100vh;
+    height:auto;
+    width:min(92vw, 1200px);
+    padding:120px 0 56px;
+    transform:none;
+  }
+
+  .headline{
+    margin-top:84px;
+    margin-bottom:28px;
+    max-width:95vw;
+  }
+
+  .subline{
+    margin-bottom:28px;
+  }
+
+  .price{
+    margin-bottom:30px;
+  }
+
+  .cta{
+    min-width:220px;
+    width:min(320px, 80vw);
+  }
+
+  .footer{
+    position:relative;
+    bottom:auto;
+    padding-bottom:24px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 560px){
+  .seal{
+    width:88px;
+    top:14px;
+    left:14px;
+  }
+
+  .headline{
+    font-size:clamp(24px, 7vw, 38px);
+    letter-spacing:.04em;
+    margin-top:72px;
+  }
+
+  .subline{
+    font-size:16px;
+  }
+
+  .price{
+    font-size:20px;
+  }
+
+  .cta{
+    font-size:16px;
+    padding:15px 22px;
+  }
+
+  .trust{
+    font-size:11px;
+  }
+}
 </style>
 </head>
 
 <body>
-
 <main class="page">
 
-<img src="phoenix-os-logo.png" class="seal">
+  <img src="phoenix-os-logo.png" class="seal" alt="Phoenix OS Seal">
 
-<section class="hero">
+  <section class="hero">
+    <h1 class="headline">Phoenix Business Readiness Snapshot</h1>
 
-<h1 class="headline">Phoenix Business Readiness Snapshot</h1>
+    <p class="subline">
+      Private-access diagnostic for operators evaluating structure, stability, and execution readiness.
+    </p>
 
-<p class="subline">
-Private-access diagnostic for operators evaluating structure, stability, and execution readiness.
-</p>
+    <div class="price">$99 · Private Release</div>
 
-<div class="price">$99 · Private Release</div>
+    <a class="cta" href="https://buy.stripe.com/https://buy.stripe.com/dRm00ja2k0E44HYeYZfYY07">
+      Unlock Access
+    </a>
 
-<a class="cta" href="https://buy.stripe.com/https://buy.stripe.com/dRm00ja2k0E44HYeYZfYY07">Unlock Access</a>
+    <p class="trust">
+      Access is granted after payment confirmation. <strong>NACE</strong> will guide your entry.
+    </p>
+  </section>
 
-<p class="trust">
-Access is granted after payment confirmation. <strong>NACE</strong> will guide your entry.
-</p>
-
-</section>
-
-<footer class="footer">
-© Rising Phoenix Enterprises &nbsp;|&nbsp; <a href="#">Terms</a> &nbsp;|&nbsp; <a href="#">Privacy</a>
-</footer>
+  <footer class="footer">
+    © Rising Phoenix Enterprises
+    &nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="#">Terms</a>
+    &nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="#">Privacy</a>
+  </footer>
 
 </main>
-
 </body>
 </html> 
