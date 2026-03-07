@@ -1,282 +1,295 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PBRS Access</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PBRS Access</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
 
-<style>
-:root{
-  --bg:#0a0a0a;
-  --text:#f3f4f6;
-  --muted:#b7bec8;
-  --gold:#c9a227;
-}
+  <style>
+    :root{
+      --bg:#0a0a0a;
+      --text:#f3f4f6;
+      --muted:#b7bec8;
+      --gold:#c9a227;
+      --fine:#7f868f;
+      --fine-link:#8f98a3;
+    }
 
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
 
-html,body{
-  width:100%;
-  height:100%;
-  background:var(--bg);
-  color:var(--text);
-  overflow:hidden;
-}
+    html, body{
+      width:100%;
+      height:100%;
+      background:var(--bg);
+      color:var(--text);
+      overflow:hidden;
+    }
 
-body{
-  font-family:"Source Sans 3", Arial, sans-serif;
-}
+    body{
+      font-family:"Source Sans 3", Arial, sans-serif;
+    }
 
-.page{
-  position:relative;
-  width:100%;
-  height:100vh;
-  min-height:100vh;
-  background:var(--bg);
-}
+    .page{
+      position:relative;
+      width:100%;
+      height:100vh;
+      min-height:100vh;
+      background:var(--bg);
+    }
 
-/* HERO / SEAL */
-.seal{
-  position:absolute;
-  top:14px;
-  left:18px;
-  width:160px;
-  height:auto;
-  opacity:.97;
-}
+    /* Larger hero seal */
+    .seal{
+      position:absolute;
+      top:10px;
+      left:16px;
+      width:180px;
+      height:auto;
+      opacity:0.97;
+    }
 
-/* MAIN HERO STACK */
-.hero{
-  width:min(1200px, 92vw);
-  margin:0 auto;
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  transform:translateY(-3vh);
-  padding-top:40px;
-}
+    .hero{
+      width:min(1200px, 92vw);
+      margin:0 auto;
+      height:100vh;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      transform:translateY(-3vh);
+      padding-top:40px;
+    }
 
-/* HEADLINE — SMALLER */
-.headline{
-  font-family:"Cinzel", serif;
-  font-size:clamp(28px, 3.9vw, 58px);
-  line-height:1.08;
-  letter-spacing:.05em;
-  text-transform:uppercase;
-  font-weight:600;
-  max-width:980px;
-  margin-top:92px;
-  margin-bottom:30px;
-}
+    .headline{
+      font-family:"Cinzel", serif;
+      font-size:clamp(28px, 3.9vw, 58px);
+      line-height:1.08;
+      letter-spacing:0.05em;
+      text-transform:uppercase;
+      font-weight:600;
+      max-width:980px;
+      margin-top:92px;
+      margin-bottom:30px;
+    }
 
-.subline{
-  font-family:"Source Sans 3", Arial, sans-serif;
-  font-size:clamp(18px, 1.55vw, 24px);
-  line-height:1.45;
-  color:var(--muted);
-  max-width:760px;
-  margin-bottom:36px;
-  font-weight:400;
-}
+    .subline{
+      font-family:"Source Sans 3", Arial, sans-serif;
+      font-size:clamp(18px, 1.55vw, 24px);
+      line-height:1.45;
+      color:var(--muted);
+      max-width:760px;
+      margin-bottom:36px;
+      font-weight:400;
+    }
 
-.price{
-  font-family:"Cinzel", serif;
-  font-size:clamp(22px, 2vw, 34px);
-  line-height:1.1;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:var(--gold);
-  margin-bottom:40px;
-  font-weight:600;
-}
+    .price{
+      font-family:"Cinzel", serif;
+      font-size:clamp(22px, 2vw, 34px);
+      line-height:1.1;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      color:var(--gold);
+      margin-bottom:40px;
+      font-weight:600;
+    }
 
-.cta{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-width:250px;
-  padding:17px 34px;
-  border:1px solid var(--gold);
-  color:var(--text);
-  text-decoration:none;
-  text-transform:uppercase;
-  font-family:"Cinzel", serif;
-  font-size:18px;
-  letter-spacing:.1em;
-  background:transparent;
-  transition:background-color .18s ease, color .18s ease, border-color .18s ease;
-  margin-bottom:22px;
-}
+    .cta{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:250px;
+      padding:17px 34px;
+      border:1px solid var(--gold);
+      color:var(--text);
+      text-decoration:none;
+      text-transform:uppercase;
+      font-family:"Cinzel", serif;
+      font-size:18px;
+      letter-spacing:0.1em;
+      background:transparent;
+      transition:background-color .18s ease, color .18s ease, border-color .18s ease;
+      margin-bottom:18px;
+    }
 
-.cta:hover{
-  background:var(--gold);
-  color:#111;
-  border-color:var(--gold);
-}
+    .cta:hover{
+      background:var(--gold);
+      color:#111;
+      border-color:var(--gold);
+    }
 
-.trust{
-  font-size:13px;
-  line-height:1.45;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:#8f9398;
-  max-width:760px;
-  margin-bottom:18px;
-}
+    .trust{
+      font-size:13px;
+      line-height:1.45;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      color:#8f9398;
+      max-width:760px;
+      margin-bottom:10px;
+    }
 
-.trust strong{
-  color:#c7ccd2;
-  font-weight:600;
-}
+    /* Smallest writing disclaimer */
+    .disclaimer{
+      font-size:10px;
+      line-height:1.35;
+      letter-spacing:0.03em;
+      color:var(--fine);
+      max-width:760px;
+      margin-bottom:18px;
+    }
 
-.footer{
-  position:absolute;
-  bottom:22px;
-  left:0;
-  width:100%;
-  text-align:center;
-  font-size:12px;
-  letter-spacing:.08em;
-  color:#6d7176;
-}
+    .trust strong{
+      color:#c7ccd2;
+      font-weight:600;
+    }
 
-.footer a{
-  color:#8a9096;
-  text-decoration:none;
-  margin:0 10px;
-}
+    .footer{
+      position:absolute;
+      bottom:22px;
+      left:0;
+      width:100%;
+      text-align:center;
+      font-size:12px;
+      letter-spacing:0.08em;
+      color:#6d7176;
+    }
 
-.footer a:hover{
-  color:#c9ccd1;
-}
+    .footer a{
+      color:var(--fine-link);
+      text-decoration:none;
+      margin:0 10px;
+    }
 
-/* TABLET / SMALL LAPTOP */
-@media (max-width: 900px){
-  html, body{
-    overflow:auto;
-  }
+    .footer a:hover{
+      color:#c9ccd1;
+    }
 
-  .page{
-    min-height:100vh;
-    height:auto;
-  }
+    @media (max-width: 900px){
+      html, body{
+        overflow:auto;
+      }
 
-  .seal{
-    top:18px;
-    left:18px;
-    width:115px;
-  }
+      .page{
+        min-height:100vh;
+        height:auto;
+      }
 
-  .hero{
-    min-height:100vh;
-    height:auto;
-    width:min(92vw, 1200px);
-    padding:120px 0 56px;
-    transform:none;
-  }
+      .seal{
+        top:18px;
+        left:18px;
+        width:128px;
+      }
 
-  .headline{
-    margin-top:84px;
-    margin-bottom:28px;
-    max-width:95vw;
-  }
+      .hero{
+        min-height:100vh;
+        height:auto;
+        width:min(92vw, 1200px);
+        padding:120px 0 56px;
+        transform:none;
+      }
 
-  .subline{
-    margin-bottom:28px;
-  }
+      .headline{
+        margin-top:84px;
+        margin-bottom:28px;
+        max-width:95vw;
+      }
 
-  .price{
-    margin-bottom:30px;
-  }
+      .subline{
+        margin-bottom:28px;
+      }
 
-  .cta{
-    min-width:220px;
-    width:min(320px, 80vw);
-  }
+      .price{
+        margin-bottom:30px;
+      }
 
-  .footer{
-    position:relative;
-    bottom:auto;
-    padding-bottom:24px;
-  }
-}
+      .cta{
+        min-width:220px;
+        width:min(320px, 80vw);
+      }
 
-/* MOBILE */
-@media (max-width: 560px){
-  .seal{
-    width:88px;
-    top:14px;
-    left:14px;
-  }
+      .footer{
+        position:relative;
+        bottom:auto;
+        padding-bottom:24px;
+      }
+    }
 
-  .headline{
-    font-size:clamp(24px, 7vw, 38px);
-    letter-spacing:.04em;
-    margin-top:72px;
-  }
+    @media (max-width: 560px){
+      .seal{
+        width:98px;
+        top:14px;
+        left:14px;
+      }
 
-  .subline{
-    font-size:16px;
-  }
+      .headline{
+        font-size:clamp(24px, 7vw, 38px);
+        letter-spacing:0.04em;
+        margin-top:72px;
+      }
 
-  .price{
-    font-size:20px;
-  }
+      .subline{
+        font-size:16px;
+      }
 
-  .cta{
-    font-size:16px;
-    padding:15px 22px;
-  }
+      .price{
+        font-size:20px;
+      }
 
-  .trust{
-    font-size:11px;
-  }
-}
-</style>
+      .cta{
+        font-size:16px;
+        padding:15px 22px;
+      }
+
+      .trust{
+        font-size:11px;
+      }
+
+      .disclaimer{
+        font-size:9px;
+      }
+    }
+  </style>
 </head>
-
 <body>
-<main class="page">
+  <main class="page">
+    <img src="phoenix-os-logo.png" class="seal" alt="Phoenix OS Seal" />
 
-  <img src="phoenix-os-logo.png" class="seal" alt="Phoenix OS Seal">
+    <section class="hero">
+      <h1 class="headline">Phoenix Business Readiness Snapshot</h1>
 
-  <section class="hero">
-    <h1 class="headline">Phoenix Business Readiness Snapshot</h1>
+      <p class="subline">
+        Private-access diagnostic for operators evaluating structure, stability, and execution readiness.
+      </p>
 
-    <p class="subline">
-      Private-access diagnostic for operators evaluating structure, stability, and execution readiness.
-    </p>
+      <div class="price">$99 · Private Release</div>
 
-    <div class="price">$99 · Private Release</div>
+      <a class="cta" href="https://buy.stripe.com/https://buy.stripe.com/dRm00ja2k0E44HYeYZfYY07">
+        Unlock Access
+      </a>
 
-    <a class="cta" href="https://buy.stripe.com/https://buy.stripe.com/dRm00ja2k0E44HYeYZfYY07">
-      Unlock Access
-    </a>
+      <p class="trust">
+        Access is granted after payment confirmation. <strong>NACE</strong> will guide your entry.
+      </p>
 
-    <p class="trust">
-      Access is granted after payment confirmation. <strong>NACE</strong> will guide your entry.
-    </p>
-  </section>
+      <p class="disclaimer">
+        PBRS is an informational modeling tool and does not constitute legal, financial, or professional advice.
+      </p>
+    </section>
 
-  <footer class="footer">
-    © Rising Phoenix Enterprises
-    &nbsp;&nbsp;|&nbsp;&nbsp;
-    <a href="#">Terms</a>
-    &nbsp;&nbsp;|&nbsp;&nbsp;
-    <a href="#">Privacy</a>
-  </footer>
-
-</main>
+    <footer class="footer">
+      © Rising Phoenix Enterprises
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="#">Terms</a>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      <a href="#">Privacy</a>
+    </footer>
+  </main>
 </body>
 </html> 
