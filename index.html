@@ -1,376 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Phoenix Business Builder™</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Phoenix Business Readiness Snapshot</title>
 
-  <style>
-    :root{
-      /* ✅ change ONLY these if needed */
-      --bg: #0b0f14;
-      --gold: #d4af37;
-      --text-fill: #1b1b1b;          /* dark fill so gold outline pops */
-      --btn-bg: #f2f2f2;
-      --btn-text: #222;
+<style>
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:#0a0a0a;
+color:#fff;
+text-align:center;
+}
 
-      /* default positions (used when you hit Reset) */
-      --logo-top: 50%;
-      --logo-left: 50%;
+.container{
+max-width:900px;
+margin:auto;
+padding:40px 20px;
+}
 
-      --title-top: 50%;
-      --title-left: 77%;
+.logo{
+width:140px;
+margin-bottom:25px;
+}
 
-      --btn-top: 50%;
-      --btn-left: 25%;
-    }
+h1{
+font-size:38px;
+margin-bottom:10px;
+}
 
-    *{ box-sizing: border-box; }
-    html, body { height: 100%; margin: 0; }
+.sub{
+color:#bbb;
+font-size:18px;
+margin-bottom:10px;
+}
 
-    body{
-      background: radial-gradient(1200px 700px at 50% 45%, #121a22 0%, var(--bg) 60%, #06080b 100%);
-      overflow: hidden;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: manipulation;
-    }
+.powered{
+color:#caa64b;
+margin-bottom:35px;
+}
 
-    /* stage */
-    .stage{
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-    }
+.cta{
+background:#caa64b;
+color:#000;
+padding:16px 32px;
+border:none;
+font-size:18px;
+cursor:pointer;
+margin-top:20px;
+}
 
-    /* top editor bar */
-    .bar{
-      position: fixed;
-      top: 10px;
-      right: 12px;
-      z-index: 9999;
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      font-size: 14px;
-      color: #d7d7d7;
-      background: rgba(0,0,0,0.35);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 12px;
-      padding: 10px 12px;
-      backdrop-filter: blur(8px);
-    }
+.section{
+margin-top:70px;
+}
 
-    .bar .pill{
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.10);
-      cursor: pointer;
-      user-select: none;
-    }
+ul{
+list-style:none;
+padding:0;
+line-height:2;
+color:#ddd;
+}
 
-    .bar .pill:hover{ background: rgba(255,255,255,0.12); }
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+margin-top:20px;
+}
 
-    .bar .status{
-      font-weight: 700;
-      letter-spacing: 0.02em;
-    }
+.card{
+background:#111;
+padding:20px;
+border:1px solid #222;
+}
 
-    /* draggable items */
-    .item{
-      position: absolute;
-      transform: translate(-50%, -50%);
-      cursor: default;
-      pointer-events: auto;
-    }
-
-    /* show outlines when edit mode is ON */
-    .edit-on .item{
-      outline: 2px dashed rgba(255,255,255,0.35);
-      outline-offset: 6px;
-      cursor: grab;
-    }
-
-    .edit-on .item:active{ cursor: grabbing; }
-
-    /* LOGO */
-    #logo{
-      top: var(--logo-top);
-      left: var(--logo-left);
-      width: min(28vw, 260px);     /* ✅ logo fits on screen */
-      max-width: 320px;
-      min-width: 160px;
-      height: auto;
-      filter: drop-shadow(0 10px 28px rgba(0,0,0,0.55));
-      user-select: none;
-      -webkit-user-drag: none;
-      pointer-events: none; /* logo moved by its wrapper */
-    }
-
-    #logoWrap{
-      top: var(--logo-top);
-      left: var(--logo-left);
-    }
-
-    /* TITLE */
-    #title{
-      top: var(--title-top);
-      left: var(--title-left);
-
-      font-size: clamp(34px, 4.2vw, 58px);
-      font-weight: 900;
-      line-height: 1.06;
-      letter-spacing: 0.02em;
-
-      /* ✅ ensures it never breaks into a 2nd line */
-      white-space: nowrap;
-
-      /* ✅ dark fill so gold outline is visible */
-      color: var(--text-fill);
-
-      /* ✅ real outline */
-      -webkit-text-stroke: 1.6px var(--gold);
-
-      /* ✅ fallback outline (all directions) */
-      text-shadow:
-        -1px -1px 0 var(--gold),
-         1px -1px 0 var(--gold),
-        -1px  1px 0 var(--gold),
-         1px  1px 0 var(--gold);
-
-      /* little depth */
-      filter: drop-shadow(0 8px 18px rgba(0,0,0,0.55));
-    }
-
-    #title sup{
-      font-size: 0.42em;
-      vertical-align: super;
-      margin-left: 4px;
-
-      color: var(--text-fill);
-      -webkit-text-stroke: 1.2px var(--gold);
-
-      text-shadow:
-        -0.8px -0.8px 0 var(--gold),
-         0.8px -0.8px 0 var(--gold),
-        -0.8px  0.8px 0 var(--gold),
-         0.8px  0.8px 0 var(--gold);
-    }
-
-    /* BUTTON */
-    #btnWrap{
-      top: var(--btn-top);
-      left: var(--btn-left);
-    }
-
-    #btn{
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-
-      padding: 16px 46px;
-      border-radius: 999px;
-      border: 0;
-      background: var(--btn-bg);
-      color: var(--btn-text);
-
-      font-size: 18px;
-      font-weight: 700;
-
-      box-shadow: 0 14px 28px rgba(0,0,0,0.45);
-      cursor: pointer;
-    }
-
-    #btn:active{ transform: translateY(1px); }
-
-    /* Mobile tweaks */
-    @media (max-width: 680px){
-      #logo{ width: min(42vw, 220px); }
-      #btn{ padding: 14px 38px; font-size: 16px; }
-    }
-
-    /* helper text */
-    .hint{
-      position: fixed;
-      top: 66px;
-      right: 12px;
-      z-index: 9999;
-      font-size: 12px;
-      color: rgba(255,255,255,0.72);
-      background: rgba(0,0,0,0.28);
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 10px;
-      padding: 8px 10px;
-      display: none;
-      max-width: 280px;
-    }
-
-    .edit-on .hint{ display: block; }
-  </style>
+.price{
+font-size:34px;
+margin-top:10px;
+}
+</style>
 </head>
 
 <body>
-  <div class="stage" id="stage">
-    <!-- Editor Bar -->
-    <div class="bar" id="bar">
-      <div class="status" id="modeText">Edit Mode: OFF</div>
-      <div class="pill" id="toggleEdit">Toggle Edit</div>
-      <div class="pill" id="reset">Reset Positions</div>
-    </div>
 
-    <div class="hint">
-      Drag logo / title / button anywhere.<br/>
-      Positions save automatically in this browser.
-    </div>
+<div class="container">
 
-    <!-- LOGO (wrapper is draggable) -->
-    <div class="item" id="logoWrap" data-key="logo">
-      <!-- ✅ put your correct file path here -->
-      <img id="logo" src="phoenix_logo.png" alt="Phoenix Logo" />
-    </div>
+<img src="phoenix-os-logo.png" class="logo"/>
 
-    <!-- TITLE -->
-    <div class="item" id="title" data-key="title">
-      Phoenix Business Builder<sup>™</sup>
-    </div>
+<h1>Phoenix Business Readiness Snapshot</h1>
 
-    <!-- BUTTON -->
-    <div class="item" id="btnWrap" data-key="btn">
-      <button id="btn" onclick="location.href='#get-started'">Get Started</button>
-    </div>
-  </div>
+<div class="sub">
+A fast, structured diagnostic that shows exactly where your business stands — and what must happen next.
+</div>
 
-  <script>
-    // ====== EDIT MODE + DRAG/DROP (SAVES POSITIONS) ======
-    const stage = document.getElementById('stage');
-    const body = document.body;
+<div class="powered">Powered by Phoenix OS</div>
 
-    const toggleBtn = document.getElementById('toggleEdit');
-    const resetBtn  = document.getElementById('reset');
-    const modeText  = document.getElementById('modeText');
+<button class="cta">Run Your Diagnostic</button>
 
-    const items = [
-      document.getElementById('logoWrap'),
-      document.getElementById('title'),
-      document.getElementById('btnWrap')
-    ];
+<div class="section">
+<h2>Who This Is For</h2>
+<ul>
+<li>Founders stuck in operational chaos</li>
+<li>Businesses preparing for funding or scaling</li>
+<li>Owners unsure what’s actually broken</li>
+<li>Operators ready for structured growth</li>
+</ul>
+</div>
 
-    // localStorage keys
-    const KEY_MODE = 'pbb_edit_mode';
-    const KEY_POS  = 'pbb_positions';
+<div class="section">
+<h2>What PBRS Reveals</h2>
+<div class="grid">
 
-    let editMode = (localStorage.getItem(KEY_MODE) === 'true');
+<div class="card">
+<b>STRUCTURE</b><br>
+Legal, systems, organization, positioning
+</div>
 
-    function setEditMode(on){
-      editMode = !!on;
-      localStorage.setItem(KEY_MODE, String(editMode));
-      body.classList.toggle('edit-on', editMode);
-      modeText.textContent = 'Edit Mode: ' + (editMode ? 'ON' : 'OFF');
-    }
+<div class="card">
+<b>FINANCIAL</b><br>
+Cash control, reporting, readiness, stability
+</div>
 
-    // Load saved positions
-    function loadPositions(){
-      const raw = localStorage.getItem(KEY_POS);
-      if(!raw) return;
-      try{
-        const pos = JSON.parse(raw);
-        applyPos(pos.logo, 'logoWrap');
-        applyPos(pos.title, 'title');
-        applyPos(pos.btn, 'btnWrap');
-      }catch(e){}
-    }
+<div class="card">
+<b>OPERATIONS</b><br>
+Execution flow, SOP strength, efficiency
+</div>
 
-    function savePositions(){
-      const pos = {
-        logo: readPos('logoWrap'),
-        title: readPos('title'),
-        btn: readPos('btnWrap')
-      };
-      localStorage.setItem(KEY_POS, JSON.stringify(pos));
-    }
+<div class="card">
+<b>RISK & COMPLIANCE</b><br>
+Exposure gaps, vulnerabilities, blind spots
+</div>
 
-    function readPos(id){
-      const el = document.getElementById(id);
-      return { top: el.style.top || '', left: el.style.left || '' };
-    }
+</div>
+</div>
 
-    function applyPos(p, id){
-      if(!p) return;
-      const el = document.getElementById(id);
-      if(p.top)  el.style.top  = p.top;
-      if(p.left) el.style.left = p.left;
-    }
+<div class="section">
+<h2>How It Works</h2>
+<ul>
+<li>Complete intake (10–15 minutes)</li>
+<li>System runs structured analysis</li>
+<li>Receive readiness score + breakdown</li>
+<li>Clear next-step direction</li>
+</ul>
+</div>
 
-    // Default reset positions (matches :root variables)
-    function resetPositions(){
-      localStorage.removeItem(KEY_POS);
-      // clear inline styles so CSS vars take over
-      items.forEach(el => { el.style.top = ''; el.style.left = ''; });
-    }
+<div class="section">
+<h2>What You Receive</h2>
+<ul>
+<li>Total readiness score</li>
+<li>4-pillar breakdown</li>
+<li>Priority issues identified</li>
+<li>Clear next-step recommendation</li>
+</ul>
+</div>
 
-    toggleBtn.addEventListener('click', () => setEditMode(!editMode));
-    resetBtn.addEventListener('click', () => { resetPositions(); });
+<div class="section">
+<h2>Run the Diagnostic</h2>
 
-    // Drag handling
-    let active = null;
-    let offsetX = 0, offsetY = 0;
+<div class="price">$99 · Limited Release</div>
 
-    function pointerDown(e, el){
-      if(!editMode) return;
-      active = el;
-      const rect = el.getBoundingClientRect();
-      offsetX = e.clientX - rect.left;
-      offsetY = e.clientY - rect.top;
-      el.setPointerCapture(e.pointerId);
-      e.preventDefault();
-    }
+<button class="cta">Start PBRS</button>
 
-    function pointerMove(e){
-      if(!editMode || !active) return;
-      const st = stage.getBoundingClientRect();
+</div>
 
-      // new top/left in px relative to stage
-      let x = e.clientX - st.left - offsetX;
-      let y = e.clientY - st.top  - offsetY;
+<div class="section">
+<h2>What Happens After</h2>
+PBRS is the entry point into the Phoenix Business System.<br><br>
+If ready:<br><br>
+<b>structured execution begins.</b>
+</div>
 
-      // clamp inside stage
-      x = Math.max(0, Math.min(x, st.width  - active.offsetWidth));
-      y = Math.max(0, Math.min(y, st.height - active.offsetHeight));
+</div>
 
-      // store as percent so it scales with screen size
-      const leftPct = ((x + active.offsetWidth/2) / st.width)  * 100;
-      const topPct  = ((y + active.offsetHeight/2)/ st.height) * 100;
-
-      active.style.left = leftPct.toFixed(2) + '%';
-      active.style.top  = topPct.toFixed(2) + '%';
-    }
-
-    function pointerUp(e){
-      if(!editMode || !active) return;
-      try{ active.releasePointerCapture(e.pointerId); }catch(_){}
-      active = null;
-      savePositions();
-    }
-
-    // attach pointer listeners
-    items.forEach(el => {
-      el.addEventListener('pointerdown', (e)=>pointerDown(e, el));
-      el.addEventListener('pointerup', pointerUp);
-      el.addEventListener('pointercancel', pointerUp);
-    });
-
-    window.addEventListener('pointermove', pointerMove);
-    window.addEventListener('pointerup', pointerUp);
-
-    // Init
-    setEditMode(editMode);
-    loadPositions();
-
-    // ====== QUICK FIX: If logo image is too large, it auto-fits anyway via CSS.
-    // Just make sure filename matches EXACTLY: phoenix_logo.png
-  </script>
 </body>
-</html>
-```0
+</html> 
