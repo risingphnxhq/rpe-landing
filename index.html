@@ -11,12 +11,14 @@
 
   <style>
     :root{
-      --bg:#0a0a0a;
+      --bg:#050505;
+      --bg-soft:#0c0f13;
       --text:#f3f4f6;
-      --muted:#b7bec8;
+      --muted:#a8afb8;
+      --muted-2:#7f8791;
       --gold:#c9a227;
-      --fine:#7f868f;
-      --fine-link:#8f98a3;
+      --gold-soft:#8f741a;
+      --line:#232831;
     }
 
     *{
@@ -35,6 +37,9 @@
 
     body{
       font-family:"Source Sans 3", Arial, sans-serif;
+      background:
+        radial-gradient(circle at 50% 58%, rgba(201,162,39,0.10) 0%, rgba(201,162,39,0.03) 22%, rgba(0,0,0,0) 52%),
+        linear-gradient(180deg, #090909 0%, #060606 100%);
     }
 
     .page{
@@ -42,21 +47,59 @@
       width:100%;
       height:100vh;
       min-height:100vh;
-      background:var(--bg);
+      overflow:hidden;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.015) 0, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 100%),
+        linear-gradient(180deg, rgba(255,255,255,0.015) 0, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 100%);
+      background-size: 120px 120px;
     }
 
-    /* Larger hero seal */
+    .page::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.00) 15%, rgba(255,255,255,0.00) 85%, rgba(255,255,255,0.02) 100%);
+      pointer-events:none;
+    }
+
     .seal{
       position:absolute;
-      top:10px;
-      left:16px;
-      width:180px;
+      top:34px;
+      left:42px;
+      width:126px;
       height:auto;
-      opacity:0.97;
+      opacity:0.96;
+      filter: drop-shadow(0 0 14px rgba(201,162,39,0.08));
+    }
+
+    .system-label{
+      position:absolute;
+      top:44px;
+      left:50%;
+      transform:translateX(-50%);
+      text-align:center;
+      pointer-events:none;
+    }
+
+    .system-kicker{
+      font-family:"Cinzel", serif;
+      font-size:12px;
+      letter-spacing:0.24em;
+      text-transform:uppercase;
+      color:#cfd4da;
+      margin-bottom:7px;
+    }
+
+    .system-sub{
+      font-size:11px;
+      letter-spacing:0.20em;
+      text-transform:uppercase;
+      color:var(--muted-2);
     }
 
     .hero{
-      width:min(1200px, 92vw);
+      width:min(1100px, 88vw);
       margin:0 auto;
       height:100vh;
       display:flex;
@@ -64,29 +107,27 @@
       justify-content:center;
       align-items:center;
       text-align:center;
-      transform:translateY(-3vh);
-      padding-top:40px;
+      transform:translateY(-0.5vh);
     }
 
     .headline{
       font-family:"Cinzel", serif;
-      font-size:clamp(28px, 3.9vw, 58px);
-      line-height:1.08;
+      font-size:clamp(32px, 4.5vw, 72px);
+      line-height:1.04;
       letter-spacing:0.05em;
       text-transform:uppercase;
       font-weight:600;
-      max-width:980px;
-      margin-top:92px;
-      margin-bottom:30px;
+      max-width:1120px;
+      margin-bottom:26px;
+      text-shadow:0 0 18px rgba(255,255,255,0.03);
     }
 
     .subline{
-      font-family:"Source Sans 3", Arial, sans-serif;
-      font-size:clamp(18px, 1.55vw, 24px);
+      font-size:clamp(17px, 1.5vw, 24px);
       line-height:1.45;
       color:var(--muted);
       max-width:760px;
-      margin-bottom:36px;
+      margin-bottom:34px;
       font-weight:400;
     }
 
@@ -97,7 +138,7 @@
       letter-spacing:0.08em;
       text-transform:uppercase;
       color:var(--gold);
-      margin-bottom:40px;
+      margin-bottom:36px;
       font-weight:600;
     }
 
@@ -105,24 +146,25 @@
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      min-width:250px;
-      padding:17px 34px;
+      min-width:278px;
+      padding:17px 36px;
       border:1px solid var(--gold);
       color:var(--text);
       text-decoration:none;
       text-transform:uppercase;
       font-family:"Cinzel", serif;
-      font-size:18px;
-      letter-spacing:0.1em;
-      background:transparent;
-      transition:background-color .18s ease, color .18s ease, border-color .18s ease;
-      margin-bottom:18px;
+      font-size:17px;
+      letter-spacing:0.12em;
+      background:rgba(255,255,255,0.01);
+      transition:background-color .18s ease, color .18s ease, border-color .18s ease, transform .18s ease;
+      margin-bottom:20px;
     }
 
     .cta:hover{
       background:var(--gold);
       color:#111;
       border-color:var(--gold);
+      transform:translateY(-1px);
     }
 
     .trust{
@@ -135,40 +177,81 @@
       margin-bottom:10px;
     }
 
-    /* Smallest writing disclaimer */
-    .disclaimer{
-      font-size:10px;
-      line-height:1.35;
-      letter-spacing:0.03em;
-      color:var(--fine);
-      max-width:760px;
-      margin-bottom:18px;
-    }
-
     .trust strong{
       color:#c7ccd2;
       font-weight:600;
     }
 
+    .disclaimer{
+      font-size:10px;
+      line-height:1.45;
+      color:#68707a;
+      max-width:760px;
+      margin-bottom:36px;
+    }
+
+    .stack-bar{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:16px;
+      padding:14px 24px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,0.02);
+      min-width:min(760px, 88vw);
+    }
+
+    .stack-label{
+      font-size:11px;
+      letter-spacing:0.18em;
+      text-transform:uppercase;
+      color:var(--muted-2);
+      white-space:nowrap;
+    }
+
+    .stack-flow{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      flex-wrap:wrap;
+      font-family:"Cinzel", serif;
+      font-size:14px;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      color:#8d949d;
+    }
+
+    .stack-flow .active{
+      color:var(--gold);
+    }
+
+    .stack-flow .arrow{
+      color:#525964;
+      font-family:"Source Sans 3", Arial, sans-serif;
+      font-size:15px;
+      letter-spacing:normal;
+    }
+
     .footer{
       position:absolute;
-      bottom:22px;
-      left:0;
-      width:100%;
+      bottom:18px;
+      left:50%;
+      transform:translateX(-50%);
       text-align:center;
-      font-size:12px;
-      letter-spacing:0.08em;
-      color:#6d7176;
+      font-size:11px;
+      color:#7b828c;
+      letter-spacing:0.06em;
+      width:90%;
     }
 
     .footer a{
-      color:var(--fine-link);
+      color:#9ba3ad;
       text-decoration:none;
-      margin:0 10px;
     }
 
     .footer a:hover{
-      color:#c9ccd1;
+      color:#cfd4da;
     }
 
     @media (max-width: 900px){
@@ -182,23 +265,27 @@
       }
 
       .seal{
-        top:18px;
-        left:18px;
-        width:128px;
+        top:24px;
+        left:24px;
+        width:96px;
+      }
+
+      .system-label{
+        top:28px;
+        left:50%;
+        transform:translateX(-50%);
       }
 
       .hero{
         min-height:100vh;
         height:auto;
-        width:min(92vw, 1200px);
-        padding:120px 0 56px;
+        width:min(92vw, 1100px);
+        padding:148px 0 96px;
         transform:none;
       }
 
       .headline{
-        margin-top:84px;
-        margin-bottom:28px;
-        max-width:95vw;
+        margin-bottom:22px;
       }
 
       .subline{
@@ -206,84 +293,117 @@
       }
 
       .price{
-        margin-bottom:30px;
+        margin-bottom:28px;
       }
 
       .cta{
-        min-width:220px;
-        width:min(320px, 80vw);
+        min-width:240px;
+        width:min(340px, 82vw);
+      }
+
+      .stack-bar{
+        min-width:100%;
+        padding:14px 18px;
       }
 
       .footer{
         position:relative;
         bottom:auto;
-        padding-bottom:24px;
+        left:auto;
+        transform:none;
+        padding:0 0 24px;
+        width:100%;
       }
     }
 
-    @media (max-width: 560px){
+    @media (max-width: 640px){
+      .page{
+        padding-bottom:12px;
+      }
+
       .seal{
-        width:98px;
-        top:14px;
-        left:14px;
+        top:26px;
+        left:18px;
+        width:92px;
+      }
+
+      .system-label{
+        top:30px;
+        width:100%;
+        padding:0 96px 0 112px;
+      }
+
+      .system-kicker{
+        font-size:10px;
+        letter-spacing:0.18em;
+      }
+
+      .system-sub{
+        font-size:9px;
+        letter-spacing:0.16em;
+      }
+
+      .hero{
+        padding-top:72px;
       }
 
       .headline{
-        font-size:clamp(24px, 7vw, 38px);
+        font-size:clamp(26px, 8vw, 44px);
         letter-spacing:0.04em;
-        margin-top:72px;
+        margin-bottom:16px;
       }
 
       .subline{
         font-size:16px;
+        line-height:1.5;
+        margin-bottom:24px;
       }
 
       .price{
-        font-size:20px;
+        font-size:22px;
+        margin-bottom:24px;
       }
 
       .cta{
         font-size:16px;
-        padding:15px 22px;
+        padding:16px 22px;
+        margin-bottom:16px;
       }
 
       .trust{
         font-size:11px;
+        margin-bottom:8px;
       }
 
       .disclaimer{
         font-size:9px;
+        margin-bottom:24px;
+      }
+
+      .stack-bar{
+        flex-direction:column;
+        gap:8px;
+      }
+
+      .stack-label{
+        font-size:10px;
+      }
+
+      .stack-flow{
+        font-size:12px;
+        gap:8px;
       }
     }
- /* =========================
-   MOBILE HERO ALIGNMENT FIX
-========================= */
-
-@media (max-width: 640px){
-
-  .hero{
-    padding-top: 48px;   /* pushes entire block down slightly */
-  }
-
-  .seal{
-    margin-bottom: 18px; /* tighten logo → headline spacing */
-  }
-
-  .headline{
-    margin-top: 0;
-    margin-bottom: 14px; /* tighter visual balance */
-  }
-
-  .subline{
-    margin-bottom: 22px;
-  }
-
-} 
- </style>
+  </style>
 </head>
 <body>
   <main class="page">
-    <img src="phoenix-os-logo.png" class="seal" alt="Phoenix OS Seal" />
+    <img src="phoenix-os-logo.png" alt="Phoenix OS Seal" class="seal" />
+
+    <div class="system-label">
+      <div class="system-kicker">Phoenix Business System</div>
+      <div class="system-sub">Entry Protocol — Layer 01</div>
+    </div>
 
     <section class="hero">
       <h1 class="headline">Phoenix Business Readiness Snapshot</h1>
@@ -294,9 +414,7 @@
 
       <div class="price">$99 · Private Release</div>
 
-      <a class="cta" href="https://buy.stripe.com/dRm00ja2k0E44HYeYZfYY07">
-        Unlock Access
-      </a>
+      <a class="cta" href="https://buy.stripe.com/dRm00ja2k0E44HYeYZfY07">Enter System</a>
 
       <p class="trust">
         Access is granted after payment confirmation. <strong>NACE</strong> will guide your entry.
@@ -305,13 +423,25 @@
       <p class="disclaimer">
         PBRS is an informational modeling tool and does not constitute legal, financial, or professional advice.
       </p>
+
+      <div class="stack-bar">
+        <div class="stack-label">System Flow</div>
+        <div class="stack-flow">
+          <span class="active">PBRS</span>
+          <span class="arrow">→</span>
+          <span>PBB</span>
+          <span class="arrow">→</span>
+          <span>PNC</span>
+          <span class="arrow">→</span>
+          <span>PBS</span>
+        </div>
+      </div>
     </section>
 
     <footer class="footer">
-      © Rising Phoenix Enterprises
-      &nbsp;&nbsp;|&nbsp;&nbsp;
+      © Rising Phoenix Enterprises &nbsp; | &nbsp;
       <a href="#">Terms</a>
-      &nbsp;&nbsp;|&nbsp;&nbsp;
+      &nbsp; | &nbsp;
       <a href="#">Privacy</a>
     </footer>
   </main>
