@@ -10,7 +10,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    /* RESET */
     * {
       margin: 0;
       padding: 0;
@@ -23,7 +22,7 @@
       --bg-3: #111927;
       --text: #f5f7fa;
       --muted: rgba(255,255,255,0.78);
-      --muted-soft: rgba(255,255,255,0.55);
+      --muted-soft: rgba(255,255,255,0.56);
       --line: rgba(255,255,255,0.10);
       --gold: #d4a934;
       --gold-glow: rgba(212,169,52,0.16);
@@ -42,19 +41,16 @@
     body {
       cursor: default;
       background:
-        radial-gradient(circle at 50% 34%, rgba(212,169,52,0.07) 0%, rgba(212,169,52,0.015) 18%, rgba(0,0,0,0) 42%),
-        radial-gradient(circle at 50% 72%, rgba(66,110,180,0.08) 0%, rgba(66,110,180,0.015) 22%, rgba(0,0,0,0) 52%),
+        radial-gradient(circle at 50% 36%, rgba(212,169,52,0.06) 0%, rgba(212,169,52,0.012) 18%, rgba(0,0,0,0) 42%),
+        radial-gradient(circle at 50% 74%, rgba(66,110,180,0.07) 0%, rgba(66,110,180,0.012) 22%, rgba(0,0,0,0) 52%),
         linear-gradient(180deg, var(--bg-3) 0%, var(--bg-2) 38%, var(--bg-1) 100%);
     }
 
     .hero {
       position: relative;
       height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 120px 24px 90px;
       overflow: hidden;
+      padding: 24px;
     }
 
     .hero::before {
@@ -62,10 +58,10 @@
       position: absolute;
       inset: 0;
       background-image:
-        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+        linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
       background-size: 120px 120px;
-      opacity: 0.16;
+      opacity: 0.14;
       pointer-events: none;
     }
 
@@ -80,72 +76,80 @@
 
     .hero-logo {
       position: absolute;
-      left: 28px;
-      top: 28px;
-      width: 108px;
-      max-width: 18vw;
+      left: 26px;
+      top: 26px;
+      width: 102px;
+      max-width: 16vw;
       opacity: 0.95;
       filter: drop-shadow(0 0 12px rgba(212,169,52,0.08));
-      z-index: 2;
+      z-index: 3;
     }
 
     .hero-inner {
       position: relative;
-      z-index: 3;
-      width: 100%;
-      max-width: 1080px;
+      z-index: 4;
+      height: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
+      transform: translateY(-18px);
+      padding: 40px 0 82px;
     }
 
     .hero-eyebrow {
       display: inline-block;
       font-family: "Cinzel", serif;
-      font-size: 12px;
-      letter-spacing: 0.32em;
+      font-size: 11px;
+      letter-spacing: 0.34em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.75);
-      margin-bottom: 26px;
-      padding-bottom: 12px;
+      color: rgba(255,255,255,0.74);
+      margin-bottom: 22px;
+      padding-bottom: 10px;
       border-bottom: 1px solid rgba(255,255,255,0.12);
     }
 
     .hero h1 {
       font-family: "Cinzel", serif;
-      font-size: clamp(36px, 4vw, 58px);
-      line-height: 1.12;
+      font-size: clamp(30px, 3.2vw, 46px);
+      line-height: 1.1;
       font-weight: 600;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.035em;
       text-transform: uppercase;
-      margin-bottom: 26px;
+      margin-bottom: 24px;
+      max-width: 980px;
       text-shadow:
-        0 0 12px rgba(255,255,255,0.05),
-        0 0 18px rgba(212,169,52,0.05);
+        0 0 10px rgba(255,255,255,0.05),
+        0 0 16px rgba(212,169,52,0.04);
     }
 
     .hero-sub {
-      max-width: 720px;
-      margin: 0 auto 38px;
-      font-size: clamp(17px, 1.3vw, 20px);
-      line-height: 1.6;
+      max-width: 760px;
+      margin: 0 auto 30px;
+      font-size: clamp(16px, 1.15vw, 18px);
+      line-height: 1.56;
       color: var(--muted);
     }
 
     .hero-price {
       font-family: "Cinzel", serif;
-      font-size: clamp(20px, 1.6vw, 26px);
+      font-size: clamp(18px, 1.35vw, 24px);
       letter-spacing: 0.12em;
       color: var(--gold);
-      margin-bottom: 36px;
-      text-shadow: 0 0 12px var(--gold-glow);
+      margin-bottom: 28px;
       text-transform: uppercase;
+      text-shadow: 0 0 12px var(--gold-glow);
     }
 
     .hero-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 280px;
-      padding: 18px 44px;
+      min-width: 290px;
+      padding: 17px 42px;
       border: 1px solid var(--gold);
       color: var(--text);
       text-decoration: none;
@@ -158,20 +162,22 @@
         inset 0 0 0 1px rgba(255,255,255,0.02),
         0 0 0 1px rgba(212,169,52,0.02);
       transition: all 0.25s ease;
+      margin-bottom: 20px;
     }
 
     .hero-btn:hover {
       background: linear-gradient(180deg, #d4a934, #b88e1f);
-      color: #0c0c0c;
+      color: #0b0b0b;
       box-shadow: 0 0 28px rgba(212,169,52,0.18);
       transform: translateY(-1px);
     }
 
     .hero-note {
-      margin-top: 22px;
-      font-size: 12px;
-      line-height: 1.7;
+      font-size: 11px;
+      line-height: 1.65;
       color: var(--muted-soft);
+      max-width: 780px;
+      margin-bottom: 26px;
     }
 
     .hero-note strong {
@@ -180,13 +186,13 @@
     }
 
     .hero-flow {
-      margin: 40px auto 0;
-      max-width: 720px;
+      width: min(760px, 90%);
       border: 1px solid var(--line);
       background:
         linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.01) 100%);
-      padding: 18px 20px;
+      padding: 16px 18px;
       backdrop-filter: blur(6px);
+      margin-bottom: 18px;
     }
 
     .hero-flow-inner {
@@ -196,7 +202,7 @@
       gap: 12px;
       flex-wrap: wrap;
       font-family: "Cinzel", serif;
-      font-size: 14px;
+      font-size: 13px;
       letter-spacing: 0.10em;
       text-transform: uppercase;
     }
@@ -218,14 +224,14 @@
     }
 
     .hero-footer {
-      margin-top: 18px;
-      font-size: 11px;
-      color: rgba(255,255,255,0.55);
+      font-size: 10px;
+      color: rgba(255,255,255,0.58);
       letter-spacing: 0.04em;
+      line-height: 1.4;
     }
 
     .hero-footer a {
-      color: rgba(255,255,255,0.72);
+      color: rgba(255,255,255,0.74);
       text-decoration: none;
     }
 
@@ -233,64 +239,62 @@
       color: #ffffff;
     }
 
-    @media (max-width: 768px) {
-      html,
-      body {
-        overflow: hidden;
-      }
-
-      .hero {
-        height: 100vh;
-        padding: 108px 18px 72px;
-      }
-
+    @media (max-width: 900px) {
       .hero-logo {
         width: 82px;
         left: 18px;
         top: 18px;
       }
 
+      .hero-inner {
+        transform: translateY(-10px);
+        padding: 42px 0 74px;
+      }
+
       .hero-eyebrow {
         font-size: 10px;
         letter-spacing: 0.24em;
-        margin-bottom: 18px;
-        padding-bottom: 10px;
+        margin-bottom: 16px;
       }
 
       .hero h1 {
-        font-size: clamp(28px, 8vw, 42px);
-        line-height: 1.1;
+        font-size: clamp(26px, 6vw, 38px);
+        line-height: 1.08;
         margin-bottom: 18px;
+        max-width: 92%;
       }
 
       .hero-sub {
-        font-size: 16px;
-        line-height: 1.52;
-        margin-bottom: 26px;
+        font-size: 15px;
+        line-height: 1.5;
+        margin-bottom: 22px;
         max-width: 92%;
       }
 
       .hero-price {
-        font-size: 20px;
-        margin-bottom: 24px;
+        font-size: 18px;
+        margin-bottom: 22px;
       }
 
       .hero-btn {
         min-width: 240px;
-        width: 100%;
-        max-width: 320px;
-        padding: 16px 24px;
+        width: min(320px, 86%);
+        padding: 15px 22px;
         font-size: 14px;
+        margin-bottom: 16px;
       }
 
       .hero-note {
-        font-size: 11px;
-        line-height: 1.6;
+        font-size: 10px;
+        line-height: 1.55;
+        margin-bottom: 20px;
+        max-width: 92%;
       }
 
       .hero-flow {
-        margin-top: 28px;
-        padding: 15px 12px;
+        width: min(92%, 700px);
+        padding: 14px 12px;
+        margin-bottom: 14px;
       }
 
       .hero-flow-inner {
@@ -305,8 +309,7 @@
       }
 
       .hero-footer {
-        margin-top: 14px;
-        font-size: 10px;
+        font-size: 9px;
       }
     }
   </style>
