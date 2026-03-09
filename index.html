@@ -1,198 +1,360 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PBRS Access</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phoenix Business Readiness Snapshot</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-<style>
+  <style>
+    /* RESET */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-:root{
---bg:#0a0a0a;
---text:#f3f4f6;
---muted:#b7bec8;
---gold:#c9a227;
-}
+    :root {
+      --bg-1: #030507;
+      --bg-2: #0a1018;
+      --bg-3: #111927;
+      --text: #f5f7fa;
+      --muted: rgba(255,255,255,0.78);
+      --muted-soft: rgba(255,255,255,0.55);
+      --line: rgba(255,255,255,0.10);
+      --gold: #d4a934;
+      --gold-glow: rgba(212,169,52,0.16);
+    }
 
-*{box-sizing:border-box;margin:0;padding:0;}
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #05070a;
+      color: var(--text);
+      font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    }
 
-html,body{
-width:100%;
-height:100%;
-background:var(--bg);
-color:var(--text);
-overflow:hidden;
-font-family:"Source Sans 3",Arial,sans-serif;
-}
+    body {
+      cursor: default;
+      background:
+        radial-gradient(circle at 50% 34%, rgba(212,169,52,0.07) 0%, rgba(212,169,52,0.015) 18%, rgba(0,0,0,0) 42%),
+        radial-gradient(circle at 50% 72%, rgba(66,110,180,0.08) 0%, rgba(66,110,180,0.015) 22%, rgba(0,0,0,0) 52%),
+        linear-gradient(180deg, var(--bg-3) 0%, var(--bg-2) 38%, var(--bg-1) 100%);
+    }
 
-/* PAGE */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 24px 90px;
+      overflow: hidden;
+    }
 
-.page{
-position:relative;
-width:100%;
-height:100vh;
-}
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 120px 120px;
+      opacity: 0.16;
+      pointer-events: none;
+    }
 
-/* 🔥 FULL SIZE SEAL TEST */
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 16%, rgba(255,255,255,0) 84%, rgba(255,255,255,0.03) 100%);
+      pointer-events: none;
+    }
 
-.seal{
-position:absolute;
-top:12px;
-left:18px;
+    .hero-logo {
+      position: absolute;
+      left: 28px;
+      top: 28px;
+      width: 108px;
+      max-width: 18vw;
+      opacity: 0.95;
+      filter: drop-shadow(0 0 12px rgba(212,169,52,0.08));
+      z-index: 2;
+    }
 
-/* FULL SCALE TEST */
-width:160px;
+    .hero-inner {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+      max-width: 1080px;
+      text-align: center;
+    }
 
-height:auto;
-opacity:.97;
-}
+    .hero-eyebrow {
+      display: inline-block;
+      font-family: "Cinzel", serif;
+      font-size: 12px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 26px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
 
-/* HERO */
+    .hero h1 {
+      font-family: "Cinzel", serif;
+      font-size: clamp(36px, 4vw, 58px);
+      line-height: 1.12;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 26px;
+      text-shadow:
+        0 0 12px rgba(255,255,255,0.05),
+        0 0 18px rgba(212,169,52,0.05);
+    }
 
-.hero{
-width:min(1200px,92vw);
-margin:0 auto;
-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
+    .hero-sub {
+      max-width: 720px;
+      margin: 0 auto 38px;
+      font-size: clamp(17px, 1.3vw, 20px);
+      line-height: 1.6;
+      color: var(--muted);
+    }
 
-/* DO NOT CHANGE — PERFECT CENTER */
-transform:translateY(-3vh);
-padding-top:40px;
-}
+    .hero-price {
+      font-family: "Cinzel", serif;
+      font-size: clamp(20px, 1.6vw, 26px);
+      letter-spacing: 0.12em;
+      color: var(--gold);
+      margin-bottom: 36px;
+      text-shadow: 0 0 12px var(--gold-glow);
+      text-transform: uppercase;
+    }
 
-/* HEADLINE */
+    .hero-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 280px;
+      padding: 18px 44px;
+      border: 1px solid var(--gold);
+      color: var(--text);
+      text-decoration: none;
+      font-family: "Cinzel", serif;
+      font-size: 15px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.02);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,0.02),
+        0 0 0 1px rgba(212,169,52,0.02);
+      transition: all 0.25s ease;
+    }
 
-.headline{
-font-family:"Cinzel",serif;
-font-size:clamp(32px,4.4vw,68px);
-line-height:1.08;
-letter-spacing:.06em;
-text-transform:uppercase;
-font-weight:600;
-max-width:1100px;
+    .hero-btn:hover {
+      background: linear-gradient(180deg, #d4a934, #b88e1f);
+      color: #0c0c0c;
+      box-shadow: 0 0 28px rgba(212,169,52,0.18);
+      transform: translateY(-1px);
+    }
 
-/* BELOW SEAL PLANE */
-margin-top:78px;
-margin-bottom:34px;
-}
+    .hero-note {
+      margin-top: 22px;
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--muted-soft);
+    }
 
-/* SUBLINE */
+    .hero-note strong {
+      color: rgba(255,255,255,0.92);
+      font-weight: 600;
+    }
 
-.subline{
-font-size:clamp(18px,1.55vw,24px);
-line-height:1.45;
-color:var(--muted);
-max-width:760px;
-margin-bottom:36px;
-}
+    .hero-flow {
+      margin: 40px auto 0;
+      max-width: 720px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.01) 100%);
+      padding: 18px 20px;
+      backdrop-filter: blur(6px);
+    }
 
-/* PRICE */
+    .hero-flow-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-family: "Cinzel", serif;
+      font-size: 14px;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+    }
 
-.price{
-font-family:"Cinzel",serif;
-font-size:clamp(22px,2vw,34px);
-letter-spacing:.08em;
-text-transform:uppercase;
-color:var(--gold);
-margin-bottom:40px;
-}
+    .hero-flow-label {
+      color: var(--muted-soft);
+      margin-right: 8px;
+    }
 
-/* CTA */
+    .hero-flow .active {
+      color: var(--gold);
+      text-shadow: 0 0 12px rgba(212,169,52,0.12);
+    }
 
-.cta{
-display:inline-flex;
-align-items:center;
-justify-content:center;
-min-width:250px;
-padding:17px 34px;
-border:1px solid var(--gold);
-color:var(--text);
-text-decoration:none;
-text-transform:uppercase;
-font-family:"Cinzel",serif;
-font-size:18px;
-letter-spacing:.1em;
-background:transparent;
-transition:.18s ease;
-margin-bottom:22px;
-}
+    .hero-flow .arrow {
+      color: rgba(255,255,255,0.38);
+      font-family: "Inter", sans-serif;
+      letter-spacing: 0;
+    }
 
-.cta:hover{
-background:var(--gold);
-color:#111;
-}
+    .hero-footer {
+      margin-top: 18px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.04em;
+    }
 
-/* TRUST */
+    .hero-footer a {
+      color: rgba(255,255,255,0.72);
+      text-decoration: none;
+    }
 
-.trust{
-font-size:13px;
-letter-spacing:.08em;
-text-transform:uppercase;
-color:#8f9398;
-max-width:760px;
-margin-bottom:18px;
-}
+    .hero-footer a:hover {
+      color: #ffffff;
+    }
 
-/* FOOTER */
+    @media (max-width: 768px) {
+      html,
+      body {
+        overflow: hidden;
+      }
 
-.footer{
-position:absolute;
-bottom:22px;
-width:100%;
-text-align:center;
-font-size:12px;
-letter-spacing:.08em;
-color:#6d7176;
-}
+      .hero {
+        height: 100vh;
+        padding: 108px 18px 72px;
+      }
 
-.footer a{
-color:#8a9096;
-text-decoration:none;
-margin:0 10px;
-}
+      .hero-logo {
+        width: 82px;
+        left: 18px;
+        top: 18px;
+      }
 
-.footer a:hover{color:#c9ccd1;}
+      .hero-eyebrow {
+        font-size: 10px;
+        letter-spacing: 0.24em;
+        margin-bottom: 18px;
+        padding-bottom: 10px;
+      }
 
-</style>
+      .hero h1 {
+        font-size: clamp(28px, 8vw, 42px);
+        line-height: 1.1;
+        margin-bottom: 18px;
+      }
+
+      .hero-sub {
+        font-size: 16px;
+        line-height: 1.52;
+        margin-bottom: 26px;
+        max-width: 92%;
+      }
+
+      .hero-price {
+        font-size: 20px;
+        margin-bottom: 24px;
+      }
+
+      .hero-btn {
+        min-width: 240px;
+        width: 100%;
+        max-width: 320px;
+        padding: 16px 24px;
+        font-size: 14px;
+      }
+
+      .hero-note {
+        font-size: 11px;
+        line-height: 1.6;
+      }
+
+      .hero-flow {
+        margin-top: 28px;
+        padding: 15px 12px;
+      }
+
+      .hero-flow-inner {
+        font-size: 11px;
+        gap: 8px;
+      }
+
+      .hero-flow-label {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 2px;
+      }
+
+      .hero-footer {
+        margin-top: 14px;
+        font-size: 10px;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <section class="hero">
+    <img src="phoenix-os-logo.png" alt="Phoenix Seal" class="hero-logo">
 
-<main class="page">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Phoenix Business System</div>
 
-<img src="phoenix-os-logo.png" class="seal">
+      <h1>Phoenix Business Readiness Snapshot</h1>
 
-<section class="hero">
+      <div class="hero-sub">
+        Private-access diagnostic for operators evaluating structure, stability, and execution readiness.
+      </div>
 
-<h1 class="headline">Phoenix Business Readiness Snapshot</h1>
+      <div class="hero-price">$99 · Private Release</div>
 
-<p class="subline">
-Private-access diagnostic for operators evaluating structure, stability, and execution readiness.
-</p>
+      <a href="https://buy.stripe.com/dRm00ja2k0E44HYeYZfY07" class="hero-btn">
+        Enter System
+      </a>
 
-<div class="price">$99 · Private Release</div>
+      <div class="hero-note">
+        Access is granted after payment confirmation. <strong>NACE</strong> will guide your entry.<br>
+        PBRS is an informational modeling tool and does not constitute legal, financial, or professional advice.
+      </div>
 
-<a class="cta" href="https://buy.stripe.com/YOUR_LINK_HERE">Unlock Access</a>
+      <div class="hero-flow">
+        <div class="hero-flow-inner">
+          <span class="hero-flow-label">System Flow</span>
+          <span class="active">PBRS</span>
+          <span class="arrow">→</span>
+          <span>PBB</span>
+          <span class="arrow">→</span>
+          <span>PNC</span>
+          <span class="arrow">→</span>
+          <span>PBS</span>
+        </div>
+      </div>
 
-<p class="trust">
-Access is granted after payment confirmation. <strong>NACE</strong> will guide your entry.
-</p>
-
-</section>
-
-<footer class="footer">
-© Rising Phoenix Enterprises &nbsp;|&nbsp; <a href="#">Terms</a> &nbsp;|&nbsp; <a href="#">Privacy</a>
-</footer>
-
-</main>
-
+      <div class="hero-footer">
+        © Rising Phoenix Enterprises &nbsp;|&nbsp;
+        <a href="#">Terms</a>
+        &nbsp;|&nbsp;
+        <a href="#">Privacy</a>
+      </div>
+    </div>
+  </section>
 </body>
 </html> 
