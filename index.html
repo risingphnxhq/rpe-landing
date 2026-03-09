@@ -1,176 +1,449 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PBRS Access</title>
 
-<title>Phoenix Business Readiness Snapshot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#050505;
+      --bg-soft:#0c0f13;
+      --text:#f3f4f6;
+      --muted:#a8afb8;
+      --muted-2:#7f8791;
+      --gold:#c9a227;
+      --gold-soft:#8f741a;
+      --line:#232831;
+    }
 
-<style>
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
 
-* {
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+    html, body{
+      width:100%;
+      height:100%;
+      background:var(--bg);
+      color:var(--text);
+      overflow:hidden;
+    }
 
-html,body{
-height:100%;
-overflow:hidden;
-font-family:Inter,system-ui;
-background:#06080d;
-color:white;
-}
+    body{
+      font-family:"Source Sans 3", Arial, sans-serif;
+      background:
+        radial-gradient(circle at 50% 58%, rgba(201,162,39,0.10) 0%, rgba(201,162,39,0.03) 22%, rgba(0,0,0,0) 52%),
+        linear-gradient(180deg, #090909 0%, #060606 100%);
+    }
 
-/* HERO */
+    .page{
+      position:relative;
+      width:100%;
+      height:100vh;
+      min-height:100vh;
+      overflow:hidden;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.015) 0, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 100%),
+        linear-gradient(180deg, rgba(255,255,255,0.015) 0, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 100%);
+      background-size: 120px 120px;
+    }
 
-.hero{
-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:40px 20px;
-background:
-radial-gradient(circle at center,#0d1624 0%,#06080d 70%);
-}
+    .page::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.00) 15%, rgba(255,255,255,0.00) 85%, rgba(255,255,255,0.02) 100%);
+      pointer-events:none;
+    }
 
-/* STACK */
+    .seal{
+      position:absolute;
+      top:34px;
+      left:42px;
+      width:126px;
+      height:auto;
+      opacity:0.96;
+      filter: drop-shadow(0 0 14px rgba(201,162,39,0.08));
+    }
 
-.hero-inner{
-text-align:center;
-max-width:900px;
-}
+    .system-label{
+      position:absolute;
+      top:44px;
+      left:50%;
+      transform:translateX(-50%);
+      text-align:center;
+      pointer-events:none;
+    }
 
-/* TOP LABEL */
+    .system-kicker{
+      font-family:"Cinzel", serif;
+      font-size:12px;
+      letter-spacing:0.24em;
+      text-transform:uppercase;
+      color:#cfd4da;
+      margin-bottom:7px;
+    }
 
-.hero-eyebrow{
-font-family:Cinzel,serif;
-font-size:12px;
-letter-spacing:.3em;
-opacity:.75;
-margin-bottom:22px;
-}
+    .system-sub{
+      font-size:11px;
+      letter-spacing:0.20em;
+      text-transform:uppercase;
+      color:var(--muted-2);
+    }
 
-/* HEADLINE */
+    .hero{
+      width:min(1100px, 88vw);
+      margin:0 auto;
+      height:100vh;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      transform:translateY(-0.5vh);
+    }
 
-.hero h1{
-font-family:Cinzel,serif;
-font-size:38px;
-line-height:1.1;
-font-weight:600;
-margin-bottom:22px;
-}
+    .headline{
+      font-family:"Cinzel", serif;
+      font-size:clamp(32px, 4.5vw, 72px);
+      line-height:1.04;
+      letter-spacing:0.05em;
+      text-transform:uppercase;
+      font-weight:600;
+      max-width:1120px;
+      margin-bottom:26px;
+      text-shadow:0 0 18px rgba(255,255,255,0.03);
+    }
 
-/* SUB */
+    .subline{
+      font-size:clamp(17px, 1.5vw, 24px);
+      line-height:1.45;
+      color:var(--muted);
+      max-width:760px;
+      margin-bottom:34px;
+      font-weight:400;
+    }
 
-.hero-sub{
-font-size:17px;
-opacity:.85;
-margin-bottom:28px;
-}
+    .price{
+      font-family:"Cinzel", serif;
+      font-size:clamp(22px, 2vw, 34px);
+      line-height:1.1;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      color:var(--gold);
+      margin-bottom:36px;
+      font-weight:600;
+    }
 
-/* PRICE */
+    .cta{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:278px;
+      padding:17px 36px;
+      border:1px solid var(--gold);
+      color:var(--text);
+      text-decoration:none;
+      text-transform:uppercase;
+      font-family:"Cinzel", serif;
+      font-size:17px;
+      letter-spacing:0.12em;
+      background:rgba(255,255,255,0.01);
+      transition:background-color .18s ease, color .18s ease, border-color .18s ease, transform .18s ease;
+      margin-bottom:20px;
+    }
 
-.hero-price{
-font-family:Cinzel,serif;
-font-size:22px;
-letter-spacing:.12em;
-color:#d4a934;
-margin-bottom:30px;
-}
+    .cta:hover{
+      background:var(--gold);
+      color:#111;
+      border-color:var(--gold);
+      transform:translateY(-1px);
+    }
 
-/* BUTTON */
+    .trust{
+      font-size:13px;
+      line-height:1.45;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      color:#8f9398;
+      max-width:760px;
+      margin-bottom:10px;
+    }
 
-.hero-btn{
-display:inline-block;
-padding:16px 42px;
-border:1px solid #d4a934;
-font-family:Cinzel,serif;
-letter-spacing:.14em;
-text-decoration:none;
-color:white;
-margin-bottom:20px;
-transition:.2s;
-}
+    .trust strong{
+      color:#c7ccd2;
+      font-weight:600;
+    }
 
-.hero-btn:hover{
-background:#d4a934;
-color:black;
-}
+    .disclaimer{
+      font-size:10px;
+      line-height:1.45;
+      color:#68707a;
+      max-width:760px;
+      margin-bottom:36px;
+    }
 
-/* NOTE */
+    .stack-bar{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:16px;
+      padding:14px 24px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,0.02);
+      min-width:min(760px, 88vw);
+    }
 
-.hero-note{
-font-size:12px;
-opacity:.6;
-margin-bottom:28px;
-}
+    .stack-label{
+      font-size:11px;
+      letter-spacing:0.18em;
+      text-transform:uppercase;
+      color:var(--muted-2);
+      white-space:nowrap;
+    }
 
-/* FLOW */
+    .stack-flow{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      flex-wrap:wrap;
+      font-family:"Cinzel", serif;
+      font-size:14px;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      color:#8d949d;
+    }
 
-.hero-flow{
-border:1px solid rgba(255,255,255,.12);
-padding:14px;
-font-family:Cinzel,serif;
-font-size:13px;
-letter-spacing:.08em;
-margin-bottom:18px;
-}
+    .stack-flow .active{
+      color:var(--gold);
+    }
 
-/* FOOTER */
+    .stack-flow .arrow{
+      color:#525964;
+      font-family:"Source Sans 3", Arial, sans-serif;
+      font-size:15px;
+      letter-spacing:normal;
+    }
 
-.hero-footer{
-font-size:11px;
-opacity:.6;
-}
+    .footer{
+      position:absolute;
+      bottom:18px;
+      left:50%;
+      transform:translateX(-50%);
+      text-align:center;
+      font-size:11px;
+      color:#7b828c;
+      letter-spacing:0.06em;
+      width:90%;
+    }
 
-.hero-footer a{
-color:white;
-text-decoration:none;
-margin:0 6px;
-}
+    .footer a{
+      color:#9ba3ad;
+      text-decoration:none;
+    }
 
-</style>
+    .footer a:hover{
+      color:#cfd4da;
+    }
+
+    @media (max-width: 900px){
+      html, body{
+        overflow:auto;
+      }
+
+      .page{
+        min-height:100vh;
+        height:auto;
+      }
+
+      .seal{
+        top:24px;
+        left:24px;
+        width:96px;
+      }
+
+      .system-label{
+        top:28px;
+        left:50%;
+        transform:translateX(-50%);
+      }
+
+      .hero{
+        min-height:100vh;
+        height:auto;
+        width:min(92vw, 1100px);
+        padding:148px 0 96px;
+        transform:none;
+      }
+
+      .headline{
+        margin-bottom:22px;
+      }
+
+      .subline{
+        margin-bottom:28px;
+      }
+
+      .price{
+        margin-bottom:28px;
+      }
+
+      .cta{
+        min-width:240px;
+        width:min(340px, 82vw);
+      }
+
+      .stack-bar{
+        min-width:100%;
+        padding:14px 18px;
+      }
+
+      .footer{
+        position:relative;
+        bottom:auto;
+        left:auto;
+        transform:none;
+        padding:0 0 24px;
+        width:100%;
+      }
+    }
+
+    @media (max-width: 640px){
+      .page{
+        padding-bottom:12px;
+      }
+
+      .seal{
+        top:26px;
+        left:18px;
+        width:92px;
+      }
+
+      .system-label{
+        top:30px;
+        width:100%;
+        padding:0 96px 0 112px;
+      }
+
+      .system-kicker{
+        font-size:10px;
+        letter-spacing:0.18em;
+      }
+
+      .system-sub{
+        font-size:9px;
+        letter-spacing:0.16em;
+      }
+
+      .hero{
+        padding-top:72px;
+      }
+
+      .headline{
+        font-size:clamp(26px, 8vw, 44px);
+        letter-spacing:0.04em;
+        margin-bottom:16px;
+      }
+
+      .subline{
+        font-size:16px;
+        line-height:1.5;
+        margin-bottom:24px;
+      }
+
+      .price{
+        font-size:22px;
+        margin-bottom:24px;
+      }
+
+      .cta{
+        font-size:16px;
+        padding:16px 22px;
+        margin-bottom:16px;
+      }
+
+      .trust{
+        font-size:11px;
+        margin-bottom:8px;
+      }
+
+      .disclaimer{
+        font-size:9px;
+        margin-bottom:24px;
+      }
+
+      .stack-bar{
+        flex-direction:column;
+        gap:8px;
+      }
+
+      .stack-label{
+        font-size:10px;
+      }
+
+      .stack-flow{
+        font-size:12px;
+        gap:8px;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <main class="page">
+    <img src="phoenix-os-logo.png" alt="Phoenix OS Seal" class="seal" />
 
-<section class="hero">
+    <div class="system-label">
+      <div class="system-kicker">Phoenix Business System</div>
+      <div class="system-sub">Entry Protocol — Layer 01</div>
+    </div>
 
-<div class="hero-inner">
+    <section class="hero">
+      <h1 class="headline">Phoenix Business Readiness Snapshot</h1>
 
-<div class="hero-eyebrow">PHOENIX BUSINESS SYSTEM</div>
+      <p class="subline">
+        Private-access diagnostic for operators evaluating structure, stability, and execution readiness.
+      </p>
 
-<h1>PHOENIX BUSINESS READINESS SNAPSHOT</h1>
+      <div class="price">$99 · Private Release</div>
 
-<div class="hero-sub">
-Private-access diagnostic for operators evaluating structure, stability, and execution readiness.
-</div>
+      <a class="cta" href="https://buy.stripe.com/dRm00ja2k0E44HYeYZfY07">Enter System</a>
 
-<div class="hero-price">$99 · PRIVATE RELEASE</div>
+      <p class="trust">
+        Access is granted after payment confirmation. <strong>NACE</strong> will guide your entry.
+      </p>
 
-<a href="https://buy.stripe.com/dRm00ja2k0E44HYeYZfY07" class="hero-btn">
-ENTER SYSTEM
-</a>
+      <p class="disclaimer">
+        PBRS is an informational modeling tool and does not constitute legal, financial, or professional advice.
+      </p>
 
-<div class="hero-note">
-Access is granted after payment confirmation. NACE will guide your entry.
-</div>
+      <div class="stack-bar">
+        <div class="stack-label">System Flow</div>
+        <div class="stack-flow">
+          <span class="active">PBRS</span>
+          <span class="arrow">→</span>
+          <span>PBB</span>
+          <span class="arrow">→</span>
+          <span>PNC</span>
+          <span class="arrow">→</span>
+          <span>PBS</span>
+        </div>
+      </div>
+    </section>
 
-<div class="hero-flow">
-SYSTEM FLOW — PBRS → PBB → PNC → PBS
-</div>
-
-<div class="hero-footer">
-© Rising Phoenix Enterprises |
-<a href="#">Terms</a> |
-<a href="#">Privacy</a>
-</div>
-
-</div>
-</section>
-
+    <footer class="footer">
+      © Rising Phoenix Enterprises &nbsp; | &nbsp;
+      <a href="#">Terms</a>
+      &nbsp; | &nbsp;
+      <a href="#">Privacy</a>
+    </footer>
+  </main>
 </body>
 </html> 
