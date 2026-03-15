@@ -654,20 +654,24 @@
         &nbsp; | &nbsp;
         <a href="#">Privacy</a>
       </footer>
-      <script>
+     <script>
 const naceCopy = document.querySelector(".nace-copy");
-/* 🔹 FORCE WELCOME ON LOAD */
+
+/* WELCOME MESSAGE (FORCED ON LOAD) */
 window.addEventListener("load", () => {
   naceCopy.innerHTML = `
   Welcome. This system will guide your evaluation.<br><br>
   If you prefer, we may continue in your native language.<br><br>
   We will begin with a brief intake.
   `;
-}); 
+});
+
+/* INTAKE RESPONSE LOGIC */
 const inputs = document.querySelectorAll("input, select, textarea");
 let completed = 0;
 
 inputs.forEach((el,index)=>{
+
   el.addEventListener("focus",()=>{
     if(index===0){
       naceCopy.innerHTML = `
@@ -686,9 +690,12 @@ inputs.forEach((el,index)=>{
       `;
     }
   });
+
 });
 
+/* OBJECTIVE FIELD */
 const textarea = document.querySelector("textarea");
+
 textarea.addEventListener("focus",()=>{
   naceCopy.innerHTML = `
   Be direct. State only the primary objective.<br><br>
@@ -696,8 +703,10 @@ textarea.addEventListener("focus",()=>{
   `;
 });
 
-const cta = document.querySelector(".cta");
+/* CTA CONTROL */
+const cta = document.getElementById("runDiagnosticBtn");
 
+/* Hover Behavior */
 cta.addEventListener("mouseenter",()=>{
   naceCopy.innerHTML = `
   Your inputs are ready for processing.<br><br>
@@ -705,15 +714,20 @@ cta.addEventListener("mouseenter",()=>{
   `;
 });
 
-cta.addEventListener("click",()=>{
+/* CLICK BEHAVIOR (FINAL) */
+cta.addEventListener("click", function(e){
+
+  e.preventDefault(); // stop instant redirect
+
   naceCopy.innerHTML = `
   Processing intake.<br><br>
   Maintain session.
   `;
+
+  setTimeout(() => {
+    window.location.href = this.href;
+  }, 750);
+
 });
 </script> 
-
-    </div>
-  </main>
-</body>
-</html> 
+ 
