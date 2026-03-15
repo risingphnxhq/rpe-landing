@@ -654,6 +654,58 @@
         &nbsp; | &nbsp;
         <a href="#">Privacy</a>
       </footer>
+      <script>
+const naceCopy = document.querySelector(".nace-copy");
+
+const inputs = document.querySelectorAll("input, select, textarea");
+let completed = 0;
+
+inputs.forEach((el,index)=>{
+  el.addEventListener("focus",()=>{
+    if(index===0){
+      naceCopy.innerHTML = `
+      We will begin with core business structure inputs.<br><br>
+      Enter information exactly as registered.
+      `;
+    }
+  });
+
+  el.addEventListener("change",()=>{
+    completed++;
+    if(completed===3){
+      naceCopy.innerHTML = `
+      Good. Continue the intake sequence.<br><br>
+      The system is evaluating your operational baseline.
+      `;
+    }
+  });
+});
+
+const textarea = document.querySelector("textarea");
+textarea.addEventListener("focus",()=>{
+  naceCopy.innerHTML = `
+  Be direct. State only the primary objective.<br><br>
+  The system will structure evaluation accordingly.
+  `;
+});
+
+const cta = document.querySelector(".cta");
+
+cta.addEventListener("mouseenter",()=>{
+  naceCopy.innerHTML = `
+  Your inputs are ready for processing.<br><br>
+  Continue when ready.
+  `;
+});
+
+cta.addEventListener("click",()=>{
+  naceCopy.innerHTML = `
+  Processing intake.<br><br>
+  Maintain session.
+  `;
+});
+</script> 
+
     </div>
   </main>
 </body>
