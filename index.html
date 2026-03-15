@@ -656,7 +656,14 @@
       </footer>
       <script>
 const naceCopy = document.querySelector(".nace-copy");
-
+/* 🔹 FORCE WELCOME ON LOAD */
+window.addEventListener("load", () => {
+  naceCopy.innerHTML = `
+  Welcome. This system will guide your evaluation.<br><br>
+  If you prefer, we may continue in your native language.<br><br>
+  We will begin with a brief intake.
+  `;
+}); 
 const inputs = document.querySelectorAll("input, select, textarea");
 let completed = 0;
 
