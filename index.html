@@ -537,7 +537,7 @@
             Complete the structured intake below. Your submission will proceed through controlled institutional review.
           </p>
 
-          <form>
+          <form id="pbrs-form">
             <div class="intake-grid">
               <div class="field">
                 <label for="legal_name">Legal Name</label>
@@ -547,11 +547,11 @@
               <div class="field">
                 <label for="entity_type">Entity Type</label>
                 <select id="entity_type">
-                  <option>Select entity type</option>
-                  <option>LLC</option>
-                  <option>Corporation</option>
-                  <option>Nonprofit</option>
-                  <option>Sole Proprietorship</option>
+                  <option value="">Select entity type</option>
+                  <option value="llc">LLC</option>
+                  <option value="corporation">Corporation</option>
+                  <option value="nonprofit">Nonprofit</option>
+                  <option value="sole_proprietorship">Sole Proprietorship</option>
                 </select>
               </div>
 
@@ -563,44 +563,45 @@
               <div class="field">
                 <label for="revenue_band">Revenue Band</label>
                 <select id="revenue_band">
-                  <option>Select revenue band</option>
-                  <option>Pre-Revenue</option>
-                  <option>Under $100K</option>
-                  <option>$100K–$500K</option>
-                  <option>$500K–$1M</option>
-                  <option>$1M+</option>
+                  <option value="">Select revenue band</option>
+                  <option value="under_50k">Pre-Revenue / Under $50K</option>
+                  <option value="50k_250k">$50K–$250K</option>
+                  <option value="250k_1m">$250K–$1M</option>
+                  <option value="1m_5m">$1M–$5M</option>
+                  <option value="5m_plus">$5M+</option>
                 </select>
               </div>
 
               <div class="field">
                 <label for="reporting_cadence">Reporting Cadence</label>
                 <select id="reporting_cadence">
-                  <option>Select cadence</option>
-                  <option>Monthly</option>
-                  <option>Quarterly</option>
-                  <option>Annually</option>
-                  <option>Not Formalized</option>
+                  <option value="">Select cadence</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="quarterly">Quarterly</option>
+                  <option value="annually">Annually</option>
+                  <option value="none">Not Formalized</option>
                 </select>
               </div>
 
               <div class="field">
-                <label for="ops_structure_flag">Operations Structure</label>
-                <select id="ops_structure_flag">
-                  <option>Select current state</option>
-                  <option>Formalized</option>
-                  <option>Partial</option>
-                  <option>Informal</option>
+                <label for="operations_structure">Operations Structure</label>
+                <select id="operations_structure">
+                  <option value="">Select current state</option>
+                  <option value="systemised">Formalized</option>
+                  <option value="developing">Partial</option>
+                  <option value="informal">Informal</option>
+                  <option value="chaotic">Chaotic</option>
                 </select>
               </div>
 
               <div class="field full">
-                <label for="primary_goal">Primary Objective</label>
-                <textarea id="primary_goal" placeholder="State your current objective."></textarea>
+                <label for="primary_objective">Primary Objective</label>
+                <textarea id="primary_objective" placeholder="State your current objective."></textarea>
               </div>
             </div>
 
             <div class="actions">
-              <a class="cta" id="runDiagnosticBtn" href="https://buy.stripe.com/00w9AT3DW2Mc8YebMNfYY09">Run Diagnostic</a> 
+              <a class="cta" id="runDiagnosticBtn" href="https://buy.stripe.com/00w9AT3DW2Mc8YebMNfYY09">Run Diagnostic</a>
               <div class="micro-note">
                 By proceeding, you acknowledge that PBRS is an informational modeling tool and does not constitute legal, financial, or professional advice.
               </div>
@@ -613,7 +614,7 @@
           <div class="nace-title">Institutional Interface</div>
 
           <div class="nace-block">
-            <div class="nace-copy">
+            <div class="nace-copy" id="naceCopy">
               Welcome. This system will guide your evaluation.<br><br>
               If you prefer, we may continue in your native language.<br><br>
               We will begin with a brief intake.
@@ -642,9 +643,11 @@
           <span class="arrow">→</span>
           <span>PBB</span>
           <span class="arrow">→</span>
-          <span>PBS</span>
+          <span>PSEQ</span>
           <span class="arrow">→</span>
           <span>PNC</span>
+          <span class="arrow">→</span>
+          <span>PBIP</span>
         </div>
       </div>
 
@@ -654,80 +657,128 @@
         &nbsp; | &nbsp;
         <a href="#">Privacy</a>
       </footer>
-     <script>
-const naceCopy = document.querySelector(".nace-copy");
+    </div>
+  </main>
 
-/* WELCOME MESSAGE (FORCED ON LOAD) */
-window.addEventListener("load", () => {
-  naceCopy.innerHTML = `
-  Welcome. This system will guide your evaluation.<br><br>
-  If you prefer, we may continue in your native language.<br><br>
-  We will begin with a brief intake.
-  `;
-});
+  <script>
+    const naceCopy = document.getElementById("naceCopy");
+    const inputs = document.querySelectorAll("input, select, textarea");
+    const textarea = document.getElementById("primary_objective");
+    const cta = document.getElementById("runDiagnosticBtn");
 
-/* INTAKE RESPONSE LOGIC */
-const inputs = document.querySelectorAll("input, select, textarea");
-let completed = 0;
-
-inputs.forEach((el,index)=>{
-
-  el.addEventListener("focus",()=>{
-    if(index===0){
-      naceCopy.innerHTML = `
-      We will begin with core business structure inputs.<br><br>
-      Enter information exactly as registered.
-      `;
+    function updateNace(message) {
+      naceCopy.innerHTML = message;
     }
-  });
 
-  el.addEventListener("change",()=>{
-    completed++;
-    if(completed===3){
-      naceCopy.innerHTML = `
-      Good. Continue the intake sequence.<br><br>
-      The system is evaluating your operational baseline.
-      `;
+    function clean(value) {
+      return String(value || "").trim();
     }
-  });
 
-});
+    function buildPBRSIntake() {
+      return {
+        business_name: clean(document.getElementById("legal_name").value),
+        legal_name: clean(document.getElementById("legal_name").value),
+        entity_type: clean(document.getElementById("entity_type").value),
+        state_country: clean(document.getElementById("state_country").value),
+        revenue_band: clean(document.getElementById("revenue_band").value),
+        reporting_cadence: clean(document.getElementById("reporting_cadence").value),
+        operations_structure: clean(document.getElementById("operations_structure").value),
+        primary_objective: clean(document.getElementById("primary_objective").value),
+        current_stage: "pbrs",
+        recommended_next_stage: "pbrs_output"
+      };
+    }
 
-/* OBJECTIVE FIELD */
-const textarea = document.querySelector("textarea");
+    function validatePBRS(data) {
+      const required = [
+        { key: "business_name", label: "Legal Name" },
+        { key: "entity_type", label: "Entity Type" },
+        { key: "state_country", label: "State / Country" },
+        { key: "revenue_band", label: "Revenue Band" },
+        { key: "reporting_cadence", label: "Reporting Cadence" },
+        { key: "operations_structure", label: "Operations Structure" },
+        { key: "primary_objective", label: "Primary Objective" }
+      ];
 
-textarea.addEventListener("focus",()=>{
-  naceCopy.innerHTML = `
-  Be direct. State only the primary objective.<br><br>
-  The system will structure evaluation accordingly.
-  `;
-});
+      const missing = required.filter(field => !clean(data[field.key]));
+      return {
+        valid: missing.length === 0,
+        missing
+      };
+    }
 
-/* CTA CONTROL */
-const cta = document.getElementById("runDiagnosticBtn");
+    window.addEventListener("load", () => {
+      updateNace(`
+        Welcome. This system will guide your evaluation.<br><br>
+        If you prefer, we may continue in your native language.<br><br>
+        We will begin with a brief intake.
+      `);
+    });
 
-/* Hover Behavior */
-cta.addEventListener("mouseenter",()=>{
-  naceCopy.innerHTML = `
-  Your inputs are ready for processing.<br><br>
-  Continue when ready.
-  `;
-});
+    let completed = 0;
 
-/* CLICK BEHAVIOR (FINAL) */
-cta.addEventListener("click", function(e){
+    inputs.forEach((el, index) => {
+      el.addEventListener("focus", () => {
+        if (index === 0) {
+          updateNace(`
+            We will begin with core business structure inputs.<br><br>
+            Enter information exactly as registered.
+          `);
+        }
+      });
 
-  e.preventDefault(); // stop instant redirect
+      el.addEventListener("change", () => {
+        completed++;
+        if (completed >= 3) {
+          updateNace(`
+            Good. Continue the intake sequence.<br><br>
+            The system is evaluating your operational baseline.
+          `);
+        }
+      });
+    });
 
-  naceCopy.innerHTML = `
-  Processing intake.<br><br>
-  Maintain session.
-  `;
+    textarea.addEventListener("focus", () => {
+      updateNace(`
+        Be direct. State only the primary objective.<br><br>
+        The system will structure evaluation accordingly.
+      `);
+    });
 
-  setTimeout(() => {
-    window.location.href = this.href;
-  }, 750);
+    cta.addEventListener("mouseenter", () => {
+      updateNace(`
+        Your inputs are ready for processing.<br><br>
+        Continue when ready.
+      `);
+    });
 
-});
-</script> 
- 
+    cta.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      const pbrsIntake = buildPBRSIntake();
+      const validation = validatePBRS(pbrsIntake);
+
+      if (!validation.valid) {
+        const missingLabels = validation.missing.map(item => item.label).join(", ");
+        updateNace(`
+          Intake incomplete.<br><br>
+          Complete the following fields before proceeding:<br><br>
+          ${missingLabels}
+        `);
+        return;
+      }
+
+      localStorage.setItem("pbrs_intake", JSON.stringify(pbrsIntake));
+
+      updateNace(`
+        Intake accepted.<br><br>
+        Redirecting to controlled payment and diagnostic release.
+      `);
+
+      setTimeout(() => {
+        window.location.href = this.href;
+      }, 750);
+    });
+  </script>
+</body>
+</html> 
