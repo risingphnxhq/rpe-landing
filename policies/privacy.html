@@ -1,253 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PBRS — Privacy Policy</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#050505;
-      --panel:#0d0f13;
-      --line:rgba(201,162,39,.22);
-      --line-soft:rgba(255,255,255,.08);
-      --text:#f3f4f6;
-      --muted:#9aa4b2;
-      --gold:#c9a227;
-      --gold-soft:rgba(201,162,39,.12);
-      --max:1100px;
-      --radius:20px;
-      --shadow:0 0 0 1px rgba(201,162,39,.10), 0 18px 60px rgba(0,0,0,.45);
-    }
+<meta charset="UTF-8">
+<title>Privacy Policy — PBRS</title>
 
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:"Inter", sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(circle at top, rgba(201,162,39,.06), transparent 26%),
-        linear-gradient(180deg, #07080b 0%, #050505 100%);
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: #0B0F14;
+  color: #F5EFE6;
+}
 
-    a{color:inherit;text-decoration:none}
-    .shell{width:min(calc(100% - 32px), var(--max));margin:0 auto}
+/* Header */
+.top-bar {
+  padding: 20px 30px;
+}
 
-    .topbar{
-      position:sticky;
-      top:0;
-      z-index:40;
-      background:rgba(6,7,10,.84);
-      backdrop-filter:blur(10px);
-      border-bottom:1px solid var(--line-soft);
-    }
+.logo {
+  height: 42px;
+}
 
-    .topbar-inner{
-      width:min(calc(100% - 32px), var(--max));
-      margin:0 auto;
-      min-height:76px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      flex-wrap:wrap;
-    }
+/* Container */
+.container {
+  max-width: 900px;
+  margin: 60px auto;
+  padding: 20px;
+}
 
-    .eyebrow{
-      font-size:.74rem;
-      letter-spacing:.22em;
-      text-transform:uppercase;
-      color:var(--muted);
-    }
+/* Typography */
+h1 {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
 
-    .brand-title{
-      font-family:"Cinzel", serif;
-      font-size:1rem;
-      letter-spacing:.05em;
-    }
+h2 {
+  font-size: 20px;
+  color: #C7A15B;
+  margin-top: 40px;
+}
 
-    .nav{
-      display:flex;
-      gap:14px;
-      flex-wrap:wrap;
-      color:var(--muted);
-      font-size:.94rem;
-    }
+p {
+  color: #C7CED6;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
 
-    .hero, .content, .footer{padding:28px 0}
-    .hero-card, .section, .footer-box{
-      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
-      border:1px solid var(--line-soft);
-      box-shadow:var(--shadow);
-      border-radius:var(--radius);
-    }
+/* Footer */
+.footer {
+  margin-top: 60px;
+  padding-top: 20px;
+  border-top: 1px solid #1f232b;
+  font-size: 14px;
+  color: #888;
+}
 
-    .hero-card{padding:34px}
-    h1{
-      margin:10px 0 14px;
-      font-family:"Cinzel", serif;
-      font-size:clamp(2rem, 5vw, 3.4rem);
-      line-height:1.05;
-    }
-
-    .hero-copy, .section p, .section li{
-      color:#d7dee8;
-      line-height:1.82;
-    }
-
-    .hero-note{
-      margin-top:20px;
-      padding:14px 16px;
-      border:1px solid var(--line);
-      background:var(--gold-soft);
-      border-radius:14px;
-      color:#f3e1a0;
-      line-height:1.7;
-    }
-
-    .stack{
-      display:flex;
-      flex-direction:column;
-      gap:18px;
-    }
-
-    .section{padding:24px}
-    .section h2{
-      margin:8px 0 14px;
-      font-family:"Cinzel", serif;
-      font-size:1.5rem;
-    }
-
-    .section ul{margin:0;padding-left:20px}
-    .callout{
-      border-left:3px solid var(--gold);
-      padding-left:14px;
-      color:#f0f4f8;
-    }
-
-    .footer-box{
-      padding:18px 20px;
-      display:flex;
-      justify-content:space-between;
-      gap:14px;
-      flex-wrap:wrap;
-      color:var(--muted);
-    }
-  </style>
+.footer a {
+  color: #C7A15B;
+  text-decoration: none;
+  margin-left: 10px;
+}
+</style>
 </head>
+
 <body>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <div>
-        <div class="eyebrow">Phoenix Business Readiness Snapshot</div>
-        <div class="brand-title">Privacy Policy</div>
-      </div>
-      <nav class="nav">
-        <div class="top-links">
-  <a href="/">Return to PBRS</a>
-</div> 
-    </div>
-  </header>
 
-  <section class="hero">
-    <div class="shell">
-      <div class="hero-card">
-        <div class="eyebrow">PBRS Legal Policy</div>
-        <h1>Privacy Policy</h1>
-        <p class="hero-copy">
-          This Privacy Policy explains how PBRS collects, uses, stores, and protects information submitted through its pages, forms, outputs, and related service surfaces.
-        </p>
-        <div class="hero-note">
-          By using PBRS, you acknowledge this policy and consent to the handling of information as described here.
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- LOGO -->
+<div class="top-bar">
+  <img src="../logo.png" class="logo" alt="Phoenix Logo">
+</div>
 
-  <main class="content">
-    <div class="shell">
-      <div class="stack">
-        <section class="section">
-          <div class="eyebrow">Information Collection</div>
-          <h2>1. Information We May Collect</h2>
-          <ul>
-            <li>name, email address, phone number, and contact details you provide,</li>
-            <li>business information, operational details, and intake responses,</li>
-            <li>billing and transaction-related data handled through approved processors,</li>
-            <li>communications or support-related information you voluntarily submit.</li>
-          </ul>
-        </section>
+<!-- CONTENT -->
+<div class="container">
 
-        <section class="section">
-          <div class="eyebrow">Use of Information</div>
-          <h2>2. How Information Is Used</h2>
-          <ul>
-            <li>to deliver PBRS outputs and service access,</li>
-            <li>to administer purchases, transactions, and continuity of service,</li>
-            <li>to respond to support or contact needs,</li>
-            <li>to maintain and improve service clarity and operations.</li>
-          </ul>
-        </section>
+<h1>Privacy Policy</h1>
 
-        <section class="section">
-          <div class="eyebrow">Data Position</div>
-          <h2>3. Limited Use Principle</h2>
-          <p class="callout">
-            PBRS collects and uses information primarily for service delivery, transaction continuity, and lawful business operations.
-          </p>
-          <p>
-            We do not state that user data is sold as a business practice.
-          </p>
-        </section>
+<p>
+This Privacy Policy governs how data is collected, used, and protected within the Phoenix Business Readiness Snapshot (“PBRS”) and related systems operated by Rising Phoenix Enterprises.
+</p>
 
-        <section class="section">
-          <div class="eyebrow">Payments</div>
-          <h2>4. Payment Information</h2>
-          <p>
-            Payment information may be processed through approved third-party payment processors. Full card information is not necessarily stored directly on PBRS pages.
-          </p>
-        </section>
+<h2>1. Data Collection</h2>
+<p>
+We collect only the information necessary to process your submission, deliver system outputs, and maintain operational records.
+</p>
 
-        <section class="section">
-          <div class="eyebrow">Retention</div>
-          <h2>5. Data Retention</h2>
-          <p>
-            Information may be retained as reasonably necessary for service delivery, continuity, legal compliance, dispute resolution, record preservation, or protection of system integrity.
-          </p>
-        </section>
+<h2>2. Data Usage</h2>
+<p>
+Collected data is used strictly for service fulfillment, system processing, and internal recordkeeping. It is not used for resale or external marketing distribution.
+</p>
 
-        <section class="section">
-          <div class="eyebrow">Protection</div>
-          <h2>6. Data Security</h2>
-          <p>
-            Reasonable measures are used to protect information, but no digital system can guarantee complete security.
-          </p>
-        </section>
+<h2>3. Data Protection</h2>
+<p>
+All data is stored within controlled environments using secure infrastructure and access-restricted systems.
+</p>
 
-        <section class="section">
-          <div class="eyebrow">Updates</div>
-          <h2>7. Updates to This Privacy Policy</h2>
-          <p>
-            This Privacy Policy may be updated from time to time. Continued use of PBRS after updates are posted constitutes acceptance of the revised version.
-          </p>
-        </section>
-      </div>
-    </div>
-  </main>
+<h2>4. Data Sharing</h2>
+<p>
+We do not sell, rent, or distribute user data to third parties under any circumstance.
+</p>
 
-  <footer class="footer">
-    <div class="shell">
-      <div class="footer-box">
-        <div>© Rising Phoenix Enterprises · PBRS</div>
-        <div class="nav">
-          <a href="../index.html">Landing</a>
-          <a href="../output.html">Output</a>
-          <a href="./terms.html">Terms of Service</a>
-        </div>
-      </div>
-    </div>
-  </footer>
+<h2>5. User Acknowledgment</h2>
+<p>
+By using PBRS, you acknowledge and accept this policy as part of your interaction with the system.
+</p>
+
+<!-- FOOTER -->
+<div class="footer">
+  © Rising Phoenix Enterprises
+  <a href="terms.html">Terms</a>
+</div>
+
+</div>
+
 </body>
 </html> 
