@@ -1,26 +1,260 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Terms of Service</title>
-</head>
-<body>
-  <h1>Terms of Service</h1>
-  <p>All services are provided by RPE Holdings LLC.</p>
-  <p>All products are informational and non-advisory.</p>
-  <p>No guarantees of financial outcome are expressed or implied.</p>
-  <p>By purchasing, you agree to these terms.</p>
-</body>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PBRS — Terms of Service</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#050505;
+      --panel:#0d0f13;
+      --line:rgba(201,162,39,.22);
+      --line-soft:rgba(255,255,255,.08);
+      --text:#f3f4f6;
+      --muted:#9aa4b2;
+      --gold:#c9a227;
+      --gold-soft:rgba(201,162,39,.12);
+      --max:1100px;
+      --radius:20px;
+      --shadow:0 0 0 1px rgba(201,162,39,.10), 0 18px 60px rgba(0,0,0,.45);
+    }
 
-</html>
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Privacy Policy</title>
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"Inter", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top, rgba(201,162,39,.06), transparent 26%),
+        linear-gradient(180deg, #07080b 0%, #050505 100%);
+    }
+
+    a{color:inherit;text-decoration:none}
+    .shell{width:min(calc(100% - 32px), var(--max));margin:0 auto}
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:40;
+      background:rgba(6,7,10,.84);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--line-soft);
+    }
+
+    .topbar-inner{
+      width:min(calc(100% - 32px), var(--max));
+      margin:0 auto;
+      min-height:76px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+
+    .eyebrow{
+      font-size:.74rem;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+
+    .brand-title{
+      font-family:"Cinzel", serif;
+      font-size:1rem;
+      letter-spacing:.05em;
+    }
+
+    .nav{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      color:var(--muted);
+      font-size:.94rem;
+    }
+
+    .hero, .content, .footer{padding:28px 0}
+    .hero-card, .section, .footer-box{
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      border:1px solid var(--line-soft);
+      box-shadow:var(--shadow);
+      border-radius:var(--radius);
+    }
+
+    .hero-card{padding:34px}
+    h1{
+      margin:10px 0 14px;
+      font-family:"Cinzel", serif;
+      font-size:clamp(2rem, 5vw, 3.4rem);
+      line-height:1.05;
+    }
+
+    .hero-copy, .section p, .section li{
+      color:#d7dee8;
+      line-height:1.82;
+    }
+
+    .hero-note{
+      margin-top:20px;
+      padding:14px 16px;
+      border:1px solid var(--line);
+      background:var(--gold-soft);
+      border-radius:14px;
+      color:#f3e1a0;
+      line-height:1.7;
+    }
+
+    .stack{
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    .section{padding:24px}
+    .section h2{
+      margin:8px 0 14px;
+      font-family:"Cinzel", serif;
+      font-size:1.5rem;
+    }
+
+    .section ul{margin:0;padding-left:20px}
+    .callout{
+      border-left:3px solid var(--gold);
+      padding-left:14px;
+      color:#f0f4f8;
+    }
+
+    .footer-box{
+      padding:18px 20px;
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+      color:var(--muted);
+    }
+  </style>
 </head>
 <body>
-  <h1>Privacy Policy</h1>
-  <p>RPE Holdings LLC collects only necessary contact and transaction data.</p>
-  <p>We do not sell user data.</p>
-  <p>Data is stored securely and used solely for service fulfillment.</p>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div>
+        <div class="eyebrow">Phoenix Business Readiness Snapshot</div>
+        <div class="brand-title">Terms of Service</div>
+      </div>
+      <nav class="nav">
+        <a href="../index.html">Landing</a>
+        <a href="../output.html">Output</a>
+        <a href="./privacy.html">Privacy</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="shell">
+      <div class="hero-card">
+        <div class="eyebrow">PBRS Legal Policy</div>
+        <h1>Terms of Service</h1>
+        <p class="hero-copy">
+          These Terms of Service govern access to and use of the Phoenix Business Readiness Snapshot (“PBRS”) and related pages, outputs, and service surfaces operated through Rising Phoenix Enterprises.
+        </p>
+        <div class="hero-note">
+          By accessing, purchasing, or using PBRS, you acknowledge and agree to these terms.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="content">
+    <div class="shell">
+      <div class="stack">
+        <section class="section">
+          <div class="eyebrow">Provider</div>
+          <h2>1. Service Provider</h2>
+          <p>PBRS is provided through Rising Phoenix Enterprises.</p>
+        </section>
+
+        <section class="section">
+          <div class="eyebrow">Service Nature</div>
+          <h2>2. Informational and Non-Advisory Service</h2>
+          <p>
+            PBRS provides structured readiness positioning, business-facing evaluation surfaces, and informational outputs intended to support clarity and operational awareness.
+          </p>
+          <p class="callout">
+            PBRS is informational and non-advisory in nature. It is not legal advice, financial advice, accounting advice, investment advice, or guaranteed strategic direction.
+          </p>
+        </section>
+
+        <section class="section">
+          <div class="eyebrow">No Guarantee</div>
+          <h2>3. No Outcome Guarantee</h2>
+          <p>
+            No guarantees of business growth, financial outcome, funding approval, profitability, operational improvement, or future performance are expressed or implied.
+          </p>
+        </section>
+
+        <section class="section">
+          <div class="eyebrow">User Responsibility</div>
+          <h2>4. User Responsibility</h2>
+          <p>
+            You are responsible for the accuracy of any information submitted and for any decisions made based on PBRS outputs.
+          </p>
+        </section>
+
+        <section class="section">
+          <div class="eyebrow">Payments</div>
+          <h2>5. Payments and Access</h2>
+          <p>
+            Payment grants access to the PBRS product or pathway purchased. Payment does not guarantee any business result or future eligibility for other services.
+          </p>
+        </section>
+
+        <section class="section">
+          <div class="eyebrow">Refund Position</div>
+          <h2>6. Refunds</h2>
+          <p>
+            Unless expressly stated otherwise on the offer or checkout page, purchases are treated as payment for access to digital delivery, informational surfaces, structured outputs, and service positioning already made available.
+          </p>
+        </section>
+
+        <section class="section">
+          <div class="eyebrow">Liability</div>
+          <h2>7. Limitation of Liability</h2>
+          <p>
+            To the maximum extent permitted by law, Rising Phoenix Enterprises shall not be liable for indirect, incidental, or consequential damages arising from the use of or reliance on PBRS.
+          </p>
+        </section>
+
+        <section class="section">
+          <div class="eyebrow">Updates</div>
+          <h2>8. Updates to These Terms</h2>
+          <p>
+            These Terms may be updated from time to time. Continued use of PBRS after updates are posted constitutes acceptance of the revised version.
+          </p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="shell">
+      <div class="footer-box">
+        <div>© Rising Phoenix Enterprises · PBRS</div>
+        <div class="nav">
+          <a href="../index.html">Landing</a>
+          <a href="../output.html">Output</a>
+          <a href="./privacy.html">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 </body>
-</html>
+</html> 
