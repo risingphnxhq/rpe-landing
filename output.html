@@ -1,99 +1,377 @@
-<!DOCTYPE html>  
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>PBRS Diagnostic Output</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
- 
+
   <style>
     :root{
-      --bg:#050505; --panel:#0d0f13; --panel2:#11141a; --text:#f3f4f6;
-      --muted:#a8afb8; --muted2:#7f8791; --gold:#c9a227;
-      --line:#232831; --cyan:#6fd8ff; --green:#34d399; --yellow:#facc15; --red:#fb7185;
+      --bg:#050505;
+      --panel:#0d0f13;
+      --panel2:#11141a;
+      --text:#f3f4f6;
+      --muted:#a8afb8;
+      --muted2:#7f8791;
+      --gold:#c9a227;
+      --line:#232831;
+      --cyan:#6fd8ff;
+      --green:#34d399;
+      --yellow:#facc15;
+      --red:#fb7185;
+      --blue-glow:rgba(49,95,188,.16);
     }
+
     *{box-sizing:border-box;margin:0;padding:0}
-    html,body{width:100%;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif}
+
+    html,body{
+      width:100%;
+      min-height:100%;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Inter,Arial,sans-serif;
+    }
+
     body{
       background:
         radial-gradient(circle at 50% 18%, rgba(201,162,39,.08), transparent 44%),
-        radial-gradient(circle at 50% 58%, rgba(49,95,188,.16), transparent 58%),
+        radial-gradient(circle at 50% 58%, var(--blue-glow), transparent 58%),
         linear-gradient(180deg,#090909,#050505);
     }
+
     .page{
       min-height:100vh;
+      position:relative;
+      overflow:hidden;
       background:
         linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),
         linear-gradient(180deg,rgba(255,255,255,.018) 1px,transparent 1px);
       background-size:120px 120px;
-      overflow:hidden;
-      position:relative;
     }
-    .seal{position:absolute;top:30px;left:36px;width:112px;z-index:3}
-    .system-label{text-align:center;padding-top:42px;font-family:Cinzel,serif;font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:#cfd4da}
-    .shell{width:min(1380px,94vw);margin:0 auto;padding:70px 0 38px}
-    .hero{text-align:center;margin-bottom:32px}
+
+    .seal{
+      position:absolute;
+      top:30px;
+      left:36px;
+      width:112px;
+      z-index:3;
+      filter:drop-shadow(0 0 18px rgba(201,162,39,.18));
+    }
+
+    .system-label{
+      text-align:center;
+      padding-top:42px;
+      font-family:Cinzel,serif;
+      font-size:13px;
+      letter-spacing:.26em;
+      text-transform:uppercase;
+      color:#cfd4da;
+    }
+
+    .shell{
+      width:min(1380px,94vw);
+      margin:0 auto;
+      padding:70px 0 38px;
+    }
+
+    .hero{
+      text-align:center;
+      margin-bottom:32px;
+    }
+
     h1{
-      font-family:Cinzel,serif;font-size:clamp(30px,3vw,48px);letter-spacing:.05em;text-transform:uppercase;
+      font-family:Cinzel,serif;
+      font-size:clamp(30px,3vw,48px);
+      letter-spacing:.05em;
+      text-transform:uppercase;
       background:linear-gradient(180deg,#fff,#d5dbe2,#f7f9fb,#bbc3cc);
-      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
       text-shadow:0 10px 24px rgba(0,0,0,.55);
       margin-bottom:14px;
     }
-    .subline{font-size:17px;color:#9fdfff;line-height:1.5}
-    .price{font-family:Cinzel,serif;color:var(--gold);font-size:23px;letter-spacing:.12em;margin-top:18px;text-transform:uppercase}
-    .workspace{display:grid;grid-template-columns:1fr 320px;gap:28px}
+
+    .subline{
+      font-size:17px;
+      color:#9fdfff;
+      line-height:1.5;
+    }
+
+    .price{
+      font-family:Cinzel,serif;
+      color:var(--gold);
+      font-size:23px;
+      letter-spacing:.12em;
+      margin-top:18px;
+      text-transform:uppercase;
+    }
+
+    .workspace{
+      display:grid;
+      grid-template-columns:1fr 320px;
+      gap:28px;
+      align-items:start;
+    }
+
     .panel,.rail,.card{
       border:1px solid var(--line);
       background:linear-gradient(180deg,rgba(255,255,255,.026),rgba(255,255,255,.012));
       backdrop-filter:blur(4px);
     }
+
     .panel{padding:30px}
-    .rail{padding:24px 20px;min-height:520px;background:#0b0b0c}
-    .kicker{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#6fd8ff;margin-bottom:10px;font-weight:700}
-    h2,h3{
-      font-family:Cinzel,serif;text-transform:uppercase;letter-spacing:.06em;
-      color:#fff;margin-bottom:16px;
+
+    .rail{
+      padding:24px 20px;
+      min-height:520px;
+      background:#0b0b0c;
+      position:sticky;
+      top:18px;
     }
+
+    .kicker{
+      font-size:11px;
+      letter-spacing:.2em;
+      text-transform:uppercase;
+      color:#6fd8ff;
+      margin-bottom:10px;
+      font-weight:700;
+    }
+
+    h2,h3{
+      font-family:Cinzel,serif;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      color:#fff;
+      margin-bottom:16px;
+    }
+
     h2{font-size:30px}
     h3{font-size:21px;color:var(--gold)}
-    p{color:#bfeeff;line-height:1.65;font-size:16px}
-    .summary{padding-bottom:28px;border-bottom:1px solid var(--line);margin-bottom:28px}
-    .score-grid{display:grid;grid-template-columns:260px 1fr;gap:24px;margin-bottom:26px}
-    .score-box{border:1px solid var(--line);padding:26px;background:rgba(0,0,0,.14)}
-    .score-label{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#9edcff;margin-bottom:12px}
-    .score{font-family:Cinzel,serif;font-size:72px;line-height:1;color:#fff}
-    .badge{display:inline-block;margin-top:16px;padding:8px 14px;border:1px solid var(--yellow);color:var(--yellow);font-weight:800;text-transform:uppercase;font-size:12px;letter-spacing:.12em}
-    .metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px}
-    .metric{border:1px solid var(--line);padding:14px;background:rgba(255,255,255,.015)}
-    .metric span{display:block;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted2);margin-bottom:7px}
-    .metric strong{color:#fff;font-size:14px}
-    .meaning li,.issues li,.actions li{margin:10px 0;color:#d8f6ff;line-height:1.5}
-    .meaning{list-style:none}
-    .dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:10px}
-    .green{background:var(--green)} .yellow{background:var(--yellow)} .red{background:var(--red)}
-    .card{padding:24px;margin:18px 0}
-    .card h3{font-size:22px}
-    .bridge{border-color:rgba(201,162,39,.45);box-shadow:0 0 28px rgba(201,162,39,.05)}
-    .cta{
-      display:inline-flex;margin-top:22px;padding:17px 30px;border:1px solid var(--gold);
-      color:#fff;text-decoration:none;font-family:Cinzel,serif;text-transform:uppercase;
-      letter-spacing:.1em;font-weight:700;
+
+    p{
+      color:#bfeeff;
+      line-height:1.65;
+      font-size:16px;
     }
-    .cta:hover{background:var(--gold);color:#111}
-    .profile{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
-    .profile div{border-bottom:1px solid var(--line);padding:9px 0;color:#d8f6ff}
-    .profile span{display:block;color:var(--muted2);font-size:10px;letter-spacing:.14em;text-transform:uppercase}
-    .stack-bar{display:flex;justify-content:center;gap:14px;border:1px solid var(--line);padding:15px;margin:28px auto 0;width:min(900px,94%)}
-    .stack-bar span{font-family:Cinzel,serif;letter-spacing:.09em;color:#8d949d}
+
+    .summary{
+      padding-bottom:28px;
+      border-bottom:1px solid var(--line);
+      margin-bottom:28px;
+    }
+
+    .score-grid{
+      display:grid;
+      grid-template-columns:260px 1fr;
+      gap:24px;
+      margin-bottom:26px;
+    }
+
+    .score-box{
+      border:1px solid var(--line);
+      padding:26px;
+      background:rgba(0,0,0,.14);
+    }
+
+    .score-label{
+      font-size:12px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:#9edcff;
+      margin-bottom:12px;
+    }
+
+    .score{
+      font-family:Cinzel,serif;
+      font-size:72px;
+      line-height:1;
+      color:#fff;
+    }
+
+    .badge{
+      display:inline-block;
+      margin-top:16px;
+      padding:8px 14px;
+      border:1px solid var(--yellow);
+      color:var(--yellow);
+      font-weight:800;
+      text-transform:uppercase;
+      font-size:12px;
+      letter-spacing:.12em;
+    }
+
+    .metric-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:12px;
+      margin-top:20px;
+    }
+
+    .metric{
+      border:1px solid var(--line);
+      padding:14px;
+      background:rgba(255,255,255,.015);
+    }
+
+    .metric span{
+      display:block;
+      font-size:10px;
+      letter-spacing:.15em;
+      text-transform:uppercase;
+      color:var(--muted2);
+      margin-bottom:7px;
+    }
+
+    .metric strong{
+      color:#fff;
+      font-size:14px;
+    }
+
+    .meaning li,.issues li,.actions li{
+      margin:10px 0;
+      color:#d8f6ff;
+      line-height:1.5;
+    }
+
+    .meaning{list-style:none}
+
+    .dot{
+      display:inline-block;
+      width:12px;
+      height:12px;
+      border-radius:50%;
+      margin-right:10px;
+    }
+
+    .green{background:var(--green)}
+    .yellow{background:var(--yellow)}
+    .red{background:var(--red)}
+
+    .card{
+      padding:24px;
+      margin:18px 0;
+    }
+
+    .card h3{font-size:22px}
+
+    .bridge{
+      border-color:rgba(201,162,39,.45);
+      box-shadow:0 0 28px rgba(201,162,39,.05);
+    }
+
+    .cta{
+      display:inline-flex;
+      margin-top:22px;
+      padding:17px 30px;
+      border:1px solid var(--gold);
+      color:#fff;
+      text-decoration:none;
+      font-family:Cinzel,serif;
+      text-transform:uppercase;
+      letter-spacing:.1em;
+      font-weight:700;
+    }
+
+    .cta:hover{
+      background:var(--gold);
+      color:#111;
+    }
+
+    .profile{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:16px;
+    }
+
+    .profile div{
+      border-bottom:1px solid var(--line);
+      padding:9px 0;
+      color:#d8f6ff;
+    }
+
+    .profile span{
+      display:block;
+      color:var(--muted2);
+      font-size:10px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      margin-bottom:4px;
+    }
+
+    .record-box{
+      border:1px solid rgba(201,162,39,.28);
+      padding:14px;
+      margin-top:18px;
+      background:rgba(201,162,39,.035);
+    }
+
+    .record-box div{
+      margin:7px 0;
+      color:#d8f6ff;
+      font-size:13px;
+      line-height:1.4;
+    }
+
+    .record-box span{
+      display:block;
+      color:var(--muted2);
+      font-size:10px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      margin-bottom:3px;
+    }
+
+    .stack-bar{
+      display:flex;
+      justify-content:center;
+      gap:14px;
+      border:1px solid var(--line);
+      padding:15px;
+      margin:28px auto 0;
+      width:min(900px,94%);
+      flex-wrap:wrap;
+    }
+
+    .stack-bar span{
+      font-family:Cinzel,serif;
+      letter-spacing:.09em;
+      color:#8d949d;
+    }
+
     .stack-bar .active{color:var(--gold)}
-    footer{text-align:center;color:#7b828c;font-size:12px;padding:22px 0}
-    footer a{color:#9ba3ad;text-decoration:none;margin:0 8px}
-    @media(max-width:1050px){.workspace,.score-grid{grid-template-columns:1fr}.metric-grid{grid-template-columns:1fr 1fr}.rail{order:-1}}
-    @media(max-width:700px){.seal{width:82px;left:18px}.shell{padding-top:50px}.panel{padding:20px}.metric-grid,.profile{grid-template-columns:1fr}}
+
+    footer{
+      text-align:center;
+      color:#7b828c;
+      font-size:12px;
+      padding:22px 0;
+    }
+
+    footer a{
+      color:#9ba3ad;
+      text-decoration:none;
+      margin:0 8px;
+    }
+
+    @media(max-width:1050px){
+      .workspace,.score-grid{grid-template-columns:1fr}
+      .metric-grid{grid-template-columns:1fr 1fr}
+      .rail{order:-1;position:relative;top:auto}
+    }
+
+    @media(max-width:700px){
+      .seal{width:82px;left:18px}
+      .shell{padding-top:50px}
+      .panel{padding:20px}
+      .metric-grid,.profile{grid-template-columns:1fr}
+    }
   </style>
 </head>
 
@@ -112,7 +390,6 @@
 
     <section class="workspace">
       <section class="panel">
-
         <div class="summary">
           <div class="kicker">Executive Summary</div>
           <h2>Operational Readiness Review</h2>
@@ -122,8 +399,8 @@
         <div class="score-grid">
           <div class="score-box">
             <div class="score-label">Operational Readiness Score</div>
-            <div class="score" id="score">65</div>
-            <div class="badge" id="classification">Operationally Conditional</div>
+            <div class="score" id="score">—</div>
+            <div class="badge" id="classification">Pending</div>
           </div>
 
           <div class="score-box">
@@ -137,10 +414,10 @@
             </ul>
 
             <div class="metric-grid">
-              <div class="metric"><span>Risk Exposure</span><strong id="riskMetric">Moderate</strong></div>
-              <div class="metric"><span>Execution Stability</span><strong id="stabilityMetric">Fragile</strong></div>
-              <div class="metric"><span>Revenue Consistency</span><strong id="revenueMetric">Developing</strong></div>
-              <div class="metric"><span>Scale Readiness</span><strong id="scaleMetric">Limited</strong></div>
+              <div class="metric"><span>Risk Exposure</span><strong id="riskMetric">—</strong></div>
+              <div class="metric"><span>Execution Stability</span><strong id="stabilityMetric">—</strong></div>
+              <div class="metric"><span>Revenue Consistency</span><strong id="revenueMetric">—</strong></div>
+              <div class="metric"><span>Scale Readiness</span><strong id="scaleMetric">—</strong></div>
             </div>
           </div>
         </div>
@@ -187,17 +464,9 @@
 
         <div class="card bridge">
           <h3>Progression Path</h3>
-          <p>
-            PBRS has identified the operational and structural limitations currently restricting stable business growth.
-            <br><br>
-            PBB is the controlled execution layer used to correct these limitations through guided implementation,
-            operational sequencing, and structural alignment.
-            <br><br>
-            Progression into PBB transitions your organization from diagnostic awareness into controlled corrective execution.
-          </p>
+          <p id="progressionPath"></p>
           <a class="cta" href="https://pbb.risingphoenixhq.com/index.html">Proceed to Controlled Build Path →</a>
         </div>
-
       </section>
 
       <aside class="rail">
@@ -208,7 +477,7 @@
           <br><br>
           This output converts intake signals into operational meaning, business consequence, and corrective direction.
           <br><br>
-          The next movement is not random. It is governed by structural need and execution readiness.
+          The next movement is governed by structural need and execution readiness.
         </p>
 
         <div class="card">
@@ -221,12 +490,26 @@
             <div><span>Reporting</span><strong id="pReporting">—</strong></div>
             <div><span>Operations</span><strong id="pOps">—</strong></div>
           </div>
+
+          <div class="record-box">
+            <div><span>Assessment</span><strong id="assessmentId">—</strong></div>
+            <div><span>Source</span><strong id="assessmentSource">—</strong></div>
+            <div><span>Stage</span><strong>PBRS</strong></div>
+          </div>
         </div>
       </aside>
     </section>
 
     <div class="stack-bar">
-      <span>PQS</span><span>→</span><span class="active">PBRS</span><span>→</span><span>PBB</span><span>→</span><span>PBSEQ</span><span>→</span><span>PNC</span>
+      <span>PQS</span>
+      <span>→</span>
+      <span class="active">PBRS</span>
+      <span>→</span>
+      <span>PBB</span>
+      <span>→</span>
+      <span>PSEQ</span>
+      <span>→</span>
+      <span>PNC</span>
     </div>
 
     <footer>
@@ -238,135 +521,7 @@
 </main>
 
 <script>
-(function(){
-  const data = JSON.parse(localStorage.getItem("pbrsIntake") || "{}");
-
-  const get = (keys, fallback="—") => {
-    for (const key of keys) {
-      const value = data[key] || localStorage.getItem(key);
-      if (value && String(value).trim()) return String(value).trim();
-    }
-    const el = document.querySelector(keys.map(k => "#" + k).join(","));
-    return el && el.value ? el.value : fallback;
-  };
-
-  const profile = {
-    business: get(["legal_name","legalName","business_name"], "Rising Phoenix Enterprises"),
-    entity: get(["entity_type","entityType"], "LLC"),
-    state: get(["state_country","stateCountry","jurisdiction"], "Florida"),
-    revenue: get(["revenue_band","revenueBand"], "Pre-Revenue"),
-    reporting: get(["reporting_cadence","reportingCadence"], "Annually"),
-    ops: get(["ops_structure_flag","operations_structure","opsStructure"], "Formalized"),
-    banking: get(["business_banking"], ""),
-    bookkeeping: get(["bookkeeping_method"], ""),
-    reserve: get(["cash_reserve"], ""),
-    debt: get(["debt_pressure"], ""),
-    sop: get(["sop_coverage"], ""),
-    owner: get(["owner_dependency"], ""),
-    team: get(["team_capacity"], ""),
-    automation: get(["automation_usage"], ""),
-    revenueModel: get(["revenue_model"], ""),
-    concentration: get(["client_concentration"], ""),
-    constraint: get(["primary_constraint"], ""),
-    timeline: get(["execution_timeline"], ""),
-    context: get(["diagnostic_context","primary_goal","primaryObjective"], "")
-  };
-
-  let score = 68;
-
-  const penalties = [
-    /pre-revenue/i.test(profile.revenue) ? 8 : 0,
-    /not|informal|partial/i.test(profile.reporting) ? 7 : 0,
-    /informal|partial/i.test(profile.ops) ? 8 : 0,
-    /not currently|no/i.test(profile.bookkeeping) ? 8 : 0,
-    /no reserve/i.test(profile.reserve) ? 12 : 0,
-    /extreme|owner/i.test(profile.owner) ? 8 : 0,
-    /solo/i.test(profile.team) ? 5 : 0,
-    /no customers/i.test(profile.concentration) ? 6 : 0,
-    /immediate|0–30|0-30/i.test(profile.timeline) ? 4 : 0,
-    /manual|no flow|inconsistent|undefined/i.test(profile.context) ? 12 : 0
-  ].reduce((a,b)=>a+b,0);
-
-  score = Math.max(35, Math.min(96, score - penalties + (/formalized/i.test(profile.ops) ? 8 : 0)));
-
-  let classification = "OPERATIONALLY CONDITIONAL";
-  let badgeColor = "var(--yellow)";
-  if(score >= 75){ classification = "STRUCTURED READINESS"; badgeColor = "var(--green)"; }
-  if(score < 50){ classification = "OPERATIONALLY CONSTRAINED"; badgeColor = "var(--red)"; }
-
-  document.getElementById("score").textContent = score;
-  document.getElementById("classification").textContent = classification;
-  document.getElementById("classification").style.borderColor = badgeColor;
-  document.getElementById("classification").style.color = badgeColor;
-
-  document.getElementById("pBusiness").textContent = profile.business;
-  document.getElementById("pEntity").textContent = profile.entity;
-  document.getElementById("pState").textContent = profile.state;
-  document.getElementById("pRevenue").textContent = profile.revenue;
-  document.getElementById("pReporting").textContent = profile.reporting;
-  document.getElementById("pOps").textContent = profile.ops;
-
-  document.getElementById("executiveSummary").textContent =
-    "Your business currently demonstrates functional market capability, but operational inconsistency is limiting scalable execution, revenue predictability, and long-term growth stability. The diagnostic indicates that growth pressure is beginning to exceed operational structure, resulting in execution friction, dependency on manual oversight, and inconsistent business performance. While the organization is not structurally unstable, its current operating condition is not yet optimized for controlled scaling or institutional-level execution consistency.";
-
-  document.getElementById("benchmark").textContent =
-    score >= 75
-      ? "Your organization is operating within structured readiness, but deeper review is still recommended before expansion."
-      : score >= 50
-      ? "Your organization is currently operating above early-stage instability, but below scalable institutional readiness."
-      : "Your organization is operating below stable execution readiness and requires correction before aggressive growth activity.";
-
-  document.getElementById("primaryConstraint").textContent =
-    "Your current operational condition is being constrained by inconsistent execution structure, limited process standardization, and a monetization system that depends heavily on manual coordination rather than controlled operational flow.";
-
-  document.getElementById("rootCause").textContent =
-    "The diagnostic indicates that key operational functions currently rely on reactive execution patterns rather than predefined systems, resulting in inconsistent decision flow, reduced execution clarity, and unstable operational continuity.";
-
-  document.getElementById("revenueImpact").textContent =
-    "This operating condition reduces revenue predictability by weakening conversion consistency, slowing execution velocity, and limiting the organization’s ability to scale without increasing operational strain.";
-
-  document.getElementById("operationalImpact").textContent =
-    "Current operational friction is increasing dependency on manual oversight, reducing execution efficiency, and creating instability across workflow continuity and performance consistency.";
-
-  document.getElementById("riskOutlook").textContent =
-    "If unresolved, the current operational condition may result in scaling resistance, execution fatigue, inconsistent client experience, and increasing structural instability as growth pressure increases.";
-
-  const issues = [
-    "Conversion infrastructure lacks operational consistency",
-    "Revenue generation depends heavily on manual execution",
-    "Workflow continuity is not fully standardized",
-    "Execution visibility remains partially fragmented",
-    "Operational sequencing lacks enforcement structure"
-  ];
-
-  const actions = [
-    "Establish a clearly defined primary monetization pathway",
-    "Implement standardized operational sequencing procedures",
-    "Reduce dependency on reactive execution behavior",
-    "Install measurable execution tracking and reporting systems",
-    "Align operational structure with revenue scalability objectives"
-  ];
-
-  document.getElementById("supportingIssues").innerHTML = issues.map(i => `<li>${i}</li>`).join("");
-  document.getElementById("actionPlan").innerHTML = actions.map(i => `<li>${i}</li>`).join("");
-
-  document.getElementById("expectedOutcome").textContent =
-    "Corrective implementation is expected to improve execution consistency, operational clarity, revenue predictability, and long-term scalability readiness over the next 30–60 days.";
-})();
-</script>
-
-  <!-- ========================================= -->
-<!-- PBRS INTELLIGENCE ENGINE — CORE LOGIC V1 -->
-<!-- ========================================= -->
-
-<script>
-
 const PBRS_INTELLIGENCE_ENGINE = {
-
-  /* ===================================================== */
-  /* READINESS CLASSIFICATIONS */
-  /* ===================================================== */
-
   readinessTiers: [
     {
       min: 90,
@@ -395,335 +550,450 @@ const PBRS_INTELLIGENCE_ENGINE = {
     }
   ],
 
-  /* ===================================================== */
-  /* OPERATIONAL ARCHETYPES */
-  /* ===================================================== */
-
   archetypes: {
-
     reactive_founder: {
       label: "Reactive Founder Operator",
       executiveSummary:
         "Execution dependency is concentrated around founder oversight rather than stabilized operational systems. Current business continuity remains vulnerable to workflow inconsistency, operational overload, and reactive execution behavior."
     },
-
     growth_without_structure: {
       label: "Growth Without Structure",
       executiveSummary:
         "Growth acceleration is beginning to outpace operational structure, increasing execution friction, scaling instability, and organizational strain across core business functions."
     },
-
     constrained_operator: {
       label: "Structurally Constrained Operator",
       executiveSummary:
         "Core operational constraints are currently limiting execution continuity, revenue predictability, and scalable progression capacity across the organization."
     },
-
     stable_bottlenecked: {
       label: "Stable But Bottlenecked",
       executiveSummary:
         "Operational maturity is present, but scaling velocity is being restricted by workflow bottlenecks, sequencing inefficiency, and limited operational optimization."
     },
-
     institutionalizing: {
       label: "Institutionalizing Operator",
       executiveSummary:
         "The organization is transitioning from functional operational stability toward institutional-grade execution alignment and scalable operational maturity."
     }
-
   },
 
-  /* ===================================================== */
-  /* RISK SIGNAL GENERATION */
-  /* ===================================================== */
+  getReadinessTier(score){
+    return this.readinessTiers.find(tier => score >= tier.min);
+  },
 
-  generateRiskSignals(data) {
-
+  generateRiskSignals(data){
     return {
-
       revenueFragility:
         data.revenueConsistency <= 2 ? "HIGH" :
-        data.revenueConsistency <= 3 ? "MODERATE" :
-        "LOW",
+        data.revenueConsistency <= 3 ? "MODERATE" : "LOW",
 
       founderDependency:
         data.ownerDependency >= 4 ? "CRITICAL" :
-        data.ownerDependency >= 3 ? "HIGH" :
-        "MODERATE",
+        data.ownerDependency >= 3 ? "HIGH" : "MODERATE",
 
       workflowVolatility:
         data.sopCoverage <= 2 ? "HIGH" :
-        data.sopCoverage <= 3 ? "MODERATE" :
-        "LOW",
+        data.sopCoverage <= 3 ? "MODERATE" : "LOW",
 
       scaleResistance:
         data.automationUsage <= 2 ? "HIGH" :
-        data.automationUsage <= 3 ? "MODERATE" :
-        "LOW",
+        data.automationUsage <= 3 ? "MODERATE" : "LOW",
 
       visibilityGaps:
         data.reportingSystems <= 2 ? "HIGH" :
-        data.reportingSystems <= 3 ? "MODERATE" :
-        "LOW",
+        data.reportingSystems <= 3 ? "MODERATE" : "LOW",
 
       executionDrift:
         data.executionConsistency <= 2 ? "HIGH" :
-        data.executionConsistency <= 3 ? "MODERATE" :
-        "LOW"
-
+        data.executionConsistency <= 3 ? "MODERATE" : "LOW"
     };
-
   },
 
-  /* ===================================================== */
-  /* ARCHETYPE DETECTION */
-  /* ===================================================== */
-
-  detectArchetype(data) {
-
-    if (
-      data.ownerDependency >= 4 &&
-      data.sopCoverage <= 2 &&
-      data.automationUsage <= 2
-    ) {
+  detectArchetype(data){
+    if(data.ownerDependency >= 4 && data.sopCoverage <= 2 && data.automationUsage <= 2){
       return "reactive_founder";
     }
 
-    if (
-      data.revenueGrowth >= 4 &&
-      data.executionConsistency <= 2
-    ) {
+    if(data.revenueGrowth >= 4 && data.executionConsistency <= 2){
       return "growth_without_structure";
     }
 
-    if (
-      data.executionConsistency <= 2 &&
-      data.revenueConsistency <= 2
-    ) {
+    if(data.executionConsistency <= 2 && data.revenueConsistency <= 2){
       return "constrained_operator";
     }
 
-    if (
-      data.executionConsistency >= 3 &&
-      data.workflowEfficiency <= 3
-    ) {
+    if(data.executionConsistency >= 3 && data.workflowEfficiency <= 3){
       return "stable_bottlenecked";
     }
 
     return "institutionalizing";
-
   },
 
-  /* ===================================================== */
-  /* READINESS TIER DETECTION */
-  /* ===================================================== */
-
-  getReadinessTier(score) {
-
-    return this.readinessTiers.find(
-      tier => score >= tier.min
-    );
-
-  },
-
-  /* ===================================================== */
-  /* PRIMARY CONSTRAINT */
-  /* ===================================================== */
-
-  generatePrimaryConstraint(data) {
-
-    if (data.ownerDependency >= 4) {
+  generatePrimaryConstraint(data){
+    if(data.ownerDependency >= 4){
       return "Operational dependency remains heavily concentrated around founder execution and manual coordination, limiting scalability and execution continuity.";
     }
 
-    if (data.sopCoverage <= 2) {
+    if(data.sopCoverage <= 2){
       return "Process standardization remains underdeveloped, creating operational inconsistency and unstable workflow continuity.";
     }
 
-    if (data.revenueConsistency <= 2) {
+    if(data.revenueConsistency <= 2){
       return "Revenue predictability remains structurally unstable due to inconsistent conversion flow and limited monetization continuity.";
     }
 
-    if (data.executionConsistency <= 2) {
+    if(data.executionConsistency <= 2){
       return "Execution inconsistency is reducing operational reliability and limiting scalable organizational performance.";
     }
 
     return "Operational sequencing and structural alignment require optimization before stable scaling can occur.";
-
   },
 
-  /* ===================================================== */
-  /* ROOT CAUSE */
-  /* ===================================================== */
-
-  generateRootCause(data) {
-
-    if (
-      data.ownerDependency >= 4 &&
-      data.sopCoverage <= 2
-    ) {
+  generateRootCause(data){
+    if(data.ownerDependency >= 4 && data.sopCoverage <= 2){
       return "Core operational systems currently rely more heavily on reactive founder execution than predefined operational infrastructure, resulting in continuity instability and workflow inconsistency.";
     }
 
-    if (
-      data.executionConsistency <= 2 &&
-      data.reportingSystems <= 2
-    ) {
+    if(data.executionConsistency <= 2 && data.reportingSystems <= 2){
       return "Limited operational visibility and inconsistent execution enforcement are reducing organizational coordination and measurable performance continuity.";
     }
 
     return "Current operational structure has not yet matured into a fully stabilized execution environment capable of supporting scalable institutional consistency.";
-
   },
 
-  /* ===================================================== */
-  /* REVENUE IMPACT */
-  /* ===================================================== */
-
-  generateRevenueImpact(data) {
-
-    if (data.revenueConsistency <= 2) {
+  generateRevenueImpact(data){
+    if(data.revenueConsistency <= 2){
       return "Revenue instability is reducing financial predictability and limiting the organization's ability to scale without increasing operational pressure.";
     }
 
-    if (data.clientConcentration >= 4) {
+    if(data.clientConcentration >= 4){
       return "Revenue concentration risk is creating financial exposure by limiting income diversification and increasing dependency vulnerability.";
     }
 
     return "Operational inefficiency is reducing monetization consistency and slowing scalable revenue progression.";
-
   },
 
-  /* ===================================================== */
-  /* OPERATIONAL IMPACT */
-  /* ===================================================== */
-
-  generateOperationalImpact(data) {
-
-    if (data.sopCoverage <= 2) {
+  generateOperationalImpact(data){
+    if(data.sopCoverage <= 2){
       return "Workflow continuity remains vulnerable to execution inconsistency due to limited standardization and weak procedural enforcement.";
     }
 
-    if (data.executionConsistency <= 2) {
+    if(data.executionConsistency <= 2){
       return "Execution instability is increasing operational friction, reducing efficiency, and weakening scalable coordination.";
     }
 
     return "Operational inefficiency is limiting execution velocity and reducing long-term scalability readiness.";
-
   },
 
-  /* ===================================================== */
-  /* RISK OUTLOOK */
-  /* ===================================================== */
-
-  generateRiskOutlook(data) {
-
-    if (
-      data.executionConsistency <= 2 &&
-      data.ownerDependency >= 4
-    ) {
+  generateRiskOutlook(data){
+    if(data.executionConsistency <= 2 && data.ownerDependency >= 4){
       return "If unresolved, current operational conditions may result in execution fatigue, scaling resistance, workflow instability, and increased continuity risk.";
     }
 
-    if (data.revenueConsistency <= 2) {
+    if(data.revenueConsistency <= 2){
       return "Revenue instability may increase operational pressure and reduce long-term organizational resilience if corrective systems are not implemented.";
     }
 
     return "Current structural limitations may reduce scalability efficiency and create increasing operational drag as growth pressure increases.";
-
   },
 
-  /* ===================================================== */
-  /* IMMEDIATE ACTION PLAN */
-  /* ===================================================== */
-
-  generateActionPlan(data) {
-
+  generateActionPlan(data){
     const actions = [];
 
-    if (data.ownerDependency >= 4) {
-      actions.push(
-        "Reduce dependency on founder-centered operational execution"
-      );
+    if(data.ownerDependency >= 4){
+      actions.push("Reduce dependency on founder-centered operational execution");
     }
 
-    if (data.sopCoverage <= 2) {
-      actions.push(
-        "Implement standardized operational procedures and workflow controls"
-      );
+    if(data.sopCoverage <= 2){
+      actions.push("Implement standardized operational procedures and workflow controls");
     }
 
-    if (data.reportingSystems <= 2) {
-      actions.push(
-        "Install measurable operational reporting and execution visibility systems"
-      );
+    if(data.reportingSystems <= 2){
+      actions.push("Install measurable operational reporting and execution visibility systems");
     }
 
-    if (data.revenueConsistency <= 2) {
-      actions.push(
-        "Stabilize monetization systems and improve conversion continuity"
-      );
+    if(data.revenueConsistency <= 2){
+      actions.push("Stabilize monetization systems and improve conversion continuity");
     }
 
-    if (data.executionConsistency <= 2) {
-      actions.push(
-        "Improve execution sequencing and operational enforcement structure"
-      );
+    if(data.executionConsistency <= 2){
+      actions.push("Improve execution sequencing and operational enforcement structure");
     }
 
-    return actions;
+    if(actions.length < 5){
+      actions.push("Align operational structure with revenue scalability objectives");
+    }
 
+    if(actions.length < 5){
+      actions.push("Define the next controlled implementation sequence before expansion");
+    }
+
+    return actions.slice(0,5);
   },
 
-  /* ===================================================== */
-  /* BUILD PATH RECOMMENDATION */
-  /* ===================================================== */
-
-  recommendBuildPath(data) {
-
-    if (
-      data.executionConsistency <= 2 &&
-      data.sopCoverage <= 2
-    ) {
+  recommendBuildPath(data){
+    if(data.executionConsistency <= 2 && data.sopCoverage <= 2){
       return {
         path: "FOUNDATION BUILD",
-        description:
-          "Recommended for organizations requiring stabilization, workflow grounding, and structural correction."
+        description: "Recommended for organizations requiring stabilization, workflow grounding, and structural correction."
       };
     }
 
-    if (
-      data.revenueConsistency <= 2
-    ) {
+    if(data.revenueConsistency <= 2){
       return {
         path: "REVENUE STABILIZATION BUILD",
-        description:
-          "Recommended for businesses experiencing monetization inconsistency and unstable revenue continuity."
+        description: "Recommended for businesses experiencing monetization inconsistency and unstable revenue continuity."
       };
     }
 
-    if (
-      data.revenueGrowth >= 4 &&
-      data.workflowEfficiency <= 3
-    ) {
+    if(data.revenueGrowth >= 4 && data.workflowEfficiency <= 3){
       return {
         path: "SCALE ALIGNMENT BUILD",
-        description:
-          "Recommended for organizations preparing for controlled scale and operational expansion."
+        description: "Recommended for organizations preparing for controlled scale and operational expansion."
       };
     }
 
     return {
       path: "OPERATIONAL BUILD",
-      description:
-        "Recommended for organizations requiring execution discipline, sequencing clarity, and workflow optimization."
+      description: "Recommended for organizations requiring execution discipline, sequencing clarity, and workflow optimization."
     };
+  }
+};
+</script>
 
+<script>
+(function(){
+  const pbrsData = JSON.parse(localStorage.getItem("pbrs_intake") || "{}");
+  const pqsData = JSON.parse(localStorage.getItem("pqs_intake") || "{}");
+
+  const sourceData = Object.keys(pbrsData).length ? pbrsData : pqsData;
+
+  const get = (keys, fallback="—") => {
+    for(const key of keys){
+      if(sourceData[key] && String(sourceData[key]).trim()){
+        return String(sourceData[key]).trim();
+      }
+      if(pbrsData[key] && String(pbrsData[key]).trim()){
+        return String(pbrsData[key]).trim();
+      }
+      if(pqsData[key] && String(pqsData[key]).trim()){
+        return String(pqsData[key]).trim();
+      }
+    }
+    return fallback;
+  };
+
+  const profile = {
+    business: get(["legal_name","legalName","business_name"], "Rising Phoenix Enterprises"),
+    entity: get(["entity_type","entityType"], "LLC"),
+    state: get(["state_country","stateCountry","jurisdiction"], "Florida"),
+    revenue: get(["revenue_band","revenueBand"], "Pre-Revenue"),
+    reporting: get(["reporting_cadence","reportingCadence"], "Annually"),
+    ops: get(["ops_structure_flag","operations_structure","opsStructure"], "Formalized"),
+
+    banking: get(["business_bank","business_banking"], ""),
+    bookkeeping: get(["bookkeeping","bookkeeping_method"], ""),
+    reserve: get(["cash_reserve"], ""),
+    debt: get(["debt_pressure"], ""),
+
+    sop: get(["sops","sop_coverage"], ""),
+    owner: get(["owner_dependency"], ""),
+    team: get(["team_capacity"], ""),
+    automation: get(["automation","automation_usage"], ""),
+
+    revenueModel: get(["revenue_model"], ""),
+    concentration: get(["client_concentration"], ""),
+    constraint: get(["primary_constraint"], ""),
+    timeline: get(["execution_timeline"], ""),
+    context: get(["diagnostic_context","primary_goal","primaryObjective"], "")
+  };
+
+  function scoreSelect(value, rules, fallback=3){
+    const text = String(value || "").toLowerCase();
+    for(const rule of rules){
+      if(rule.match.test(text)) return rule.score;
+    }
+    return fallback;
   }
 
-};
+  const engineData = {
+    revenueGrowth: scoreSelect(profile.revenue, [
+      {match:/\$1m|500k|100k|under/i, score:4},
+      {match:/pre-revenue|not active/i, score:2}
+    ], 3),
 
-</script> 
+    revenueConsistency: scoreSelect(profile.revenueModel + " " + profile.concentration + " " + profile.revenue, [
+      {match:/recurring|diversified/i, score:5},
+      {match:/service|project|product/i, score:3},
+      {match:/pre-revenue|not active|no customers|unknown/i, score:2}
+    ], 3),
 
+    ownerDependency: scoreSelect(profile.owner + " " + profile.team, [
+      {match:/extreme|nothing moves/i, score:5},
+      {match:/high|owner drives|solo/i, score:4},
+      {match:/moderate|central/i, score:3},
+      {match:/low|team\/systems|team in place/i, score:2}
+    ], 3),
+
+    sopCoverage: scoreSelect(profile.sop + " " + profile.ops, [
+      {match:/documented and followed|formalized/i, score:5},
+      {match:/partial/i, score:3},
+      {match:/head|no sops|informal/i, score:2}
+    ], 3),
+
+    automationUsage: scoreSelect(profile.automation, [
+      {match:/strong/i, score:5},
+      {match:/some/i, score:3},
+      {match:/mostly manual|no automation/i, score:2}
+    ], 3),
+
+    reportingSystems: scoreSelect(profile.reporting, [
+      {match:/monthly/i, score:5},
+      {match:/quarterly/i, score:4},
+      {match:/annually/i, score:3},
+      {match:/not formalized|informal/i, score:2}
+    ], 3),
+
+    executionConsistency: scoreSelect(profile.context + " " + profile.constraint + " " + profile.ops, [
+      {match:/manual|inconsistent|friction|pressure|uncertainty|reactive|operations|systems/i, score:2},
+      {match:/partial/i, score:3},
+      {match:/formalized|stable|clear/i, score:4}
+    ], 3),
+
+    workflowEfficiency: scoreSelect(profile.automation + " " + profile.sop, [
+      {match:/strong|documented and followed/i, score:5},
+      {match:/some|partial/i, score:3},
+      {match:/manual|no automation|no sops|head/i, score:2}
+    ], 3),
+
+    clientConcentration: scoreSelect(profile.concentration, [
+      {match:/one or two/i, score:4},
+      {match:/no customers|unknown/i, score:3},
+      {match:/diversified/i, score:2}
+    ], 3)
+  };
+
+  let score = 78;
+
+  score -= (5 - engineData.revenueConsistency) * 4;
+  score -= (engineData.ownerDependency - 2) * 4;
+  score -= (5 - engineData.sopCoverage) * 4;
+  score -= (5 - engineData.automationUsage) * 3;
+  score -= (5 - engineData.reportingSystems) * 3;
+  score -= (5 - engineData.executionConsistency) * 5;
+  score -= (5 - engineData.workflowEfficiency) * 3;
+
+  if(/pre-revenue/i.test(profile.revenue)) score -= 4;
+  if(/no reserve/i.test(profile.reserve)) score -= 8;
+  if(/high/i.test(profile.debt)) score -= 6;
+  if(/immediate|0–30|0-30/i.test(profile.timeline)) score -= 3;
+
+  score = Math.max(35, Math.min(96, Math.round(score)));
+
+  const tier = PBRS_INTELLIGENCE_ENGINE.getReadinessTier(score);
+  const archetypeKey = PBRS_INTELLIGENCE_ENGINE.detectArchetype(engineData);
+  const archetype = PBRS_INTELLIGENCE_ENGINE.archetypes[archetypeKey];
+  const risks = PBRS_INTELLIGENCE_ENGINE.generateRiskSignals(engineData);
+  const buildPath = PBRS_INTELLIGENCE_ENGINE.recommendBuildPath(engineData);
+
+  let badgeColor = "var(--yellow)";
+  if(score >= 75) badgeColor = "var(--green)";
+  if(score < 50) badgeColor = "var(--red)";
+
+  document.getElementById("score").textContent = score;
+  document.getElementById("classification").textContent = tier.label;
+  document.getElementById("classification").style.borderColor = badgeColor;
+  document.getElementById("classification").style.color = badgeColor;
+
+  document.getElementById("riskMetric").textContent = risks.revenueFragility === "HIGH" || risks.executionDrift === "HIGH" ? "Elevated" : risks.revenueFragility === "MODERATE" ? "Moderate" : "Controlled";
+  document.getElementById("stabilityMetric").textContent = risks.executionDrift === "HIGH" ? "Fragile" : risks.executionDrift === "MODERATE" ? "Developing" : "Stable";
+  document.getElementById("revenueMetric").textContent = risks.revenueFragility === "HIGH" ? "Fragile" : risks.revenueFragility === "MODERATE" ? "Developing" : "Stable";
+  document.getElementById("scaleMetric").textContent = risks.scaleResistance === "HIGH" ? "Limited" : risks.scaleResistance === "MODERATE" ? "Conditional" : "Ready";
+
+  document.getElementById("pBusiness").textContent = profile.business;
+  document.getElementById("pEntity").textContent = profile.entity;
+  document.getElementById("pState").textContent = profile.state;
+  document.getElementById("pRevenue").textContent = profile.revenue;
+  document.getElementById("pReporting").textContent = profile.reporting;
+  document.getElementById("pOps").textContent = profile.ops;
+
+  const assessmentId = "PBRS-" + new Date().toISOString().slice(0,10).replaceAll("-","") + "-" + Math.random().toString(36).slice(2,8).toUpperCase();
+  const sourceLabel = Object.keys(pbrsData).length ? (pbrsData.source || "PBRS Intake") : "PQS Fallback";
+
+  document.getElementById("assessmentId").textContent = assessmentId;
+  document.getElementById("assessmentSource").textContent = sourceLabel;
+
+  document.getElementById("executiveSummary").textContent = archetype.executiveSummary;
+
+  document.getElementById("benchmark").textContent = tier.meaning;
+
+  document.getElementById("primaryConstraint").textContent =
+    PBRS_INTELLIGENCE_ENGINE.generatePrimaryConstraint(engineData);
+
+  document.getElementById("rootCause").textContent =
+    PBRS_INTELLIGENCE_ENGINE.generateRootCause(engineData);
+
+  document.getElementById("revenueImpact").textContent =
+    PBRS_INTELLIGENCE_ENGINE.generateRevenueImpact(engineData);
+
+  document.getElementById("operationalImpact").textContent =
+    PBRS_INTELLIGENCE_ENGINE.generateOperationalImpact(engineData);
+
+  document.getElementById("riskOutlook").textContent =
+    PBRS_INTELLIGENCE_ENGINE.generateRiskOutlook(engineData);
+
+  const issues = [
+    risks.executionDrift !== "LOW" ? "Execution consistency requires stronger sequencing and enforcement" : "Execution continuity should be maintained through recurring review",
+    risks.workflowVolatility !== "LOW" ? "Workflow standardization is not yet strong enough for controlled scale" : "Workflow standardization is supporting current operations",
+    risks.revenueFragility !== "LOW" ? "Revenue predictability requires stronger monetization continuity" : "Revenue model shows stronger continuity signals",
+    risks.founderDependency !== "MODERATE" ? "Owner dependency may restrict scalability and transferability" : "Owner involvement remains manageable but should be monitored",
+    risks.visibilityGaps !== "LOW" ? "Reporting visibility requires improvement for execution accountability" : "Reporting cadence provides usable management visibility"
+  ];
+
+  const actions = PBRS_INTELLIGENCE_ENGINE.generateActionPlan(engineData);
+
+  document.getElementById("supportingIssues").innerHTML =
+    issues.map(item => `<li>${item}</li>`).join("");
+
+  document.getElementById("actionPlan").innerHTML =
+    actions.map(item => `<li>${item}</li>`).join("");
+
+  document.getElementById("expectedOutcome").textContent =
+    "Corrective implementation is expected to improve execution consistency, operational clarity, revenue predictability, and long-term scalability readiness over the next 30–60 days.";
+
+  document.getElementById("progressionPath").innerHTML =
+    `PBRS has identified the operational and structural limitations currently restricting stable business growth.
+    <br><br>
+    Recommended build path: <strong>${buildPath.path}</strong>.
+    <br><br>
+    ${buildPath.description}
+    <br><br>
+    PBB is the controlled build layer used to correct these limitations through guided implementation, operational sequencing, and structural alignment.
+    <br><br>
+    Progression into PBB transitions your organization from diagnostic awareness into controlled corrective execution.`;
+
+  const result = {
+    pbrs_assessment_id: assessmentId,
+    pbrs_version: "PBRS_OUTPUT_V1.1",
+    source: sourceLabel,
+    generated_at: new Date().toISOString(),
+    profile,
+    engineData,
+    score,
+    tier,
+    archetype: {
+      key: archetypeKey,
+      label: archetype.label
+    },
+    risks,
+    buildPath,
+    next_layer: "PBB",
+    stack_flow: "PQS→PBRS→PBB→PSEQ→PNC"
+  };
+
+  localStorage.setItem("pbrs_result", JSON.stringify(result));
+})();
+</script>
 </body>
 </html> 
